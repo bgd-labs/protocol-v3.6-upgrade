@@ -1,17 +1,20 @@
 {
-  "lib/forge-std": {
-    "rev": "60acb7aaadcce2d68e52986a0a66fe79f07d138f"
+  "lib/aave-helpers": {
+    "branch": {
+      "name": "main",
+      "rev": "819770e182c165252f1d4e987f2311c9f2412e9e"
+    }
   },
   "lib/aave-v3-origin": {
     "branch": {
-      "name": "v3.5.0",
-      "rev": "25115b2d1d6f166b3f492a4cc329f475ae266e62"
+      "name": "v3.6.0",
+      "rev": "8651de9cfca597227ef486b1f944d84bfd28b552"
     }
   },
-  "lib/aave-helpers": {
-    "branch": {
-      "name": "feat/changes-for-3_5-version",
-      "rev": "819770e182c165252f1d4e987f2311c9f2412e9e"
-    }
+  "lib/aave-v3-origin-private": {
+    "rev": "8651de9cfca597227ef486b1f944d84bfd28b552"
+  },
+  "lib/forge-std": {
+    "rev": "60acb7aaadcce2d68e52986a0a66fe79f07d138f"
   }
 }
