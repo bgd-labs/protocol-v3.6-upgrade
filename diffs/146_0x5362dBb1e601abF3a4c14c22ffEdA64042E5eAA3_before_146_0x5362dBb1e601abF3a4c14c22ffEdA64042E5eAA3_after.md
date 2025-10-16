@@ -1,27 +1,10 @@
+## Raw diff
+
+```json
 {
-  "chainId": 146,
-  "eModes": {
-    "1": {
-      "borrowableBitmap": "4",
-      "collateralBitmap": "8",
-      "eModeCategory": 1,
-      "label": "stS/wS",
-      "liquidationBonus": 10100,
-      "liquidationThreshold": 9000,
-      "ltv": 8700
-    }
-  },
-  "poolConfig": {
-    "oracle": "0xD63f7658C66B2934Bd234D79D06aEF5290734B30",
-    "pool": "0x5362dBb1e601abF3a4c14c22ffEdA64042E5eAA3",
-    "poolAddressesProvider": "0x5C2e738F6E27bCE0F7558051Bf90605dD6176900",
-    "poolConfigurator": "0x50c70FEB95aBC1A92FC30b9aCc41Bd349E5dE2f0",
-    "priceOracleSentinel": "0x0000000000000000000000000000000000000000",
-    "protocolDataProvider": "0xc0a344397cfa89dF1e1d3e4fb330834D789cF2CD"
-  },
   "raw": {
     "0x07b1adfb7d5795cf21bae8a77eceb222f2fafbce": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.WETH.V_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -56,12 +39,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x000000000000000000000000c47692016d70496e2e44531aaa8511aa07d4d185",
-          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2"
+          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2",
+          "label": "Implementation slot"
         }
       }
     },
     "0x0846c28dd54dea4fd7fb31bcc5eb81673d68c695": {
-      "label": null,
+      "label": "GovernanceV3Sonic.PAYLOADS_CONTROLLER",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -77,7 +61,7 @@
       }
     },
     "0x2273cabad63b7d247a6b107e723c803fc49953a0": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.USDC.V_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -112,12 +96,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x000000000000000000000000c47692016d70496e2e44531aaa8511aa07d4d185",
-          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2"
+          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2",
+          "label": "Implementation slot"
         }
       }
     },
     "0x333cfdcb6457c409e4f0c88f3806252bee5fe425": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.stS.V_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -152,12 +137,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x000000000000000000000000c47692016d70496e2e44531aaa8511aa07d4d185",
-          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2"
+          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2",
+          "label": "Implementation slot"
         }
       }
     },
     "0x5362dbb1e601abf3a4c14c22ffeda64042e5eaa3": {
-      "label": null,
+      "label": "AaveV3Sonic.POOL",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -172,12 +158,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000003023fe480df7365fcc12adc04779f4ca9b13f1b5",
-          "newValue": "0x000000000000000000000000e55bedd4c3750fc0661daad9df83502366b666ee"
+          "newValue": "0x000000000000000000000000e55bedd4c3750fc0661daad9df83502366b666ee",
+          "label": "Implementation slot"
         }
       }
     },
     "0x578ee1ca3a8e1b54554da1bf7c583506c4cd11c6": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.USDC.A_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -212,12 +199,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000004e7ec41282a295e722f13d32c025f03358f72c92",
-          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78"
+          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78",
+          "label": "Implementation slot"
         }
       }
     },
     "0x6c5e14a212c1c3e4baf6f871ac9b1a969918c131": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.wS.A_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -252,12 +240,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000004e7ec41282a295e722f13d32c025f03358f72c92",
-          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78"
+          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78",
+          "label": "Implementation slot"
         }
       }
     },
     "0xe18ab82c81e7eecff32b8a82b1b7d2d23f1ece96": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.WETH.A_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -292,12 +281,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000004e7ec41282a295e722f13d32c025f03358f72c92",
-          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78"
+          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78",
+          "label": "Implementation slot"
         }
       }
     },
     "0xeaa74d7f42267eb907092af4bc700f667eed0b8b": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.stS.A_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -332,12 +322,13 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000004e7ec41282a295e722f13d32c025f03358f72c92",
-          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78"
+          "newValue": "0x0000000000000000000000009e7a2ed2da913cf5608256bd7114df3fc3a24a78",
+          "label": "Implementation slot"
         }
       }
     },
     "0xf6089b790fbf8f4812a79a31cfabeb00b06ba7bd": {
-      "label": null,
+      "label": "AaveV3Sonic.ASSETS.wS.V_TOKEN",
       "contract": null,
       "balanceDiff": null,
       "nonceDiff": null,
@@ -372,185 +363,11 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x000000000000000000000000c47692016d70496e2e44531aaa8511aa07d4d185",
-          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2"
+          "newValue": "0x000000000000000000000000d321a5329126c29608df6451769d7cde3547fac2",
+          "label": "Implementation slot"
         }
       }
     }
-  },
-  "reserves": {
-    "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38": {
-      "aToken": "0x6C5E14A212c1C3e4Baf6f871ac9B1a969918c131",
-      "aTokenName": "Aave Sonic wS",
-      "aTokenSymbol": "aSonwS",
-      "aTokenUnderlyingBalance": "114261925751796396844850488",
-      "borrowCap": 100000000,
-      "borrowingEnabled": true,
-      "debtCeiling": 0,
-      "decimals": 18,
-      "id": 2,
-      "interestRateStrategy": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "isActive": true,
-      "isBorrowableInIsolation": false,
-      "isFlashloanable": true,
-      "isFrozen": false,
-      "isPaused": false,
-      "isSiloed": false,
-      "liquidationBonus": 11000,
-      "liquidationProtocolFee": 1000,
-      "liquidationThreshold": 7000,
-      "ltv": 6800,
-      "oracle": "0xc76dFb89fF298145b417d221B2c747d84952e01d",
-      "oracleDecimals": 8,
-      "oracleDescription": "S / USD",
-      "oracleLatestAnswer": "40122079",
-      "reserveFactor": 1500,
-      "supplyCap": 192000000,
-      "symbol": "wS",
-      "underlying": "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38",
-      "usageAsCollateralEnabled": true,
-      "variableDebtToken": "0xF6089B790Fbf8F4812a79a31CFAbeB00B06BA7BD",
-      "variableDebtTokenName": "Aave Sonic Variable Debt wS",
-      "variableDebtTokenSymbol": "variableDebtSonwS",
-      "virtualBalance": "114261925751796396844850488"
-    },
-    "0x29219dd400f2Bf60E5a23d13Be72B486D4038894": {
-      "aToken": "0x578Ee1ca3a8E1b54554Da1Bf7C583506C4CD11c6",
-      "aTokenName": "Aave Sonic USDC",
-      "aTokenSymbol": "aSonUSDC",
-      "aTokenUnderlyingBalance": "66819455377320",
-      "borrowCap": 110000000,
-      "borrowingEnabled": true,
-      "debtCeiling": 0,
-      "decimals": 6,
-      "id": 1,
-      "interestRateStrategy": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "isActive": true,
-      "isBorrowableInIsolation": true,
-      "isFlashloanable": true,
-      "isFrozen": false,
-      "isPaused": false,
-      "isSiloed": false,
-      "liquidationBonus": 10500,
-      "liquidationProtocolFee": 1000,
-      "liquidationThreshold": 7800,
-      "ltv": 7500,
-      "oracle": "0x7A8443a2a5D772db7f1E40DeFe32db485108F128",
-      "oracleDecimals": 8,
-      "oracleDescription": "Capped USDC/USD",
-      "oracleLatestAnswer": "99984815",
-      "reserveFactor": 1000,
-      "supplyCap": 560000000,
-      "symbol": "USDC",
-      "underlying": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
-      "usageAsCollateralEnabled": true,
-      "variableDebtToken": "0x2273caBAd63b7D247A6b107E723c803fc49953A0",
-      "variableDebtTokenName": "Aave Sonic Variable Debt USDC",
-      "variableDebtTokenSymbol": "variableDebtSonUSDC",
-      "virtualBalance": "66819455377320"
-    },
-    "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b": {
-      "aToken": "0xe18Ab82c81E7Eecff32B8A82B1b7d2d23F1EcE96",
-      "aTokenName": "Aave Sonic WETH",
-      "aTokenSymbol": "aSonWETH",
-      "aTokenUnderlyingBalance": "12083905404497207989263",
-      "borrowCap": 26400,
-      "borrowingEnabled": true,
-      "debtCeiling": 0,
-      "decimals": 18,
-      "id": 0,
-      "interestRateStrategy": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "isActive": true,
-      "isBorrowableInIsolation": false,
-      "isFlashloanable": true,
-      "isFrozen": false,
-      "isPaused": false,
-      "isSiloed": false,
-      "liquidationBonus": 10600,
-      "liquidationProtocolFee": 1000,
-      "liquidationThreshold": 8300,
-      "ltv": 8000,
-      "oracle": "0x824364077993847f71293B24ccA8567c00c2de11",
-      "oracleDecimals": 8,
-      "oracleDescription": "ETH / USD",
-      "oracleLatestAnswer": "380782979300",
-      "reserveFactor": 1500,
-      "supplyCap": 30000,
-      "symbol": "WETH",
-      "underlying": "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b",
-      "usageAsCollateralEnabled": true,
-      "variableDebtToken": "0x07B1adFB7d5795Cf21baE8a77Eceb222F2FafBCE",
-      "variableDebtTokenName": "Aave Sonic Variable Debt WETH",
-      "variableDebtTokenSymbol": "variableDebtSonWETH",
-      "virtualBalance": "12083905404497207989263"
-    },
-    "0xE5DA20F15420aD15DE0fa650600aFc998bbE3955": {
-      "aToken": "0xeAa74D7F42267eB907092AF4Bc700f667EeD0B8B",
-      "aTokenName": "Aave Sonic stS",
-      "aTokenSymbol": "aSonstS",
-      "aTokenUnderlyingBalance": "39263822807554130964626263",
-      "borrowCap": 1,
-      "borrowingEnabled": false,
-      "debtCeiling": 0,
-      "decimals": 18,
-      "id": 3,
-      "interestRateStrategy": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "isActive": true,
-      "isBorrowableInIsolation": false,
-      "isFlashloanable": true,
-      "isFrozen": false,
-      "isPaused": false,
-      "isSiloed": false,
-      "liquidationBonus": 11000,
-      "liquidationProtocolFee": 1000,
-      "liquidationThreshold": 6800,
-      "ltv": 6600,
-      "oracle": "0x5BA5D5213B47DFE020B1F8d6fB54Db3F74F9ea9a",
-      "oracleDecimals": 8,
-      "oracleDescription": "Capped stS / S / USD",
-      "oracleLatestAnswer": "41278644",
-      "reserveFactor": 1000,
-      "supplyCap": 60000000,
-      "symbol": "stS",
-      "underlying": "0xE5DA20F15420aD15DE0fa650600aFc998bbE3955",
-      "usageAsCollateralEnabled": true,
-      "variableDebtToken": "0x333cFdCB6457C409e4f0C88F3806252bEe5fe425",
-      "variableDebtTokenName": "Aave Sonic Variable Debt stS",
-      "variableDebtTokenSymbol": "variableDebtSonstS",
-      "virtualBalance": "39263822807554130964626263"
-    }
-  },
-  "strategies": {
-    "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38": {
-      "address": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "3070000000000000000000000000",
-      "optimalUsageRatio": "450000000000000000000000000",
-      "variableRateSlope1": "70000000000000000000000000",
-      "variableRateSlope2": "3000000000000000000000000000"
-    },
-    "0x29219dd400f2Bf60E5a23d13Be72B486D4038894": {
-      "address": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "485000000000000000000000000",
-      "optimalUsageRatio": "900000000000000000000000000",
-      "variableRateSlope1": "85000000000000000000000000",
-      "variableRateSlope2": "400000000000000000000000000"
-    },
-    "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b": {
-      "address": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "827000000000000000000000000",
-      "optimalUsageRatio": "900000000000000000000000000",
-      "variableRateSlope1": "27000000000000000000000000",
-      "variableRateSlope2": "800000000000000000000000000"
-    },
-    "0xE5DA20F15420aD15DE0fa650600aFc998bbE3955": {
-      "address": "0xdFf435BCcf782f11187D3a4454d96702eD78e092",
-      "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "3100000000000000000000000000",
-      "optimalUsageRatio": "450000000000000000000000000",
-      "variableRateSlope1": "100000000000000000000000000",
-      "variableRateSlope2": "3000000000000000000000000000"
-    }
   }
 }
+```

@@ -3,11 +3,13 @@ pragma solidity ^0.8.10;
 
 import {IERC20Metadata} from "openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
-import {IPool} from "aave-v3-origin/contracts/interfaces/IPool.sol";
+import {IPool, DataTypes} from "aave-v3-origin/contracts/interfaces/IPool.sol";
 import {IPoolConfigurator} from "aave-v3-origin/contracts/interfaces/IPoolConfigurator.sol";
 import {IPoolAddressesProvider} from "aave-v3-origin/contracts/interfaces/IPoolAddressesProvider.sol";
 import {ConfiguratorInputTypes} from "aave-v3-origin/contracts/protocol/libraries/types/ConfiguratorInputTypes.sol";
 import {IncentivizedERC20} from "aave-v3-origin/contracts/protocol/tokenization/base/IncentivizedERC20.sol";
+import {EModeConfiguration} from "aave-v3-origin/contracts/protocol/libraries/configuration/EModeConfiguration.sol";
+import {ReserveConfiguration} from "aave-v3-origin/contracts/protocol/libraries/configuration/ReserveConfiguration.sol";
 
 /**
  * @title UpgradePayload
@@ -15,6 +17,9 @@ import {IncentivizedERC20} from "aave-v3-origin/contracts/protocol/tokenization/
  * @author BGD Labs
  */
 contract UpgradePayload {
+  using EModeConfiguration for uint128;
+  using ReserveConfiguration for DataTypes.ReserveConfigurationMap;
+
   struct ConstructorParams {
     IPoolAddressesProvider poolAddressesProvider;
     address poolImpl;
@@ -62,15 +67,34 @@ contract UpgradePayload {
     // 2. Update AToken and VariableDebtToken implementations for all reserves.
     address[] memory reserves = POOL.getReservesList();
     uint256 length = reserves.length;
+    uint8 emptyCounter;
+    uint128 collateralEnabledBitmap;
     for (uint256 i = 0; i < length; i++) {
       address reserve = reserves[i];
-
       if (_needToUpdateReserveAToken(reserve)) {
         POOL_CONFIGURATOR.updateAToken(_prepareATokenUpdateInfo(reserve));
       }
 
       if (_needToUpdateReserveVToken(reserve)) {
         POOL_CONFIGURATOR.updateVariableDebtToken(_prepareVTokenUpdateInfo(reserve));
+      }
+      DataTypes.ReserveDataLegacy memory data = POOL.getReserveData(reserve);
+      // if the reserve is frozen outside eMode
+      // we iterate all eModes and freeze it inside
+      if (data.configuration.getFrozen()) {
+        for (uint8 j = 0; j < 255; j++) {
+          collateralEnabledBitmap = POOL.getEModeCategoryCollateralBitmap(j);
+          if (collateralEnabledBitmap.isReserveEnabledOnBitmap(data.id)) {
+            POOL_CONFIGURATOR.setAssetLtvzeroInEMode(reserve, j, true);
+            if (emptyCounter != 0) emptyCounter = 0;
+          }
+          if (collateralEnabledBitmap == 0) {
+            emptyCounter++;
+          }
+          if (emptyCounter >= 5) {
+            break;
+          }
+        }
       }
     }
   }
@@ -83,11 +107,7 @@ contract UpgradePayload {
     IERC20Metadata aToken = IERC20Metadata(POOL.getReserveAToken(underlyingToken));
 
     return ConfiguratorInputTypes.UpdateATokenInput({
-      asset: underlyingToken,
-      implementation: A_TOKEN_IMPL,
-      params: "",
-      name: aToken.name(),
-      symbol: aToken.symbol()
+      asset: underlyingToken, implementation: A_TOKEN_IMPL, params: "", name: aToken.name(), symbol: aToken.symbol()
     });
   }
 
@@ -99,11 +119,7 @@ contract UpgradePayload {
     IERC20Metadata vToken = IERC20Metadata(POOL.getReserveVariableDebtToken(underlyingToken));
 
     return ConfiguratorInputTypes.UpdateDebtTokenInput({
-      asset: underlyingToken,
-      implementation: V_TOKEN_IMPL,
-      params: "",
-      name: vToken.name(),
-      symbol: vToken.symbol()
+      asset: underlyingToken, implementation: V_TOKEN_IMPL, params: "", name: vToken.name(), symbol: vToken.symbol()
     });
   }
 
