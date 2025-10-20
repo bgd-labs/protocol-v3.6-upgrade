@@ -67,7 +67,6 @@ contract UpgradePayload {
     // 2. Update AToken and VariableDebtToken implementations for all reserves.
     address[] memory reserves = POOL.getReservesList();
     uint256 length = reserves.length;
-    uint8 emptyCounter;
     uint128 collateralEnabledBitmap;
     for (uint256 i = 0; i < length; i++) {
       address reserve = reserves[i];
@@ -81,8 +80,9 @@ contract UpgradePayload {
       DataTypes.ReserveDataLegacy memory data = POOL.getReserveData(reserve);
       // if the reserve is frozen outside eMode
       // we iterate all eModes and freeze it inside
+      uint256 emptyCounter = 0;
       if (data.configuration.getFrozen()) {
-        for (uint8 j = 0; j < 255; j++) {
+        for (uint8 j = 1; j <= type(uint8).max; j++) {
           collateralEnabledBitmap = POOL.getEModeCategoryCollateralBitmap(j);
           if (collateralEnabledBitmap.isReserveEnabledOnBitmap(data.id)) {
             POOL_CONFIGURATOR.setAssetLtvzeroInEMode(reserve, j, true);
@@ -91,7 +91,7 @@ contract UpgradePayload {
           if (collateralEnabledBitmap == 0) {
             emptyCounter++;
           }
-          if (emptyCounter >= 5) {
+          if (emptyCounter >= 10) {
             break;
           }
         }
