@@ -23,6 +23,7 @@ contract UpgradePayload {
   struct ConstructorParams {
     IPoolAddressesProvider poolAddressesProvider;
     address poolImpl;
+    address poolConfiguratorImpl;
     address aTokenImpl;
     address vTokenImpl;
   }
@@ -34,6 +35,7 @@ contract UpgradePayload {
   IPoolConfigurator public immutable POOL_CONFIGURATOR;
 
   address public immutable POOL_IMPL;
+  address public immutable POOL_CONFIGURATOR_IMPL;
   address public immutable A_TOKEN_IMPL;
   address public immutable V_TOKEN_IMPL;
 
@@ -48,6 +50,7 @@ contract UpgradePayload {
       revert WrongAddresses();
     }
     POOL_IMPL = params.poolImpl;
+    POOL_CONFIGURATOR_IMPL = params.poolConfiguratorImpl;
 
     if (IncentivizedERC20(params.aTokenImpl).POOL() != pool || IncentivizedERC20(params.vTokenImpl).POOL() != pool) {
       revert WrongAddresses();
@@ -63,6 +66,7 @@ contract UpgradePayload {
   function _defaultUpgrade() internal {
     // 1. Upgrade `Pool` implementation.
     POOL_ADDRESSES_PROVIDER.setPoolImpl(POOL_IMPL);
+    POOL_ADDRESSES_PROVIDER.setPoolConfiguratorImpl(POOL_CONFIGURATOR_IMPL);
 
     // 2. Update AToken and VariableDebtToken implementations for all reserves.
     address[] memory reserves = POOL.getReservesList();
@@ -78,8 +82,8 @@ contract UpgradePayload {
         POOL_CONFIGURATOR.updateVariableDebtToken(_prepareVTokenUpdateInfo(reserve));
       }
       DataTypes.ReserveDataLegacy memory data = POOL.getReserveData(reserve);
-      // if the reserve is frozen outside eMode
-      // we iterate all eModes and freeze it inside
+      // We know that there are currently no gaps > 1, inside the eMode configs
+      // as a precaution, we still assume gaps up to 10
       uint256 emptyCounter = 0;
       if (data.configuration.getFrozen()) {
         for (uint8 j = 1; j <= type(uint8).max; j++) {

@@ -6,7 +6,7 @@ import {DeploymentLibrary} from "../script/Deploy.s.sol";
 import {UpgradeTest} from "./UpgradeTest.t.sol";
 import {Deployments} from "../src/Deployments.sol";
 
-contract ArbitrumTest is UpgradeTest("arbitrum", 360026601) {
+contract ArbitrumTest is UpgradeTest("arbitrum", 391527220) {
   function _getPayload() internal virtual override returns (address) {
     return DeploymentLibrary._deployArbitrum();
   }

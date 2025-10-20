@@ -20,13 +20,15 @@ import {
 
 import {GovV3Helpers} from "aave-helpers/src/GovV3Helpers.sol";
 
+import {PoolConfiguratorInstance} from "aave-v3-origin/contracts/instances/PoolConfiguratorInstance.sol";
 import {PoolInstance} from "aave-v3-origin/contracts/instances/PoolInstance.sol";
 import {L2PoolInstance} from "aave-v3-origin/contracts/instances/L2PoolInstance.sol";
 import {ATokenInstance} from "aave-v3-origin/contracts/instances/ATokenInstance.sol";
 import {VariableDebtTokenInstance} from "aave-v3-origin/contracts/instances/VariableDebtTokenInstance.sol";
 import {ATokenWithDelegationInstance} from "aave-v3-origin/contracts/instances/ATokenWithDelegationInstance.sol";
-import {VariableDebtTokenMainnetInstanceGHO} from
-  "aave-v3-origin/contracts/instances/VariableDebtTokenMainnetInstanceGHO.sol";
+import {
+  VariableDebtTokenMainnetInstanceGHO
+} from "aave-v3-origin/contracts/instances/VariableDebtTokenMainnetInstanceGHO.sol";
 
 import {IPool} from "aave-v3-origin/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "aave-v3-origin/contracts/interfaces/IPoolAddressesProvider.sol";
@@ -293,6 +295,8 @@ library DeploymentLibrary {
     UpgradePayload.ConstructorParams memory payloadParams,
     bool isMainnetCore
   ) private returns (address) {
+    payloadParams.poolConfiguratorImpl = GovV3Helpers.deployDeterministic(type(PoolConfiguratorInstance).creationCode);
+
     payloadParams.aTokenImpl = GovV3Helpers.deployDeterministic(
       type(ATokenInstance).creationCode,
       abi.encode(deployParams.pool, deployParams.rewardsController, deployParams.treasury)
@@ -326,6 +330,7 @@ library DeploymentLibrary {
         UpgradePayloadMainnetCore.ConstructorMainnetParams({
           poolAddressesProvider: IPoolAddressesProvider(address(AaveV3Ethereum.POOL_ADDRESSES_PROVIDER)),
           poolImpl: params.poolImpl,
+          poolConfiguratorImpl: params.poolConfiguratorImpl,
           aTokenImpl: params.aTokenImpl,
           vTokenImpl: params.vTokenImpl,
           vTokenGhoImpl: vTokenImplGho,

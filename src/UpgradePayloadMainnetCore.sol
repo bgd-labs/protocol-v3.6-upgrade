@@ -21,6 +21,7 @@ contract UpgradePayloadMainnetCore is UpgradePayload {
   struct ConstructorMainnetParams {
     IPoolAddressesProvider poolAddressesProvider;
     address poolImpl;
+    address poolConfiguratorImpl;
     address aTokenImpl;
     address vTokenImpl;
     address vTokenGhoImpl;
@@ -32,14 +33,13 @@ contract UpgradePayloadMainnetCore is UpgradePayload {
   address public immutable A_TOKEN_WITH_DELEGATION_IMPL;
 
   constructor(ConstructorMainnetParams memory params)
-    UpgradePayload(
-      ConstructorParams({
+    UpgradePayload(ConstructorParams({
         poolAddressesProvider: params.poolAddressesProvider,
         poolImpl: params.poolImpl,
+        poolConfiguratorImpl: params.poolConfiguratorImpl,
         aTokenImpl: params.aTokenImpl,
         vTokenImpl: params.vTokenImpl
-      })
-    )
+      }))
   {
     IPool pool = IPool(params.poolAddressesProvider.getPool());
 
