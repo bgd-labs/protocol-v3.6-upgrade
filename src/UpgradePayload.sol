@@ -86,10 +86,10 @@ contract UpgradePayload {
       // as a precaution, we still assume gaps up to 10
       uint256 emptyCounter = 0;
       if (data.configuration.getFrozen()) {
-        for (uint8 j = 1; j <= type(uint8).max; j++) {
-          collateralEnabledBitmap = POOL.getEModeCategoryCollateralBitmap(j);
+        for (uint256 j = 1; j <= type(uint8).max; j++) {
+          collateralEnabledBitmap = POOL.getEModeCategoryCollateralBitmap(uint8(j));
           if (collateralEnabledBitmap.isReserveEnabledOnBitmap(data.id)) {
-            POOL_CONFIGURATOR.setAssetLtvzeroInEMode(reserve, j, true);
+            POOL_CONFIGURATOR.setAssetLtvzeroInEMode(reserve, uint8(j), true);
             if (emptyCounter != 0) emptyCounter = 0;
           }
           if (collateralEnabledBitmap == 0) {
