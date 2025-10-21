@@ -85,7 +85,7 @@ contract UpgradePayload {
       // We know that there are currently no gaps > 1, inside the eMode configs
       // as a precaution, we still assume gaps up to 10
       uint256 emptyCounter = 0;
-      if (data.configuration.getFrozen()) {
+      if (data.configuration.getLtv() == 0) {
         for (uint256 j = 1; j <= type(uint8).max; j++) {
           collateralEnabledBitmap = POOL.getEModeCategoryCollateralBitmap(uint8(j));
           if (collateralEnabledBitmap.isReserveEnabledOnBitmap(data.id)) {
