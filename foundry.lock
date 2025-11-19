@@ -5,7 +5,7 @@
       "rev": "2f8cbf05d47f8649731715e06b347f9df656bb8e"
     }
   },
-  "lib/aave-v3-origin-private.git": {
+  "lib/aave-v3-origin": {
     "branch": {
       "name": "v3.6.0",
       "rev": "ce5d9ef3b8ad30eb7dbbd3e16a998a1b4de8e954"

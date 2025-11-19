@@ -1,6 +1,6 @@
-# Aave V3.5 Upgrade Process
+# Aave V3.6 Upgrade Process
 
-This document outlines the technical process for upgrading the Aave V3 protocol from version 3.4 to version 3.5 across various networks.
+This document outlines the technical process for upgrading the Aave V3 protocol from version 3.5 to version 3.6 across various networks.
 
 The upgrade is executed via specialized `UpgradePayload` contracts deployed on each network. A specific version, `UpgradePayloadMainnetCore`, handles additional steps required for the Ethereum Mainnet to manage the custom functionalities of GHO and AAVE tokens.
 
@@ -12,13 +12,13 @@ The upgrade is executed via specialized `UpgradePayload` contracts deployed on e
 
 ## Key Migration and Initialization Steps
 
-The Aave v3.5 upgrade is primarily a logic upgrade. Unlike the v3.4 transition, it does not involve complex data migrations or storage slot cleanups. The core changes, such as improved rounding and accounting, are encapsulated within the new contract implementations. The payload's main responsibility is to switch the implementation pointers for the Pool and the associated tokens for each reserve.
+The Aave v3.6 upgrade is primarily a logic upgrade. Unlike the v3.4 transition, it does not involve complex data migrations or storage slot cleanups. The core changes, such as improved rounding and accounting, are encapsulated within the new contract implementations. The payload's main responsibility is to switch the implementation pointers for the Pool and the associated tokens for each reserve.
 
 ## General Upgrade Sequence (via `UpgradePayload`)
 
 This sequence applies to most networks (Polygon, Optimism, Arbitrum, etc.).
 
-1.  **Upgrade Pool Implementation:** The `Pool` contract proxy is updated to point to the new v3.5 `Pool` implementation (`POOL_IMPL`).
+1.  **Upgrade Pool Implementation:** The `Pool` contract proxy is updated to point to the new v3.6 `Pool` implementation (`POOL_IMPL`).
 2.  **Update AToken/VariableDebtToken Implementations:** The payload iterates through all reserves listed in the `Pool`:
     - For each reserve, it calls `POOL_CONFIGURATOR.updateAToken` to upgrade the reserve's AToken proxy to the new standard `ATokenInstance` implementation (`A_TOKEN_IMPL`).
     - It then calls `POOL_CONFIGURATOR.updateVariableDebtToken` to upgrade the reserve's VariableDebtToken proxy to the new standard `VariableDebtTokenInstance` implementation (`V_TOKEN_IMPL`).
