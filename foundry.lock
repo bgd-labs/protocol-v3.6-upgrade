@@ -5,14 +5,11 @@
       "rev": "2f8cbf05d47f8649731715e06b347f9df656bb8e"
     }
   },
-  "lib/aave-v3-origin": {
+  "lib/aave-v3-origin-private.git": {
     "branch": {
       "name": "v3.6.0",
-      "rev": "b5db154e87fe99d0a25c911ecc12f8956ee273ce"
+      "rev": "ce5d9ef3b8ad30eb7dbbd3e16a998a1b4de8e954"
     }
-  },
-  "lib/aave-v3-origin-private": {
-    "rev": "8651de9cfca597227ef486b1f944d84bfd28b552"
   },
   "lib/forge-std": {
     "rev": "60acb7aaadcce2d68e52986a0a66fe79f07d138f"

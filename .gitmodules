@@ -1,14 +1,11 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/aave-v3-origin-private"]
-	path = lib/aave-v3-origin-private
-	url = https://github.com/bgd-labs/aave-v3-origin-private
-[submodule "lib/aave-v3-origin"]
-	path = lib/aave-v3-origin
-	url = https://github.com/bgd-labs/aave-v3-origin-private
-	branch = v3.6.0
 [submodule "lib/aave-helpers"]
 	path = lib/aave-helpers
 	url = https://github.com/bgd-labs/aave-helpers
 	branch = main
+[submodule "lib/aave-v3-origin-private.git"]
+	path = lib/aave-v3-origin-private.git
+	url = https://github.com/bgd-labs/aave-v3-origin-private.git
+	branch = v3.6.0
