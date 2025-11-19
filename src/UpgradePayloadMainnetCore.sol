@@ -14,7 +14,7 @@ import {UpgradePayload} from "./UpgradePayload.sol";
 
 /**
  * @title UpgradePayloadMainnetCore
- * @notice Upgrade payload for the ETH Mainnet network for the Core Pool to upgrade the Aave v3.4 to v3.5
+ * @notice Upgrade payload for the ETH Mainnet network for the Core Pool to upgrade the Aave v3.5 to v3.6
  * @author BGD Labs
  */
 contract UpgradePayloadMainnetCore is UpgradePayload {

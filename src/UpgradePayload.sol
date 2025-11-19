@@ -13,7 +13,7 @@ import {ReserveConfiguration} from "aave-v3-origin/contracts/protocol/libraries/
 
 /**
  * @title UpgradePayload
- * @notice Upgrade payload to upgrade the Aave v3.4 to v3.5
+ * @notice Upgrade payload to upgrade the Aave v3.5 to v3.6
  * @author BGD Labs
  */
 contract UpgradePayload {
