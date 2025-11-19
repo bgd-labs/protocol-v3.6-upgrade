@@ -6,7 +6,7 @@ The upgrade is executed via specialized `UpgradePayload` contracts deployed on e
 
 ## Core Components of the Upgrade
 
-1.  **New Implementations:** New implementations for the `Pool`, `AToken`, and `VariableDebtToken` contracts are deployed. These incorporate the v3.5 features and optimizations.
+1.  **New Implementations:** New implementations for the `Pool`, `AToken`, and `VariableDebtToken` contracts are deployed. These incorporate the v3.6 features and optimizations.
 2.  **Upgrade Payloads:** `UpgradePayload` (for most networks) and `UpgradePayloadMainnetCore` (for Ethereum Mainnet) contain the sequenced steps to orchestrate the upgrade.
 3.  **Deployment Scripts:** Forge scripts (`Deploy.s.sol`) are used to deterministically deploy all necessary new implementation contracts and the corresponding upgrade payload contract for each network.
 
