@@ -1,0 +1,928 @@
+Index: settings
+===================================================================
+--- settings
++++ settings
+@@ -30,8 +30,7 @@
+         "abi"
+       ]
+     }
+   },
+-  "evmVersion": "london",
+-  "viaIR": false,
+-  "libraries": {}
++  "evmVersion": "shanghai",
++  "viaIR": false
+ }
+\ No newline at end of file
+Index: src/contracts/interfaces/IPool.sol
+===================================================================
+--- src/contracts/interfaces/IPool.sol
++++ src/contracts/interfaces/IPool.sol
+@@ -588,17 +588,15 @@
+      * @param from The user from which the aTokens are transferred
+      * @param to The user receiving the aTokens
+      * @param scaledAmount The scaled amount being transferred/withdrawn
+      * @param scaledBalanceFromBefore The aToken scaled balance of the `from` user before the transfer
+-     * @param scaledBalanceToBefore The aToken scaled balance of the `to` user before the transfer
+      */
+     function finalizeTransfer(
+         address asset,
+         address from,
+         address to,
+         uint256 scaledAmount,
+-        uint256 scaledBalanceFromBefore,
+-        uint256 scaledBalanceToBefore
++        uint256 scaledBalanceFromBefore
+     ) external;
+ 
+     /**
+      * @notice Returns the list of the underlying assets of all the initialized reserves
+@@ -676,8 +674,18 @@
+         uint128 borrowableBitmap
+     ) external;
+ 
+     /**
++     * @notice Replaces the current eMode ltvzeroBitmap.
++     * @param id The id of the category
++     * @param ltvzeroBitmap The ltvzeroBitmap of the category
++     */
++    function configureEModeCategoryLtvzeroBitmap(
++        uint8 id,
++        uint128 ltvzeroBitmap
++    ) external;
++
++    /**
+      * @notice Returns the data of an eMode category
+      * @dev DEPRECATED use independent getters instead
+      * @param id The id of the category
+      * @return The configuration data of the category
+@@ -687,8 +695,10 @@
+     ) external view returns (DataTypes.EModeCategoryLegacy memory);
+ 
+     /**
+      * @notice Returns the label of an eMode category
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param id The id of the category
+      * @return The label of the category
+      */
+     function getEModeCategoryLabel(
+@@ -722,8 +732,17 @@
+         uint8 id
+     ) external view returns (uint128);
+ 
+     /**
++     * @notice Returns the ltvzero of an eMode category
++     * @param id The id of the category
++     * @return The ltvzeroBitmap of the category
++     */
++    function getEModeCategoryLtvzeroBitmap(
++        uint8 id
++    ) external view returns (uint128);
++
++    /**
+      * @notice Allows a user to use the protocol in eMode
+      * @param categoryId The id of the category
+      */
+     function setUserEMode(uint8 categoryId) external;
+@@ -910,13 +929,8 @@
+      */
+     function getBorrowLogic() external view returns (address);
+ 
+     /**
+-     * @notice Gets the address of the external EModeLogic
+-     */
+-    function getEModeLogic() external view returns (address);
+-
+-    /**
+      * @notice Gets the address of the external LiquidationLogic
+      */
+     function getLiquidationLogic() external view returns (address);
+ 
+Index: src/contracts/protocol/libraries/configuration/UserConfiguration.sol
+===================================================================
+--- src/contracts/protocol/libraries/configuration/UserConfiguration.sol
++++ src/contracts/protocol/libraries/configuration/UserConfiguration.sol
+@@ -181,11 +181,11 @@
+         return self.data & BORROWING_MASK != 0;
+     }
+ 
+     /**
+-     * @notice Checks if a user has not been using any reserve for borrowing or supply
++     * @notice Checks if a user has not been using any reserve for borrowing, or as collateral
+      * @param self The configuration object
+-     * @return True if the user has not been borrowing or supplying any reserve, false otherwise
++     * @return True if the user has not been borrowing, or using as collateral any reserve, false otherwise
+      */
+     function isEmpty(
+         DataTypes.UserConfigurationMap memory self
+     ) internal pure returns (bool) {
+Index: src/contracts/protocol/libraries/types/DataTypes.sol
+===================================================================
+--- src/contracts/protocol/libraries/types/DataTypes.sol
++++ src/contracts/protocol/libraries/types/DataTypes.sol
+@@ -144,8 +144,9 @@
+         uint16 liquidationBonus;
+         uint128 collateralBitmap;
+         string label;
+         uint128 borrowableBitmap;
++        uint128 ltvzeroBitmap; // if true, the asset will be treated as ltv0 and ltv0 rules apply
+     }
+ 
+     enum InterestRateMode {
+         NONE,
+@@ -188,8 +189,9 @@
+         address interestRateStrategyAddress;
+         uint256 amount;
+         address onBehalfOf;
+         uint16 referralCode;
++        uint8 supplierEModeCategory;
+     }
+ 
+     struct ExecuteBorrowParams {
+         address asset;
+@@ -239,9 +241,8 @@
+         address from;
+         address to;
+         uint256 scaledAmount;
+         uint256 scaledBalanceFromBefore;
+-        uint256 scaledBalanceToBefore;
+         address oracle;
+         uint8 fromEModeCategory;
+     }
+ 
+Index: src/contracts/protocol/libraries/logic/ValidationLogic.sol
+===================================================================
+--- src/contracts/protocol/libraries/logic/ValidationLogic.sol
++++ src/contracts/protocol/libraries/logic/ValidationLogic.sol
+@@ -52,14 +52,8 @@
+      */
+     uint256 public constant HEALTH_FACTOR_LIQUIDATION_THRESHOLD = 1e18;
+ 
+     /**
+-     * @dev Role identifier for the role allowed to supply isolated reserves as collateral
+-     */
+-    bytes32 public constant ISOLATED_COLLATERAL_SUPPLIER_ROLE =
+-        keccak256("ISOLATED_COLLATERAL_SUPPLIER");
+-
+-    /**
+      * @notice Validates a supply action.
+      * @param reserveCache The cached data of the reserve
+      * @param scaledAmount The scaledAmount to be supplied
+      */
+@@ -168,9 +162,19 @@
+ 
+         require(vars.isActive, Errors.ReserveInactive());
+         require(!vars.isPaused, Errors.ReservePaused());
+         require(!vars.isFrozen, Errors.ReserveFrozen());
+-        require(vars.borrowingEnabled, Errors.BorrowingNotEnabled());
++        if (params.userEModeCategory != 0) {
++            require(
++                EModeConfiguration.isReserveEnabledOnBitmap(
++                    eModeCategories[params.userEModeCategory].borrowableBitmap,
++                    reservesData[params.asset].id
++                ),
++                Errors.NotBorrowableInEMode()
++            );
++        } else {
++            require(vars.borrowingEnabled, Errors.BorrowingNotEnabled());
++        }
+         require(
+             IERC20(params.reserveCache.aTokenAddress).totalSupply() >=
+                 vars.amount,
+             Errors.InvalidAmount()
+@@ -214,18 +218,8 @@
+                 );
+             }
+         }
+ 
+-        if (params.userEModeCategory != 0) {
+-            require(
+-                EModeConfiguration.isReserveEnabledOnBitmap(
+-                    eModeCategories[params.userEModeCategory].borrowableBitmap,
+-                    reservesData[params.asset].id
+-                ),
+-                Errors.NotBorrowableInEMode()
+-            );
+-        }
+-
+         if (params.userConfig.isBorrowingAny()) {
+             (vars.siloedBorrowingEnabled, vars.siloedBorrowingAddress) = params
+                 .userConfig
+                 .getSiloedBorrowingState(reservesData, reservesList);
+@@ -346,9 +340,8 @@
+         bool collateralReserveActive;
+         bool collateralReservePaused;
+         bool principalReserveActive;
+         bool principalReservePaused;
+-        bool isCollateralEnabled;
+     }
+ 
+     /**
+      * @notice Validates the liquidation action.
+@@ -409,15 +402,11 @@
+             params.healthFactor < HEALTH_FACTOR_LIQUIDATION_THRESHOLD,
+             Errors.HealthFactorNotBelowThreshold()
+         );
+ 
+-        vars.isCollateralEnabled =
+-            collateralReserve.configuration.getLiquidationThreshold() != 0 &&
+-            borrowerConfig.isUsingAsCollateral(collateralReserve.id);
+-
+         //if collateral isn't enabled as collateral by user, it cannot be liquidated
+         require(
+-            vars.isCollateralEnabled,
++            borrowerConfig.isUsingAsCollateral(collateralReserve.id),
+             Errors.CollateralCannotBeLiquidated()
+         );
+         require(
+             params.totalDebt != 0,
+@@ -549,13 +538,20 @@
+             userEModeCategory,
+             oracle
+         );
+ 
+-        require(
+-            !hasZeroLtvCollateral ||
+-                reservesData[asset].configuration.getLtv() == 0,
+-            Errors.LtvValidationFailed()
+-        );
++        // If the user has an ltvzero asset, the selected asset must be the ltv0 asset.
++        // This mechanism ensures that a multi-collateral position needs to withdraw/transfer the ltv0 asset first.
++        if (hasZeroLtvCollateral) {
++            require(
++                getUserReserveLtv(
++                    reservesData[asset],
++                    eModeCategories[userEModeCategory],
++                    userEModeCategory
++                ) == 0,
++                Errors.LtvValidationFailed()
++            );
++        }
+     }
+ 
+     /**
+      * @notice Validates a transfer action.
+@@ -595,13 +591,17 @@
+     }
+ 
+     /**
+      * @notice Validates the action of setting efficiency mode.
++     * @param reservesData The state of all the reserves
++     * @param reservesList The addresses of all the active reserves
+      * @param eModeCategories a mapping storing configurations for all efficiency mode categories
+      * @param userConfig the user configuration
+-     * @param categoryId The id of the category
++     * @param categoryId The id of the users eMode category
+      */
+     function validateSetUserEMode(
++        mapping(address => DataTypes.ReserveData) storage reservesData,
++        mapping(uint256 => address) storage reservesList,
+         mapping(uint8 => DataTypes.EModeCategory) storage eModeCategories,
+         DataTypes.UserConfigurationMap memory userConfig,
+         uint8 categoryId
+     ) internal view {
+@@ -618,31 +618,52 @@
+         if (userConfig.isEmpty()) {
+             return;
+         }
+ 
+-        // if user is trying to set another category than default we require that
+-        // either the user is not borrowing, or it's borrowing assets of categoryId
+-        if (categoryId != 0) {
+-            uint256 i = 0;
+-            bool isBorrowed = false;
+-            uint128 cachedBorrowableBitmap = eModeCategory.borrowableBitmap;
+-            uint256 cachedUserConfig = userConfig.data;
+-            unchecked {
+-                while (cachedUserConfig != 0) {
+-                    (cachedUserConfig, isBorrowed, ) = UserConfiguration
+-                        .getNextFlags(cachedUserConfig);
++        uint256 i = 0;
++        bool isBorrowed = false;
++        bool isEnabledAsCollateral = false;
++        // the cache is muted inside the iteration and should not be used for other operations
++        uint256 unsafe_cachedUserConfig = userConfig.data;
+ 
+-                    if (isBorrowed) {
+-                        require(
+-                            EModeConfiguration.isReserveEnabledOnBitmap(
+-                                cachedBorrowableBitmap,
++        // ensure that in the target eMode (even if it's eMode 0), the assets can still be borrowed and be used as collateral
++        unchecked {
++            while (unsafe_cachedUserConfig != 0) {
++                (
++                    unsafe_cachedUserConfig,
++                    isBorrowed,
++                    isEnabledAsCollateral
++                ) = UserConfiguration.getNextFlags(unsafe_cachedUserConfig);
++
++                // ensure a user can only enter or exit an eMode if all his borrowed assets can be borrowed in the target state
++                if (isBorrowed) {
++                    require(
++                        categoryId != 0
++                            ? EModeConfiguration.isReserveEnabledOnBitmap(
++                                eModeCategory.borrowableBitmap,
+                                 i
+-                            ),
+-                            Errors.NotBorrowableInEMode()
+-                        );
+-                    }
+-                    ++i;
++                            )
++                            : reservesData[reservesList[i]]
++                                .configuration
++                                .getBorrowingEnabled(),
++                        Errors.InvalidDebtInEmode(reservesList[i], categoryId)
++                    );
+                 }
++                // the asset must either be collateral inside or outside of eMode
++                if (isEnabledAsCollateral) {
++                    require(
++                        getUserReserveLtv(
++                            reservesData[reservesList[i]],
++                            eModeCategory,
++                            categoryId
++                        ) != 0,
++                        Errors.InvalidCollateralInEmode(
++                            reservesList[i],
++                            categoryId
++                        )
++                    );
++                }
++                ++i;
+             }
+         }
+     }
+ 
+@@ -650,19 +671,32 @@
+      * @notice Validates the action of activating the asset as collateral.
+      * @dev Only possible if the asset has non-zero LTV and the user is not in isolation mode
+      * @param reservesData The state of all the reserves
+      * @param reservesList The addresses of all the active reserves
++     * @param eModeCategories a mapping storing configurations for all efficiency mode categories
+      * @param userConfig the user configuration
+      * @param reserveConfig The reserve configuration
++     * @param asset Address of the reserve to be enabled as collateral
++     * @param categoryId The id of the users eMode category
+      * @return True if the asset can be activated as collateral, false otherwise
+      */
+     function validateUseAsCollateral(
+         mapping(address => DataTypes.ReserveData) storage reservesData,
+         mapping(uint256 => address) storage reservesList,
++        mapping(uint8 => DataTypes.EModeCategory) storage eModeCategories,
+         DataTypes.UserConfigurationMap storage userConfig,
+-        DataTypes.ReserveConfigurationMap memory reserveConfig
++        DataTypes.ReserveConfigurationMap memory reserveConfig,
++        address asset,
++        uint8 categoryId
+     ) internal view returns (bool) {
+-        if (reserveConfig.getLtv() == 0) {
++        // asset must have a non zero ltv to be activated as collateral
++        if (
++            getUserReserveLtv(
++                reservesData[asset],
++                eModeCategories[categoryId],
++                categoryId
++            ) == 0
++        ) {
+             return false;
+         }
+         if (!userConfig.isUsingAsCollateralAny()) {
+             return true;
+@@ -675,42 +709,71 @@
+         return (!isolationModeActive && reserveConfig.getDebtCeiling() == 0);
+     }
+ 
+     /**
+-     * @notice Validates if an asset should be automatically activated as collateral in the following actions: supply,
+-     * transfer, and liquidate
+-     * @dev This is used to ensure that isolated assets are not enabled as collateral automatically
++     * @notice Validates if an asset should be automatically activated as collateral in the following actions: supply, transfer.
++     * @dev This is used to ensure that isolated assets are not enabled as collateral automatically.
+      * @param reservesData The state of all the reserves
+      * @param reservesList The addresses of all the active reserves
++     * @param eModeCategories a mapping storing configurations for all efficiency mode categories
+      * @param userConfig the user configuration
+      * @param reserveConfig The reserve configuration
++     * @param asset Address of the reserve to be enabled as collateral
++     * @param categoryId The id of the users eMode category
+      * @return True if the asset can be activated as collateral, false otherwise
+      */
+     function validateAutomaticUseAsCollateral(
+-        address sender,
+         mapping(address => DataTypes.ReserveData) storage reservesData,
+         mapping(uint256 => address) storage reservesList,
++        mapping(uint8 => DataTypes.EModeCategory) storage eModeCategories,
+         DataTypes.UserConfigurationMap storage userConfig,
+         DataTypes.ReserveConfigurationMap memory reserveConfig,
+-        address aTokenAddress
++        address asset,
++        uint8 categoryId
+     ) internal view returns (bool) {
+         if (reserveConfig.getDebtCeiling() != 0) {
+-            // ensures only the ISOLATED_COLLATERAL_SUPPLIER_ROLE can enable collateral as side-effect of an action
+-            IPoolAddressesProvider addressesProvider = IncentivizedERC20(
+-                aTokenAddress
+-            ).POOL().ADDRESSES_PROVIDER();
+-            if (
+-                !IAccessControl(addressesProvider.getACLManager()).hasRole(
+-                    ISOLATED_COLLATERAL_SUPPLIER_ROLE,
+-                    sender
+-                )
+-            ) return false;
++            return false;
+         }
+         return
+             validateUseAsCollateral(
+                 reservesData,
+                 reservesList,
++                eModeCategories,
+                 userConfig,
+-                reserveConfig
++                reserveConfig,
++                asset,
++                categoryId
+             );
+     }
++
++    /**
++     * @notice Returns the ltv of the user in the particular reserve
++     * @param reserveData The reserve configuration
++     * @param eModeCategoryData The users eMode category configuration
++     * @param categoryId The id of the users eMode category
++     **/
++    function getUserReserveLtv(
++        DataTypes.ReserveData storage reserveData,
++        DataTypes.EModeCategory storage eModeCategoryData,
++        uint8 categoryId
++    ) internal view returns (uint256) {
++        if (
++            categoryId != 0 &&
++            EModeConfiguration.isReserveEnabledOnBitmap(
++                eModeCategoryData.collateralBitmap,
++                reserveData.id
++            )
++        ) {
++            if (
++                EModeConfiguration.isReserveEnabledOnBitmap(
++                    eModeCategoryData.ltvzeroBitmap,
++                    reserveData.id
++                )
++            ) {
++                return 0;
++            } else {
++                return eModeCategoryData.ltv;
++            }
++        }
++        return reserveData.configuration.getLtv();
++    }
+ }
+Index: src/contracts/protocol/libraries/math/WadRayMath.sol
+===================================================================
+--- src/contracts/protocol/libraries/math/WadRayMath.sol
++++ src/contracts/protocol/libraries/math/WadRayMath.sol
+@@ -77,17 +77,8 @@
+             c := div(add(mul(a, b), HALF_RAY), RAY)
+         }
+     }
+ 
+-    function rayMul(
+-        uint256 a,
+-        uint256 b,
+-        Rounding rounding
+-    ) internal pure returns (uint256 c) {
+-        if (rounding == Rounding.Floor) return rayMulFloor(a, b);
+-        return rayMulCeil(a, b);
+-    }
+-
+     function rayMulFloor(
+         uint256 a,
+         uint256 b
+     ) internal pure returns (uint256 c) {
+@@ -135,17 +126,8 @@
+             c := div(add(mul(a, RAY), div(b, 2)), b)
+         }
+     }
+ 
+-    function rayDiv(
+-        uint256 a,
+-        uint256 b,
+-        Rounding rounding
+-    ) internal pure returns (uint256 c) {
+-        if (rounding == Rounding.Floor) return rayDivFloor(a, b);
+-        return rayDivCeil(a, b);
+-    }
+-
+     function rayDivCeil(
+         uint256 a,
+         uint256 b
+     ) internal pure returns (uint256 c) {
+Index: src/contracts/protocol/libraries/helpers/Errors.sol
+===================================================================
+--- src/contracts/protocol/libraries/helpers/Errors.sol
++++ src/contracts/protocol/libraries/helpers/Errors.sol
+@@ -87,12 +87,16 @@
+     error CallerNotRiskOrPoolOrEmergencyAdmin(); // 'The caller of the function is not a risk, pool or emergency admin'
+     error LiquidationGraceSentinelCheckFailed(); // 'Liquidation grace sentinel validation failed'
+     error InvalidGracePeriod(); // Grace period above a valid range
+     error InvalidFreezeState(); // Reserve is already in the passed freeze state
++    error InvalidLtvzeroState(); // Reserve is already in the passed ltvzero state
+     error NotBorrowableInEMode(); // Asset not borrowable in eMode
+     error CallerNotUmbrella(); // The caller of the function is not the umbrella contract
+     error ReserveNotInDeficit(); // The reserve is not in deficit
+     error MustNotLeaveDust(); // Below a certain threshold liquidators need to take the full position
+     error UserCannotHaveDebt(); // Thrown when a user tries to interact with a method that requires a position without debt
+     error SelfLiquidation(); // Thrown when a user tries to liquidate themselves
+     error CallerNotPositionManager(); // Thrown when the caller has not been enabled as a position manager of the on-behalf-of user
++    error InvalidCollateralInEmode(address reserve, uint256 categoryId); /// Thrown when trying to enter an eMode with an invalid collateral asset
++    error InvalidDebtInEmode(address reserve, uint256 categoryId); /// Thrown when trying to enter an eMode with an invalid debt asset
++    error MustBeEmodeCollateral(address reserve, uint256 categoryId); /// Thrown when trying to configure an asset as eMode-ltvzero that is not an eMode collateral
+ }
+Index: src/contracts/protocol/libraries/logic/GenericLogic.sol
+===================================================================
+--- src/contracts/protocol/libraries/logic/GenericLogic.sol
++++ src/contracts/protocol/libraries/logic/GenericLogic.sol
+@@ -12,9 +12,9 @@
+ import {TokenMath} from "../helpers/TokenMath.sol";
+ import {MathUtils} from "../math/MathUtils.sol";
+ import {DataTypes} from "../types/DataTypes.sol";
+ import {ReserveLogic} from "./ReserveLogic.sol";
+-import {EModeLogic} from "./EModeLogic.sol";
++import {ValidationLogic} from "./ValidationLogic.sol";
+ 
+ /**
+  * @title GenericLogic library
+  * @author Aave
+@@ -31,23 +31,22 @@
+     struct CalculateUserAccountDataVars {
+         uint256 assetPrice;
+         uint256 assetUnit;
+         uint256 userBalanceInBaseCurrency;
+-        uint256 decimals;
++        uint256 unsafe_cachedUserConfig;
++        DataTypes.ReserveConfigurationMap configurationCache;
+         uint256 ltv;
+         uint256 liquidationThreshold;
+         uint256 i;
+         uint256 healthFactor;
+         uint256 totalCollateralInBaseCurrency;
+         uint256 totalDebtInBaseCurrency;
+         uint256 avgLtv;
+         uint256 avgLiquidationThreshold;
+-        uint256 eModeLtv;
+         uint256 eModeLiqThreshold;
+         uint128 eModeCollateralBitmap;
+         address currentReserveAddress;
+         bool hasZeroLtvCollateral;
+-        bool isInEModeCategory;
+     }
+ 
+     /**
+      * @notice Calculates the user data across the reserves.
+@@ -80,52 +79,43 @@
+ 
+         CalculateUserAccountDataVars memory vars;
+ 
+         if (params.userEModeCategory != 0) {
+-            vars.eModeLtv = eModeCategories[params.userEModeCategory].ltv;
+             vars.eModeLiqThreshold = eModeCategories[params.userEModeCategory]
+                 .liquidationThreshold;
+             vars.eModeCollateralBitmap = eModeCategories[
+                 params.userEModeCategory
+             ].collateralBitmap;
+         }
+ 
+-        uint256 userConfigCache = params.userConfig.data;
++        vars.unsafe_cachedUserConfig = params.userConfig.data;
+         bool isBorrowed = false;
+         bool isEnabledAsCollateral = false;
+ 
+-        while (userConfigCache != 0) {
++        while (vars.unsafe_cachedUserConfig != 0) {
+             (
+-                userConfigCache,
++                vars.unsafe_cachedUserConfig,
+                 isBorrowed,
+                 isEnabledAsCollateral
+-            ) = UserConfiguration.getNextFlags(userConfigCache);
++            ) = UserConfiguration.getNextFlags(vars.unsafe_cachedUserConfig);
+             if (isEnabledAsCollateral || isBorrowed) {
+                 vars.currentReserveAddress = reservesList[vars.i];
+ 
+                 if (vars.currentReserveAddress != address(0)) {
+                     DataTypes.ReserveData storage currentReserve = reservesData[
+                         vars.currentReserveAddress
+                     ];
++                    vars.configurationCache = currentReserve.configuration;
+ 
+-                    (
+-                        vars.ltv,
+-                        vars.liquidationThreshold,
+-                        ,
+-                        vars.decimals,
+-
+-                    ) = currentReserve.configuration.getParams();
+-
+                     unchecked {
+-                        vars.assetUnit = 10 ** vars.decimals;
++                        vars.assetUnit =
++                            10 ** vars.configurationCache.getDecimals();
+                     }
+ 
+                     vars.assetPrice = IPriceOracleGetter(params.oracle)
+                         .getAssetPrice(vars.currentReserveAddress);
+ 
+-                    if (
+-                        vars.liquidationThreshold != 0 && isEnabledAsCollateral
+-                    ) {
++                    if (isEnabledAsCollateral) {
+                         vars
+                             .userBalanceInBaseCurrency = _getUserBalanceInBaseCurrency(
+                             params.user,
+                             currentReserve,
+@@ -135,34 +125,38 @@
+ 
+                         vars.totalCollateralInBaseCurrency += vars
+                             .userBalanceInBaseCurrency;
+ 
+-                        vars.isInEModeCategory =
++                        vars.ltv = ValidationLogic.getUserReserveLtv(
++                            currentReserve,
++                            eModeCategories[params.userEModeCategory],
++                            params.userEModeCategory
++                        );
++                        if (vars.ltv == 0) {
++                            vars.hasZeroLtvCollateral = true;
++                        } else {
++                            vars.avgLtv +=
++                                vars.userBalanceInBaseCurrency *
++                                vars.ltv;
++                        }
++
++                        if (
+                             params.userEModeCategory != 0 &&
+                             EModeConfiguration.isReserveEnabledOnBitmap(
+                                 vars.eModeCollateralBitmap,
+                                 vars.i
+-                            );
+-
+-                        if (vars.ltv != 0) {
+-                            vars.avgLtv +=
+-                                vars.userBalanceInBaseCurrency *
+-                                (
+-                                    vars.isInEModeCategory
+-                                        ? vars.eModeLtv
+-                                        : vars.ltv
+-                                );
++                            )
++                        ) {
++                            vars.liquidationThreshold = vars.eModeLiqThreshold;
+                         } else {
+-                            vars.hasZeroLtvCollateral = true;
++                            vars.liquidationThreshold = vars
++                                .configurationCache
++                                .getLiquidationThreshold();
+                         }
+ 
+                         vars.avgLiquidationThreshold +=
+                             vars.userBalanceInBaseCurrency *
+-                            (
+-                                vars.isInEModeCategory
+-                                    ? vars.eModeLiqThreshold
+-                                    : vars.liquidationThreshold
+-                            );
++                            vars.liquidationThreshold;
+                     }
+ 
+                     if (isBorrowed) {
+                         vars
+Index: src/contracts/protocol/tokenization/base/IncentivizedERC20.sol
+===================================================================
+--- src/contracts/protocol/tokenization/base/IncentivizedERC20.sol
++++ src/contracts/protocol/tokenization/base/IncentivizedERC20.sol
+@@ -171,9 +171,14 @@
+     function approve(
+         address spender,
+         uint256 amount
+     ) external virtual override returns (bool) {
+-        _approve(_msgSender(), spender, amount);
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: amount,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /// @inheritdoc IERC20
+@@ -182,58 +187,82 @@
+         address recipient,
+         uint256 amount
+     ) external virtual override returns (bool) {
+         uint120 castAmount = amount.toUint120();
+-        _approve(
+-            sender,
+-            _msgSender(),
+-            _allowances[sender][_msgSender()] - castAmount
+-        );
++        _spendAllowance({
++            owner: sender,
++            spender: _msgSender(),
++            amount: castAmount,
++            correctedAmount: castAmount
++        });
+         _transfer(sender, recipient, castAmount);
+         return true;
+     }
+ 
+     /**
++     * @notice Sets the allowance of the caller to spend `owner`'s tokens to 0.
++     * @param owner The address whose tokens are being renounced.
++     */
++    function renounceAllowance(address owner) external virtual {
++        _approve({
++            owner: owner,
++            spender: _msgSender(),
++            amount: 0,
++            emitEvent: true
++        });
++    }
++
++    /**
+      * @notice Increases the allowance of spender to spend _msgSender() tokens
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param spender The user allowed to spend on behalf of _msgSender()
+      * @param addedValue The amount being added to the allowance
+      * @return `true`
+      */
+     function increaseAllowance(
+         address spender,
+         uint256 addedValue
+     ) external virtual returns (bool) {
+-        _approve(
+-            _msgSender(),
+-            spender,
+-            _allowances[_msgSender()][spender] + addedValue
+-        );
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: _allowances[_msgSender()][spender] + addedValue,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /**
+      * @notice Decreases the allowance of spender to spend _msgSender() tokens
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param spender The user allowed to spend on behalf of _msgSender()
+      * @param subtractedValue The amount being subtracted to the allowance
+      * @return `true`
+      */
+     function decreaseAllowance(
+         address spender,
+         uint256 subtractedValue
+     ) external virtual returns (bool) {
+-        _approve(
+-            _msgSender(),
+-            spender,
+-            _allowances[_msgSender()][spender] - subtractedValue
+-        );
++        uint256 currentAllowance = _allowances[_msgSender()][spender];
++
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: currentAllowance - subtractedValue,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /**
+      * @dev Updates `owner`'s allowance for `spender` based on spent `value`.
+      *
+      * Revert if not enough allowance is available.
+      *
++     * Doesn't emit the Approval event.
++     *
+      * @param owner The owner of the tokens
+      * @param spender The user allowed to spend on behalf of owner
+      * @param amount The minimum amount being consumed from the allowance
+      * @param correctedAmount The maximum amount being consumed from the allowance
+@@ -252,12 +281,22 @@
+                 amount
+             );
+         }
+ 
++        if (currentAllowance == type(uint256).max) {
++            return;
++        }
++
+         uint256 consumption = currentAllowance >= correctedAmount
+             ? correctedAmount
+             : currentAllowance;
+-        _approve(owner, spender, currentAllowance - consumption);
++
++        _approve({
++            owner: owner,
++            spender: spender,
++            amount: currentAllowance - consumption,
++            emitEvent: false
++        });
+     }
+ 
+     /**
+      * @notice Transfers tokens between two users and apply incentives if defined.
+@@ -296,16 +335,21 @@
+      * @notice Approve `spender` to use `amount` of `owner`s balance
+      * @param owner The address owning the tokens
+      * @param spender The address approved for spending
+      * @param amount The amount of tokens to approve spending of
++     * @param emitEvent Whether to emit the Approval event
+      */
+     function _approve(
+         address owner,
+         address spender,
+-        uint256 amount
++        uint256 amount,
++        bool emitEvent
+     ) internal virtual {
+         _allowances[owner][spender] = amount;
+-        emit Approval(owner, spender, amount);
++
++        if (emitEvent) {
++            emit Approval(owner, spender, amount);
++        }
+     }
+ 
+     /**
+      * @notice Update the name of the token
+Index: src/contracts/protocol/libraries/logic/EModeLogic.sol
+===================================================================
+--- src/contracts/protocol/libraries/logic/EModeLogic.sol
++++ src/contracts/protocol/libraries/logic/EModeLogic.sol
+@@ -1,58 +0,0 @@
+-// SPDX-License-Identifier: BUSL-1.1
+-pragma solidity ^0.8.10;
+-
+-import {IPool} from "../../../interfaces/IPool.sol";
+-import {DataTypes} from "../types/DataTypes.sol";
+-import {ValidationLogic} from "./ValidationLogic.sol";
+-
+-/**
+- * @title EModeLogic library
+- * @author Aave
+- * @notice Implements the base logic for all the actions related to the eMode
+- */
+-library EModeLogic {
+-    /**
+-     * @notice Updates the user efficiency mode category
+-     * @dev Will revert if user is borrowing non-compatible asset or change will drop HF < HEALTH_FACTOR_LIQUIDATION_THRESHOLD
+-     * @dev Emits the `UserEModeSet` event
+-     * @param reservesData The state of all the reserves
+-     * @param reservesList The addresses of all the active reserves
+-     * @param eModeCategories The configuration of all the efficiency mode categories
+-     * @param usersEModeCategory The state of all users efficiency mode category
+-     * @param userConfig The user configuration mapping that tracks the supplied/borrowed assets
+-     * @param user The selected user
+-     * @param oracle The address of the oracle
+-     * @param categoryId The selected eMode categoryId
+-     */
+-    function executeSetUserEMode(
+-        mapping(address => DataTypes.ReserveData) storage reservesData,
+-        mapping(uint256 => address) storage reservesList,
+-        mapping(uint8 => DataTypes.EModeCategory) storage eModeCategories,
+-        mapping(address => uint8) storage usersEModeCategory,
+-        DataTypes.UserConfigurationMap storage userConfig,
+-        address user,
+-        address oracle,
+-        uint8 categoryId
+-    ) external {
+-        if (usersEModeCategory[user] == categoryId) return;
+-
+-        ValidationLogic.validateSetUserEMode(
+-            eModeCategories,
+-            userConfig,
+-            categoryId
+-        );
+-
+-        usersEModeCategory[user] = categoryId;
+-
+-        ValidationLogic.validateHealthFactor(
+-            reservesData,
+-            reservesList,
+-            eModeCategories,
+-            userConfig,
+-            user,
+-            categoryId,
+-            oracle
+-        );
+-        emit IPool.UserEModeSet(user, categoryId);
+-    }
+-}

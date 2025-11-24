@@ -15,7 +15,9 @@ import {
   LineaScript,
   SonicScript,
   CeloScript,
-  SoneiumScript
+  SoneiumScript,
+  InkScript,
+  PlasmaScript
 } from "solidity-utils/contracts/utils/ScriptUtils.sol";
 
 import {GovV3Helpers} from "aave-helpers/src/GovV3Helpers.sol";
@@ -49,6 +51,8 @@ import {AaveV3Linea, AaveV3LineaAssets} from "aave-address-book/AaveV3Linea.sol"
 import {AaveV3Sonic, AaveV3SonicAssets} from "aave-address-book/AaveV3Sonic.sol";
 import {AaveV3Celo, AaveV3CeloAssets} from "aave-address-book/AaveV3Celo.sol";
 import {AaveV3Soneium, AaveV3SoneiumAssets} from "aave-address-book/AaveV3Soneium.sol";
+import {AaveV3InkWhitelabel, AaveV3InkWhitelabelAssets} from "aave-address-book/AaveV3InkWhitelabel.sol";
+import {AaveV3Plasma, AaveV3PlasmaAssets} from "aave-address-book/AaveV3Plasma.sol";
 
 import {UpgradePayload} from "../src/UpgradePayload.sol";
 import {UpgradePayloadMainnetCore} from "../src/UpgradePayloadMainnetCore.sol";
@@ -97,6 +101,30 @@ library DeploymentLibrary {
     deployParams.treasury = address(AaveV3Arbitrum.COLLECTOR);
 
     return _deployL2(deployParams);
+  }
+
+  function _deployInk() internal returns (address) {
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3InkWhitelabel.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3InkWhitelabel.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3InkWhitelabelAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3InkWhitelabel.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3InkWhitelabel.COLLECTOR);
+
+    return _deployL2(deployParams);
+  }
+
+  function _deployPlasma() internal returns (address) {
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Plasma.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Plasma.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3PlasmaAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Plasma.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Plasma.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployScroll() internal returns (address) {
@@ -435,5 +463,17 @@ contract Deploycelo is CeloScript {
 contract Deploysoneium is SoneiumScript {
   function run() external broadcast {
     DeploymentLibrary._deploySoneium();
+  }
+}
+
+contract Deployink is InkScript {
+  function run() external broadcast {
+    DeploymentLibrary._deployInk();
+  }
+}
+
+contract Deployplasma is PlasmaScript {
+  function run() external broadcast {
+    DeploymentLibrary._deployPlasma();
   }
 }
