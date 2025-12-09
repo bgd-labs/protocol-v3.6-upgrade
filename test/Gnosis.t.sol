@@ -6,7 +6,7 @@ import {DeploymentLibrary} from "../script/Deploy.s.sol";
 import {UpgradeTest} from "./UpgradeTest.t.sol";
 import {Deployments} from "../src/Deployments.sol";
 
-contract GnosisTest is UpgradeTest("gnosis", 43243685) {
+contract GnosisTest is UpgradeTest("gnosis", 43560732) {
   function _getPayload() internal virtual override returns (address) {
     return DeploymentLibrary._deployGnosis();
   }

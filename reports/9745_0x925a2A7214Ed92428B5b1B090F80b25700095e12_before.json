@@ -69,36 +69,36 @@
       "collateralBitmap": "64",
       "eModeCategory": 5,
       "label": "PT-USDe Stablecoins Jan 2026",
-      "liquidationBonus": 10400,
-      "liquidationThreshold": 9110,
-      "ltv": 8910
+      "liquidationBonus": 10340,
+      "liquidationThreshold": 9300,
+      "ltv": 9100
     },
     "6": {
       "borrowableBitmap": "2",
       "collateralBitmap": "64",
       "eModeCategory": 6,
       "label": "PT-USDe USDe Jan 2026",
-      "liquidationBonus": 10300,
-      "liquidationThreshold": 9200,
-      "ltv": 9000
+      "liquidationBonus": 10240,
+      "liquidationThreshold": 9410,
+      "ltv": 9210
     },
     "7": {
       "borrowableBitmap": "3",
       "collateralBitmap": "128",
       "eModeCategory": 7,
       "label": "PT-sUSDe Stablecoins Jan 2026",
-      "liquidationBonus": 10500,
-      "liquidationThreshold": 8960,
-      "ltv": 8760
+      "liquidationBonus": 10440,
+      "liquidationThreshold": 9180,
+      "ltv": 8980
     },
     "8": {
       "borrowableBitmap": "2",
       "collateralBitmap": "128",
       "eModeCategory": 8,
       "label": "PT-sUSDe USDe Jan 2026",
-      "liquidationBonus": 10420,
-      "liquidationThreshold": 9050,
-      "ltv": 8850
+      "liquidationBonus": 10350,
+      "liquidationThreshold": 9270,
+      "ltv": 9070
     },
     "9": {
       "borrowableBitmap": "288",
@@ -123,7 +123,7 @@
       "aToken": "0x0b9A412c94f07223752031f75a20DDe542D63d5C",
       "aTokenName": "Aave Plasma PT_sUSDE_15JAN2026",
       "aTokenSymbol": "aPlaPT_sUSDE_15JAN2026",
-      "aTokenUnderlyingBalance": "419162467515613021850442693",
+      "aTokenUnderlyingBalance": "676247503898188577098779513",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -143,7 +143,7 @@
       "oracle": "0x3eca1c7836eA09DB3dc85be7B5526Ce80E2609a1",
       "oracleDecimals": 8,
       "oracleDescription": "PT Capped sUSDe USDT/USD linear discount 15JAN2026",
-      "oracleLatestAnswer": "98778795",
+      "oracleLatestAnswer": "99268149",
       "reserveFactor": 4500,
       "supplyCap": 800000000,
       "symbol": "PT-sUSDE-15JAN2026",
@@ -152,13 +152,13 @@
       "variableDebtToken": "0xb2A5AD339d9687B5606b21B37F72f350e5BbC622",
       "variableDebtTokenName": "Aave Plasma Variable Debt PT_sUSDE_15JAN2026",
       "variableDebtTokenSymbol": "variableDebtPlaPT_sUSDE_15JAN2026",
-      "virtualBalance": "419162467515613021850442693"
+      "virtualBalance": "676247503898188577098779513"
     },
     "0x1B64B9025EEbb9A6239575dF9Ea4b9Ac46D4d193": {
       "aToken": "0x5c43D6C075C7CF95fb188FB2977eeD3E3F2a92c2",
       "aTokenName": "Aave Plasma XAUt0",
       "aTokenSymbol": "aPlaXAUt0",
-      "aTokenUnderlyingBalance": "680367720",
+      "aTokenUnderlyingBalance": "3053404612",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 1800000000,
@@ -178,7 +178,7 @@
       "oracle": "0x921371Fa4d4A30cD350D29762ccB8A5861724E29",
       "oracleDecimals": 8,
       "oracleDescription": "XAU / USD",
-      "oracleLatestAnswer": "406026000000",
+      "oracleLatestAnswer": "419136000000",
       "reserveFactor": 2000,
       "supplyCap": 7000,
       "symbol": "XAUt0",
@@ -187,13 +187,13 @@
       "variableDebtToken": "0x20091c402C2933144Bd9a9B1B07dBEBf19c6d5A1",
       "variableDebtTokenName": "Aave Plasma Variable Debt XAUt0",
       "variableDebtTokenSymbol": "variableDebtPlaXAUt0",
-      "virtualBalance": "680367720"
+      "virtualBalance": "3053404612"
     },
     "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2": {
       "aToken": "0xC1A318493fF07a68fE438Cee60a7AD0d0DBa300E",
       "aTokenName": "Aave Plasma sUSDe",
       "aTokenSymbol": "aPlasUSDe",
-      "aTokenUnderlyingBalance": "448454009314474978514600536",
+      "aTokenUnderlyingBalance": "334690785119532103429975403",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -213,7 +213,7 @@
       "oracle": "0x40eE40D7332995CACA49Db46B94237Fa64647Bd4",
       "oracleDecimals": 8,
       "oracleDescription": "Capped sUSDe / USDe / USD",
-      "oracleLatestAnswer": "120640341",
+      "oracleLatestAnswer": "121068434",
       "reserveFactor": 2000,
       "supplyCap": 1575000000,
       "symbol": "sUSDe",
@@ -222,13 +222,13 @@
       "variableDebtToken": "0xc7A92af2ca7b75FC608A8F0C08640dE5b339BfC0",
       "variableDebtTokenName": "Aave Plasma Variable Debt sUSDe",
       "variableDebtTokenSymbol": "variableDebtPlasUSDe",
-      "virtualBalance": "448454009314474978514600536"
+      "virtualBalance": "334690785119532103429975403"
     },
     "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34": {
       "aToken": "0x7519403E12111ff6b710877Fcd821D0c12CAF43A",
       "aTokenName": "Aave Plasma USDe",
       "aTokenSymbol": "aPlaUSDe",
-      "aTokenUnderlyingBalance": "101948109604999523691782741",
+      "aTokenUnderlyingBalance": "141962356491247406790193533",
       "borrowCap": 400000000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -248,7 +248,7 @@
       "oracle": "0xdBbB0b5DD13E7AC9C56624834ef193df87b022c3",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDT/USD",
-      "oracleLatestAnswer": "99901623",
+      "oracleLatestAnswer": "100007000",
       "reserveFactor": 2500,
       "supplyCap": 1750000000,
       "symbol": "USDe",
@@ -257,13 +257,13 @@
       "variableDebtToken": "0xEa650893085DAd858150915291645F57164A4257",
       "variableDebtTokenName": "Aave Plasma Variable Debt USDe",
       "variableDebtTokenSymbol": "variableDebtPlaUSDe",
-      "virtualBalance": "101948109604999523691782741"
+      "virtualBalance": "141962356491247406790193533"
     },
     "0x6100E367285b01F48D07953803A2d8dCA5D19873": {
       "aToken": "0x5aA4bc74811D672DA5308019dA4779f673e60B47",
       "aTokenName": "Aave Plasma WXPL",
       "aTokenSymbol": "aPlaWXPL",
-      "aTokenUnderlyingBalance": "14000000000000000000000000",
+      "aTokenUnderlyingBalance": "18801375604213657079080135",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -283,22 +283,22 @@
       "oracle": "0xF932477C37715aE6657Ab884414Bd9876FE3f750",
       "oracleDecimals": 8,
       "oracleDescription": "XPL / USD",
-      "oracleLatestAnswer": "24136928",
+      "oracleLatestAnswer": "15956600",
       "reserveFactor": 1000,
-      "supplyCap": 14000000,
+      "supplyCap": 28000000,
       "symbol": "WXPL",
       "underlying": "0x6100E367285b01F48D07953803A2d8dCA5D19873",
       "usageAsCollateralEnabled": true,
       "variableDebtToken": "0x7ec35d7008682c33dBC6b214E01D919e8d441e48",
       "variableDebtTokenName": "Aave Plasma Variable Debt WXPL",
       "variableDebtTokenSymbol": "variableDebtPlaWXPL",
-      "virtualBalance": "14000000000000000000000000"
+      "virtualBalance": "18801375604213657079080135"
     },
     "0x93B544c330F60A2aa05ceD87aEEffB8D38FD8c9a": {
       "aToken": "0xEa601A9FECF80bFC529F08A51bD8Cb0d72fc862A",
       "aTokenName": "Aave Plasma PT_USDe_15JAN2026",
       "aTokenSymbol": "aPlaPT_USDe_15JAN2026",
-      "aTokenUnderlyingBalance": "199557426269674534362800724",
+      "aTokenUnderlyingBalance": "172630636728515170602482423",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -318,7 +318,7 @@
       "oracle": "0x30cb6ff8649Cc02cEa91971D4730EebeD5A8D2F1",
       "oracleDecimals": 8,
       "oracleDescription": "PT Capped USDe USDT/USD linear discount 15JAN2026",
-      "oracleLatestAnswer": "98842696",
+      "oracleLatestAnswer": "99310197",
       "reserveFactor": 4500,
       "supplyCap": 400000000,
       "symbol": "PT-USDe-15JAN2026",
@@ -327,13 +327,13 @@
       "variableDebtToken": "0xD73253B18124837465b0c1fCB1A947d0542a991B",
       "variableDebtTokenName": "Aave Plasma Variable Debt PT_USDe_15JAN2026",
       "variableDebtTokenSymbol": "variableDebtPlaPT_USDe_15JAN2026",
-      "virtualBalance": "199557426269674534362800724"
+      "virtualBalance": "172630636728515170602482423"
     },
     "0x9895D81bB462A195b4922ED7De0e3ACD007c32CB": {
       "aToken": "0xf1aB7f60128924d69f6d7dE25A20eF70bBd43d07",
       "aTokenName": "Aave Plasma WETH",
       "aTokenSymbol": "aPlaWETH",
-      "aTokenUnderlyingBalance": "5402619384652746909451",
+      "aTokenUnderlyingBalance": "9619863158685027454620",
       "borrowCap": 80000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -353,7 +353,7 @@
       "oracle": "0x43A7dd2125266c5c4c26EB86cd61241132426Fe7",
       "oracleDecimals": 8,
       "oracleDescription": "ETH / USD",
-      "oracleLatestAnswer": "301206046576",
+      "oracleLatestAnswer": "310226359802",
       "reserveFactor": 1500,
       "supplyCap": 160000,
       "symbol": "WETH",
@@ -362,13 +362,13 @@
       "variableDebtToken": "0x638d7db63cd5c902bDd9A91cf195870551c3c7B3",
       "variableDebtTokenName": "Aave Plasma Variable Debt WETH",
       "variableDebtTokenSymbol": "variableDebtPlaWETH",
-      "virtualBalance": "5402619384652746909451"
+      "virtualBalance": "9619863158685027454620"
     },
     "0xA3D68b74bF0528fdD07263c60d6488749044914b": {
       "aToken": "0xAf1a7a488c8348b41d5860C04162af7d3D38A996",
       "aTokenName": "Aave Plasma weETH",
       "aTokenSymbol": "aPlaweETH",
-      "aTokenUnderlyingBalance": "92168989888306887283118",
+      "aTokenUnderlyingBalance": "81505120527647410718119",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -388,7 +388,7 @@
       "oracle": "0xA7786e3042435f88869e5a4e384B0AD6B009800b",
       "oracleDecimals": 8,
       "oracleDescription": "Capped weETH / eETH(ETH) / USD",
-      "oracleLatestAnswer": "325858676026",
+      "oracleLatestAnswer": "336062015854",
       "reserveFactor": 2000,
       "supplyCap": 240000,
       "symbol": "weETH",
@@ -397,13 +397,13 @@
       "variableDebtToken": "0x34542B95Efdf2dFbD59978C2F620FBd7275E9323",
       "variableDebtTokenName": "Aave Plasma Variable Debt weETH",
       "variableDebtTokenSymbol": "variableDebtPlaweETH",
-      "virtualBalance": "92168989888306887283118"
+      "virtualBalance": "81505120527647410718119"
     },
     "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb": {
       "aToken": "0x5D72a9d9A9510Cd8cBdBA12aC62593A58930a948",
       "aTokenName": "Aave Plasma USDT0",
       "aTokenSymbol": "aPlaUSDT0",
-      "aTokenUnderlyingBalance": "255211512055499",
+      "aTokenUnderlyingBalance": "343522305557269",
       "borrowCap": 5000000000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -423,7 +423,7 @@
       "oracle": "0xdBbB0b5DD13E7AC9C56624834ef193df87b022c3",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDT/USD",
-      "oracleLatestAnswer": "99901623",
+      "oracleLatestAnswer": "100007000",
       "reserveFactor": 500,
       "supplyCap": 6000000000,
       "symbol": "USDT0",
@@ -432,13 +432,13 @@
       "variableDebtToken": "0xCBBC427b5658672768E11BFDa00879839DB4785F",
       "variableDebtTokenName": "Aave Plasma Variable Debt USDT0",
       "variableDebtTokenSymbol": "variableDebtPlaUSDT0",
-      "virtualBalance": "255211512055499"
+      "virtualBalance": "343522305557269"
     },
     "0xC4374775489CB9C56003BF2C9b12495fC64F0771": {
       "aToken": "0xD4eE376C40EdC83832aAaFc18fC0272660F5e90b",
       "aTokenName": "Aave Plasma syrupUSDT",
       "aTokenSymbol": "aPlasyrupUSDT",
-      "aTokenUnderlyingBalance": "299999776172845",
+      "aTokenUnderlyingBalance": "400000000000000",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -458,16 +458,16 @@
       "oracle": "0x0A3F8218a98337Ef37dCAE4F8a8cfaB0711C64cF",
       "oracleDecimals": 8,
       "oracleDescription": "Capped syrupUSDT / USDT / USD",
-      "oracleLatestAnswer": "110264199",
+      "oracleLatestAnswer": "110673874",
       "reserveFactor": 4500,
-      "supplyCap": 300000000,
+      "supplyCap": 400000000,
       "symbol": "syrupUSDT",
       "underlying": "0xC4374775489CB9C56003BF2C9b12495fC64F0771",
       "usageAsCollateralEnabled": true,
       "variableDebtToken": "0xDA5D1a9b7F515457638c01db13a18Bd3514fC4A6",
       "variableDebtTokenName": "Aave Plasma Variable Debt syrupUSDT",
       "variableDebtTokenSymbol": "variableDebtPlasyrupUSDT",
-      "virtualBalance": "299999776172845"
+      "virtualBalance": "400000000000000"
     },
     "0xe48D935e6C9e735463ccCf29a7F11e32bC09136E": {
       "aToken": "0x140Bc58975DFba4D30fE65c4F6262a6c314683cf",
@@ -493,7 +493,7 @@
       "oracle": "0xd6ff49B650550ce2452e0fCCa101Ab7CE206d851",
       "oracleDecimals": 8,
       "oracleDescription": "Capped wstETH / stETH(ETH) / USD",
-      "oracleLatestAnswer": "367356349905",
+      "oracleLatestAnswer": "378877356347",
       "reserveFactor": 3500,
       "supplyCap": 20000,
       "symbol": "wstETH",
@@ -508,7 +508,7 @@
       "aToken": "0x41c7aCCC0fB97470bFB48014bad52E0d99447E79",
       "aTokenName": "Aave Plasma wrsETH",
       "aTokenSymbol": "aPlawrsETH",
-      "aTokenUnderlyingBalance": "12573512342645969450659",
+      "aTokenUnderlyingBalance": "8443512342645969450659",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -528,7 +528,7 @@
       "oracle": "0x3acFddf27b85B5f773B610c6F7e4420aeB1Df8dD",
       "oracleDecimals": 8,
       "oracleDescription": "Capped wrsETH / ETH / USD",
-      "oracleLatestAnswer": "318870061704",
+      "oracleLatestAnswer": "328891480542",
       "reserveFactor": 4500,
       "supplyCap": 20000,
       "symbol": "wrsETH",
@@ -537,7 +537,7 @@
       "variableDebtToken": "0xe5A29d07F3D532Cd16bD53376053C2aa5B320cB9",
       "variableDebtTokenName": "Aave Plasma Variable Debt wrsETH",
       "variableDebtTokenSymbol": "variableDebtPlawrsETH",
-      "virtualBalance": "12573512342645969450659"
+      "virtualBalance": "8443512342645969450659"
     }
   },
   "strategies": {
@@ -567,10 +567,10 @@
     },
     "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34": {
       "address": "0x2B16E93bdB1897f517881B3c388bABD0C62C6cdC",
-      "baseVariableBorrowRate": "20000000000000000000000000",
-      "maxVariableBorrowRate": "190000000000000000000000000",
+      "baseVariableBorrowRate": "0",
+      "maxVariableBorrowRate": "177500000000000000000000000",
       "optimalUsageRatio": "850000000000000000000000000",
-      "variableRateSlope1": "50000000000000000000000000",
+      "variableRateSlope1": "57500000000000000000000000",
       "variableRateSlope2": "120000000000000000000000000"
     },
     "0x6100E367285b01F48D07953803A2d8dCA5D19873": {
@@ -592,9 +592,9 @@
     "0x9895D81bB462A195b4922ED7De0e3ACD007c32CB": {
       "address": "0x2B16E93bdB1897f517881B3c388bABD0C62C6cdC",
       "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "107000000000000000000000000",
+      "maxVariableBorrowRate": "105000000000000000000000000",
       "optimalUsageRatio": "920000000000000000000000000",
-      "variableRateSlope1": "27000000000000000000000000",
+      "variableRateSlope1": "25000000000000000000000000",
       "variableRateSlope2": "80000000000000000000000000"
     },
     "0xA3D68b74bF0528fdD07263c60d6488749044914b": {
@@ -607,10 +607,10 @@
     },
     "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb": {
       "address": "0x2B16E93bdB1897f517881B3c388bABD0C62C6cdC",
-      "baseVariableBorrowRate": "20000000000000000000000000",
-      "maxVariableBorrowRate": "160000000000000000000000000",
+      "baseVariableBorrowRate": "0",
+      "maxVariableBorrowRate": "155000000000000000000000000",
       "optimalUsageRatio": "920000000000000000000000000",
-      "variableRateSlope1": "40000000000000000000000000",
+      "variableRateSlope1": "55000000000000000000000000",
       "variableRateSlope2": "100000000000000000000000000"
     },
     "0xC4374775489CB9C56003BF2C9b12495fC64F0771": {

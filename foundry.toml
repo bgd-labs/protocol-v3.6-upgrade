@@ -15,10 +15,6 @@ libraries = [
     'aave-v3-origin/contracts/protocol/libraries/logic/FlashLoanLogic.sol:FlashLoanLogic:0xE66AdcF153d0bD67a74e5d23e23F90b4011024EC',
     'aave-v3-origin/contracts/protocol/libraries/logic/LiquidationLogic.sol:LiquidationLogic:0x8dc095F287dBEBD9e15f75BB3DfBF18389BB8104',
     'aave-v3-origin/contracts/protocol/libraries/logic/PoolLogic.sol:PoolLogic:0x25Ed699a052B820d772765E26Ed4dD9f0A26F3E5',
-    'aave-v3-origin/contracts/protocol/libraries/logic/SupplyLogic.sol:SupplyLogic:0x33654b16A4De97bCE05d7dD06803Bf1066f3123C',
-    'aave-v3-origin/contracts/protocol/libraries/logic/FlashLoanLogic.sol:FlashLoanLogic:0xE66AdcF153d0bD67a74e5d23e23F90b4011024EC',
-    'aave-v3-origin/contracts/protocol/libraries/logic/LiquidationLogic.sol:LiquidationLogic:0x8dc095F287dBEBD9e15f75BB3DfBF18389BB8104',
-    'aave-v3-origin/contracts/protocol/libraries/logic/PoolLogic.sol:PoolLogic:0x25Ed699a052B820d772765E26Ed4dD9f0A26F3E5',
     'aave-v3-origin/contracts/protocol/libraries/logic/SupplyLogic.sol:SupplyLogic:0x33654b16A4De97bCE05d7dD06803Bf1066f3123C'
 ]
 
@@ -35,13 +31,12 @@ fs_permissions = [{ access = "write", path = "./reports" }]
 ffi = true
 evm_version = 'cancun'
 libraries = [
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/BorrowLogic.sol:BorrowLogic:0x352007644a7BdE6834309e9881aC59427799a4a5',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/ConfiguratorLogic.sol:ConfiguratorLogic:0xd22Ad1597d2e473C0985cC9589945114a7171198',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/EModeLogic.sol:EModeLogic:0xE74f2dDFCb29d4D7733ab7aB9Bb809aEB11ABb27',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/FlashLoanLogic.sol:FlashLoanLogic:0x9d9568079b93045C82822Bf70A91C151BD65a02E',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/LiquidationLogic.sol:LiquidationLogic:0x592B64d9246278D734F3E6B872452663ce5FE248',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/PoolLogic.sol:PoolLogic:0xaE13c560F109649c4211801cB64aa1B794b0A5d3',
-    # 'aave-v3-origin/contracts/protocol/libraries/logic/SupplyLogic.sol:SupplyLogic:0x98daac81a8b784c5930b884e64e711fecde0ef51',
+    'aave-v3-origin/contracts/protocol/libraries/logic/BorrowLogic.sol:BorrowLogic:0xF3b473A5c7f9be0aFD4eddD724b0519cee9314f8',
+    'aave-v3-origin/contracts/protocol/libraries/logic/ConfiguratorLogic.sol:ConfiguratorLogic:0xAB7b29A2Bda1e9A4F228aAb53d41c4D63Fc22f5E',
+    'aave-v3-origin/contracts/protocol/libraries/logic/FlashLoanLogic.sol:FlashLoanLogic:0xcBc69Dc132f02869Bed58e76A3Ff575855371ECF',
+    'aave-v3-origin/contracts/protocol/libraries/logic/LiquidationLogic.sol:LiquidationLogic:0x4122978eb58D0Ccd857B06FF6881222eF41364A1',
+    'aave-v3-origin/contracts/protocol/libraries/logic/PoolLogic.sol:PoolLogic:0xc06404b2aa898dbe96d0d7cf65b1de3194268743',
+    'aave-v3-origin/contracts/protocol/libraries/logic/SupplyLogic.sol:SupplyLogic:0x2b139d7c4fb05db52a3261256797abc567a7cf36'
 ]
 
 [profile.zksync.zksync]

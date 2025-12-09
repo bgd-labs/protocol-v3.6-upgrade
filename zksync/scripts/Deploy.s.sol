@@ -51,6 +51,8 @@ library DeploymentLibrary {
     private
     returns (address)
   {
+    payloadParams.poolConfiguratorImpl = address(new PoolConfiguratorInstance{salt: "v1"}());
+
     payloadParams.aTokenImpl = address(
       new ATokenInstance{salt: "v1"}(IPool(deployParams.pool), deployParams.rewardsController, deployParams.treasury)
     );
