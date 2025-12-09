@@ -1,0 +1,809 @@
+Index: settings
+===================================================================
+--- settings
++++ settings
+@@ -1,30 +1,21 @@
+ {
+   "remappings": [
+     "aave-address-book/=lib/aave-helpers/lib/aave-address-book/src/",
+     "aave-helpers/=lib/aave-helpers/",
+-    "aave-v3-origin-tests/=lib/aave-v3-origin-private/tests/",
+-    "aave-v3-origin/=lib/aave-v3-origin-private/src/",
++    "aave-v3-origin-tests/=lib/aave-v3-origin/tests/",
++    "aave-v3-origin/=lib/aave-v3-origin/src/",
+     "erc4626-tests/=lib/aave-helpers/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+     "forge-std/=lib/forge-std/src/",
+     "openzeppelin-contracts-upgradeable/=lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/",
+     "openzeppelin-contracts/=lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/",
+     "solidity-utils/=lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/src/",
+-    "gho-direct-minter/=lib/GhoDirectMinter/src/",
+     "lib/aave-helpers/:aave-address-book/=lib/aave-helpers/lib/aave-address-book/src/",
+     "lib/aave-helpers/:solidity-utils/=lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/src/",
+-    "lib/aave-v3-origin-private/:solidity-utils/=lib/aave-v3-origin-private/lib/solidity-utils/src/",
+-    "lib/GhoDirectMinter/:aave-address-book/=lib/aave-helpers/lib/aave-address-book/src/",
+-    "lib/GhoDirectMinter/:aave-helpers/=lib/aave-helpers/",
+-    "lib/GhoDirectMinter/:erc4626-tests/=lib/aave-helpers/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+-    "lib/GhoDirectMinter/:forge-std/=lib/GhoDirectMinter/lib/forge-std/src/",
+-    "lib/GhoDirectMinter/:solidity-utils/=lib/aave-helpers/lib/aave-address-book/lib/aave-v3-origin/lib/solidity-utils/src/",
+-    "@openzeppelin/contracts-upgradeable/=lib/aave-v3-origin-private/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/contracts/",
+-    "@openzeppelin/contracts/=lib/aave-v3-origin-private/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
+-    "GhoDirectMinter/=lib/GhoDirectMinter/",
+-    "aave-v3-origin-private/=lib/aave-v3-origin-private/",
+-    "ds-test/=lib/aave-v3-origin-private/lib/forge-std/lib/ds-test/src/",
+-    "halmos-cheatcodes/=lib/aave-v3-origin-private/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/"
++    "@openzeppelin/contracts-upgradeable/=lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/contracts/",
++    "@openzeppelin/contracts/=lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
++    "ds-test/=lib/aave-v3-origin/lib/forge-std/lib/ds-test/src/",
++    "halmos-cheatcodes/=lib/aave-v3-origin/lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/"
+   ],
+   "optimizer": {
+     "enabled": true,
+     "runs": 200
+@@ -34,52 +25,33 @@
+     "bytecodeHash": "none",
+     "appendCBOR": true
+   },
+   "outputSelection": {
+-    "src/PoolConfiguratorWithCustomInitialize.sol": {
+-      "PoolConfiguratorWithCustomInitialize": [
++    "lib/aave-v3-origin/src/contracts/instances/PoolConfiguratorInstance.sol": {
++      "PoolConfiguratorInstance": [
+         "*"
+       ]
+-    },
+-    "*": {
+-      "*": [
+-        "abi",
+-        "evm.bytecode",
+-        "evm.deployedBytecode",
+-        "evm.methodIdentifiers",
+-        "metadata",
+-        "devdoc",
+-        "userdoc",
+-        "storageLayout",
+-        "evm.gasEstimates"
+-      ],
+-      "": [
+-        "ast"
+-      ]
+     }
+   },
+   "evmVersion": "shanghai",
+   "viaIR": false,
+   "libraries": {
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/BorrowLogic.sol": {
+-      "BorrowLogic": "0x5047AD5e603Ec4a2AB58aaE2321C07D8f4De6a8a"
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/BorrowLogic.sol": {
++      "BorrowLogic": "0x1Fb8f7C906cddD28B42ae6Eb76abC04A91188635"
+     },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/ConfiguratorLogic.sol": {
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/ConfiguratorLogic.sol": {
+       "ConfiguratorLogic": "0x6E2aFD57a161d12f34f416c29619BFeAcAC8AA18"
+     },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/EModeLogic.sol": {
+-      "EModeLogic": "0x7fcE69A2bA3e78EeB36798cde2c94C70f3A043af"
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/FlashLoanLogic.sol": {
++      "FlashLoanLogic": "0xE66AdcF153d0bD67a74e5d23e23F90b4011024EC"
+     },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/FlashLoanLogic.sol": {
+-      "FlashLoanLogic": "0x4fDB5d360f946CFD25b14F346f748204c0C6a2F4"
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/LiquidationLogic.sol": {
++      "LiquidationLogic": "0x8dc095F287dBEBD9e15f75BB3DfBF18389BB8104"
+     },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/LiquidationLogic.sol": {
+-      "LiquidationLogic": "0x5934b283f7120500253f277CCcF4521528aE34D6"
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/PoolLogic.sol": {
++      "PoolLogic": "0x25Ed699a052B820d772765E26Ed4dD9f0A26F3E5"
+     },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/PoolLogic.sol": {
+-      "PoolLogic": "0x564c42578A1b270EaE16c25Da39d901245881d1F"
+-    },
+-    "lib/aave-v3-origin-private/src/contracts/protocol/libraries/logic/SupplyLogic.sol": {
+-      "SupplyLogic": "0x1eF34B91afC368174F579067D1DB94325cDC7946"
++    "lib/aave-v3-origin/src/contracts/protocol/libraries/logic/SupplyLogic.sol": {
++      "SupplyLogic": "0x33654b16A4De97bCE05d7dD06803Bf1066f3123C"
+     }
+   }
+ }
+\ No newline at end of file
+Index: src/PoolConfiguratorWithCustomInitialize.sol
+===================================================================
+--- src/PoolConfiguratorWithCustomInitialize.sol
++++ src/PoolConfiguratorWithCustomInitialize.sol
+@@ -1,29 +0,0 @@
+-// SPDX-License-Identifier: BUSL-1.1
+-pragma solidity ^0.8.10;
+-
+-import {PoolConfiguratorInstance} from "aave-v3-origin/contracts/instances/PoolConfiguratorInstance.sol";
+-import {IPoolAddressesProvider} from "aave-v3-origin/contracts/interfaces/IPoolAddressesProvider.sol";
+-import {IPool} from "aave-v3-origin/contracts/interfaces/IPool.sol";
+-
+-contract PoolConfiguratorWithCustomInitialize is PoolConfiguratorInstance {
+-    function initialize(
+-        IPoolAddressesProvider provider
+-    ) public virtual override initializer {
+-        super.initialize(provider);
+-
+-        // @note This `initialize` function
+-        //       must be executed *before* the main `Pool` contract is upgraded to v3.4.
+-        //       This is necessary to fetch the dynamic `FLASHLOAN_PREMIUM_TO_PROTOCOL` value
+-        //       from the v3.3 `Pool`'s storage. After the `Pool` contract is upgraded to v3.4,
+-        //       its `FLASHLOAN_PREMIUM_TO_PROTOCOL` function will become a constant and always
+-        //       return `100_00`, making the old dynamic value inaccessible.
+-        uint128 oldFlashloanPremiumToProtocol = _pool
+-            .FLASHLOAN_PREMIUM_TO_PROTOCOL();
+-        if (oldFlashloanPremiumToProtocol != 100_00) {
+-            emit FlashloanPremiumToProtocolUpdated({
+-                oldFlashloanPremiumToProtocol: oldFlashloanPremiumToProtocol,
+-                newFlashloanPremiumToProtocol: 100_00
+-            });
+-        }
+-    }
+-}
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/instances/PoolConfiguratorInstance.sol
++++ lib/aave-v3-origin/src/contracts/instances/PoolConfiguratorInstance.sol
+@@ -8,9 +8,9 @@
+  * @author BGD Labs
+  * @notice Instance of the PoolConfigurator of the Aave protocol
+  */
+ contract PoolConfiguratorInstance is PoolConfigurator {
+-    uint256 public constant CONFIGURATOR_REVISION = 6;
++    uint256 public constant CONFIGURATOR_REVISION = 7;
+ 
+     /// @inheritdoc VersionedInitializable
+     function getRevision() internal pure virtual override returns (uint256) {
+         return CONFIGURATOR_REVISION;
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/interfaces/IPool.sol
++++ lib/aave-v3-origin/src/contracts/interfaces/IPool.sol
+@@ -586,19 +586,17 @@
+      * @dev Only callable by the overlying aToken of the `asset`
+      * @param asset The address of the underlying asset of the aToken
+      * @param from The user from which the aTokens are transferred
+      * @param to The user receiving the aTokens
+-     * @param amount The amount being transferred/withdrawn
+-     * @param balanceFromBefore The aToken balance of the `from` user before the transfer
+-     * @param balanceToBefore The aToken balance of the `to` user before the transfer
++     * @param scaledAmount The scaled amount being transferred/withdrawn
++     * @param scaledBalanceFromBefore The aToken scaled balance of the `from` user before the transfer
+      */
+     function finalizeTransfer(
+         address asset,
+         address from,
+         address to,
+-        uint256 amount,
+-        uint256 balanceFromBefore,
+-        uint256 balanceToBefore
++        uint256 scaledAmount,
++        uint256 scaledBalanceFromBefore
+     ) external;
+ 
+     /**
+      * @notice Returns the list of the underlying assets of all the initialized reserves
+@@ -676,8 +674,18 @@
+         uint128 borrowableBitmap
+     ) external;
+ 
+     /**
++     * @notice Replaces the current eMode ltvzeroBitmap.
++     * @param id The id of the category
++     * @param ltvzeroBitmap The ltvzeroBitmap of the category
++     */
++    function configureEModeCategoryLtvzeroBitmap(
++        uint8 id,
++        uint128 ltvzeroBitmap
++    ) external;
++
++    /**
+      * @notice Returns the data of an eMode category
+      * @dev DEPRECATED use independent getters instead
+      * @param id The id of the category
+      * @return The configuration data of the category
+@@ -687,8 +695,10 @@
+     ) external view returns (DataTypes.EModeCategoryLegacy memory);
+ 
+     /**
+      * @notice Returns the label of an eMode category
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param id The id of the category
+      * @return The label of the category
+      */
+     function getEModeCategoryLabel(
+@@ -722,8 +732,17 @@
+         uint8 id
+     ) external view returns (uint128);
+ 
+     /**
++     * @notice Returns the ltvzero of an eMode category
++     * @param id The id of the category
++     * @return The ltvzeroBitmap of the category
++     */
++    function getEModeCategoryLtvzeroBitmap(
++        uint8 id
++    ) external view returns (uint128);
++
++    /**
+      * @notice Allows a user to use the protocol in eMode
+      * @param categoryId The id of the category
+      */
+     function setUserEMode(uint8 categoryId) external;
+@@ -818,10 +837,14 @@
+      * @notice It covers the deficit of a specified reserve by burning the equivalent aToken `amount` for assets
+      * @dev The deficit of a reserve can occur due to situations where borrowed assets are not repaid, leading to bad debt.
+      * @param asset The address of the underlying asset to cover the deficit.
+      * @param amount The amount to be covered, in aToken
++     * @return The amount of tokens burned
+      */
+-    function eliminateReserveDeficit(address asset, uint256 amount) external;
++    function eliminateReserveDeficit(
++        address asset,
++        uint256 amount
++    ) external returns (uint256);
+ 
+     /**
+      * @notice Approves or disapproves a position manager. This position manager will be able
+      * to call the `setUserUseReserveAsCollateralOnBehalfOf` and the
+@@ -906,13 +929,8 @@
+      */
+     function getBorrowLogic() external view returns (address);
+ 
+     /**
+-     * @notice Gets the address of the external EModeLogic
+-     */
+-    function getEModeLogic() external view returns (address);
+-
+-    /**
+      * @notice Gets the address of the external LiquidationLogic
+      */
+     function getLiquidationLogic() external view returns (address);
+ 
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/protocol/pool/PoolConfigurator.sol
++++ lib/aave-v3-origin/src/contracts/protocol/pool/PoolConfigurator.sol
+@@ -173,8 +173,12 @@
+             newLtv = 0;
+ 
+             emit PendingLtvChanged(asset, ltv);
+         } else {
++            if (_pendingLtv[asset] != 0) {
++                delete _pendingLtv[asset];
++                emit PendingLtvChanged(asset, 0);
++            }
+             currentConfig.setLtv(ltv);
+         }
+ 
+         currentConfig.setLiquidationThreshold(liquidationThreshold);
+@@ -220,44 +224,73 @@
+     function setReserveFreeze(
+         address asset,
+         bool freeze
+     ) external override onlyRiskOrPoolOrEmergencyAdmins {
+-        DataTypes.ReserveConfigurationMap memory currentConfig = _pool
+-            .getConfiguration(asset);
++        DataTypes.ReserveDataLegacy memory reserveData = _pool.getReserveData(
++            asset
++        );
++        DataTypes.ReserveConfigurationMap memory currentConfig = reserveData
++            .configuration;
+ 
+         require(
+             freeze != currentConfig.getFrozen(),
+             Errors.InvalidFreezeState()
+         );
+ 
+         currentConfig.setFrozen(freeze);
+ 
+-        uint256 ltvSet;
+-        uint256 pendingLtvSet;
+-
+         if (freeze) {
+-            pendingLtvSet = currentConfig.getLtv();
+-            _pendingLtv[asset] = pendingLtvSet;
+-            currentConfig.setLtv(0);
+-        } else {
+-            ltvSet = _pendingLtv[asset];
+-            currentConfig.setLtv(ltvSet);
+-            delete _pendingLtv[asset];
++            _setReserveLtvzero(asset, true, currentConfig);
++            uint128 collateralEnabledBitmap;
++            uint128 ltvzeroBitmap;
++            // The loop will worst case do 2 * 255 SLOADs + 255 SSTOREs, which should be around ~6M gas.
++            // In practice, a single asset will never be enabled as collateral on all eModes, so the expected gas consumption is much lower.
++            // uint256 to not overflow when `j = type(uint8).max + 1`
++            for (uint256 j = 1; j <= type(uint8).max; j++) {
++                collateralEnabledBitmap = _pool
++                    .getEModeCategoryCollateralBitmap(uint8(j));
++                if (
++                    EModeConfiguration.isReserveEnabledOnBitmap(
++                        collateralEnabledBitmap,
++                        reserveData.id
++                    )
++                ) {
++                    ltvzeroBitmap = _pool.getEModeCategoryLtvzeroBitmap(
++                        uint8(j)
++                    );
++                    _setEmodeLtvZero(
++                        ltvzeroBitmap,
++                        asset,
++                        reserveData.id,
++                        uint8(j),
++                        true
++                    );
++                }
++            }
+         }
+ 
+-        emit PendingLtvChanged(asset, pendingLtvSet);
+-        emit CollateralConfigurationChanged(
+-            asset,
+-            ltvSet,
+-            currentConfig.getLiquidationThreshold(),
+-            currentConfig.getLiquidationBonus()
+-        );
+-
+         _pool.setConfiguration(asset, currentConfig);
+         emit ReserveFrozen(asset, freeze);
+     }
+ 
+     /// @inheritdoc IPoolConfigurator
++    function setReserveLtvzero(
++        address asset,
++        bool ltvZero
++    ) external onlyRiskOrPoolOrEmergencyAdmins {
++        DataTypes.ReserveConfigurationMap memory currentConfig = _pool
++            .getConfiguration(asset);
++        uint256 configCache = currentConfig.data;
++
++        _setReserveLtvzero(asset, ltvZero, currentConfig);
++        require(
++            currentConfig.data != configCache,
++            Errors.InvalidLtvzeroState()
++        );
++        _pool.setConfiguration(asset, currentConfig);
++    }
++
++    /// @inheritdoc IPoolConfigurator
+     function setBorrowableInIsolation(
+         address asset,
+         bool borrowable
+     ) external override onlyRiskOrPoolAdmins {
+@@ -340,11 +373,9 @@
+         DataTypes.ReserveConfigurationMap memory currentConfig = _pool
+             .getConfiguration(asset);
+ 
+         uint256 oldDebtCeiling = currentConfig.getDebtCeiling();
+-        if (
+-            currentConfig.getLiquidationThreshold() != 0 && oldDebtCeiling == 0
+-        ) {
++        if (_checkAssetIsCollateral(asset) && oldDebtCeiling == 0) {
+             _checkNoSuppliers(asset);
+         }
+         currentConfig.setDebtCeiling(newDebtCeiling);
+         _pool.setConfiguration(asset, currentConfig);
+@@ -482,8 +513,41 @@
+         require(
+             reserveData.id != 0 || _pool.getReservesList()[0] == asset,
+             Errors.AssetNotListed()
+         );
++        // Disabling an asset from an eMode is always a difficult situation and
++        // must be performed taking into account the current exposure.
++        // The following checks only ensure the protocol stays in a valid state, it does not account for effects triggered by the change.
++        if (!allowed) {
++            DataTypes.ReserveConfigurationMap memory currentConfig = _pool
++                .getConfiguration(asset);
++            if (currentConfig.getLiquidationThreshold() == 0)
++                _checkNoSuppliers(asset);
++
++            uint128 ltvzeroBitmap = _pool.getEModeCategoryLtvzeroBitmap(
++                categoryId
++            );
++            // if removing an asset from an eMode it must also be removed from the ltvzero bitmap
++            if (
++                EModeConfiguration.isReserveEnabledOnBitmap(
++                    ltvzeroBitmap,
++                    reserveData.id
++                )
++            ) {
++                _setEmodeLtvZero(
++                    ltvzeroBitmap,
++                    asset,
++                    reserveData.id,
++                    categoryId,
++                    false
++                );
++            }
++        } else {
++            require(
++                !reserveData.configuration.getFrozen(),
++                Errors.ReserveFrozen()
++            );
++        }
+         collateralBitmap = EModeConfiguration.setReserveBitmapBit(
+             collateralBitmap,
+             reserveData.id,
+             allowed
+@@ -523,8 +587,48 @@
+         emit AssetBorrowableInEModeChanged(asset, categoryId, borrowable);
+     }
+ 
+     /// @inheritdoc IPoolConfigurator
++    function setAssetLtvzeroInEMode(
++        address asset,
++        uint8 categoryId,
++        bool ltvzero
++    ) external onlyRiskOrPoolOrEmergencyAdmins {
++        uint128 ltvzeroBitmap = _pool.getEModeCategoryLtvzeroBitmap(categoryId);
++        DataTypes.ReserveDataLegacy memory reserveData = _pool.getReserveData(
++            asset
++        );
++        require(
++            reserveData.id != 0 || _pool.getReservesList()[0] == asset,
++            Errors.AssetNotListed()
++        );
++        uint128 collateralBitmap = _pool.getEModeCategoryCollateralBitmap(
++            categoryId
++        );
++        require(
++            EModeConfiguration.isReserveEnabledOnBitmap(
++                collateralBitmap,
++                reserveData.id
++            ),
++            Errors.MustBeEmodeCollateral(asset, categoryId)
++        );
++        // ltvzero can only be removed on non frozen reserves
++        if (!ltvzero) {
++            require(
++                !reserveData.configuration.getFrozen(),
++                Errors.ReserveFrozen()
++            );
++        }
++        _setEmodeLtvZero(
++            ltvzeroBitmap,
++            asset,
++            reserveData.id,
++            categoryId,
++            ltvzero
++        );
++    }
++
++    /// @inheritdoc IPoolConfigurator
+     function setReserveInterestRateData(
+         address asset,
+         bytes calldata rateData
+     ) external onlyRiskOrPoolAdmins {
+@@ -593,8 +697,85 @@
+     function getConfiguratorLogic() external pure returns (address) {
+         return address(ConfiguratorLogic);
+     }
+ 
++    function _setReserveLtvzero(
++        address asset,
++        bool ltvZero,
++        DataTypes.ReserveConfigurationMap memory currentConfig
++    ) internal {
++        uint256 newLtv;
++        uint256 newPendingLtv;
++        if (ltvZero) {
++            if (currentConfig.getLtv() == 0) return;
++            newPendingLtv = currentConfig.getLtv();
++            _pendingLtv[asset] = newPendingLtv;
++            currentConfig.setLtv(0);
++        } else {
++            // ltvzero can only be removed on non frozen reserves
++            require(!currentConfig.getFrozen(), Errors.ReserveFrozen());
++            newLtv = _pendingLtv[asset];
++            if (newLtv == 0 || currentConfig.getLtv() != 0) return;
++            currentConfig.setLtv(newLtv);
++            delete _pendingLtv[asset];
++        }
++        emit PendingLtvChanged(asset, newPendingLtv);
++        emit CollateralConfigurationChanged(
++            asset,
++            newLtv,
++            currentConfig.getLiquidationThreshold(),
++            currentConfig.getLiquidationBonus()
++        );
++    }
++
++    function _setEmodeLtvZero(
++        uint128 ltvzeroBitmap,
++        address reserve,
++        uint16 reserveId,
++        uint8 eModeCategoryId,
++        bool ltvzero
++    ) internal {
++        ltvzeroBitmap = EModeConfiguration.setReserveBitmapBit(
++            ltvzeroBitmap,
++            reserveId,
++            ltvzero
++        );
++        _pool.configureEModeCategoryLtvzeroBitmap(
++            eModeCategoryId,
++            ltvzeroBitmap
++        );
++        emit AssetLtvzeroInEModeChanged(reserve, eModeCategoryId, ltvzero);
++    }
++
++    function _checkAssetIsCollateral(
++        address asset
++    ) internal view returns (bool) {
++        DataTypes.ReserveDataLegacy memory reserveData = _pool.getReserveData(
++            asset
++        );
++        DataTypes.ReserveConfigurationMap memory currentConfig = reserveData
++            .configuration;
++
++        if (currentConfig.getLiquidationThreshold() != 0) return true;
++        uint128 collateralEnabledBitmap;
++        // The loop will worst case do 255 SLOADs, which should be around ~550k gas.
++        // uint256 to not overflow when `j = type(uint8).max + 1`
++        for (uint256 j = 1; j <= type(uint8).max; j++) {
++            collateralEnabledBitmap = _pool.getEModeCategoryCollateralBitmap(
++                uint8(j)
++            );
++            if (
++                EModeConfiguration.isReserveEnabledOnBitmap(
++                    collateralEnabledBitmap,
++                    reserveData.id
++                )
++            ) {
++                return true;
++            }
++        }
++        return false;
++    }
++
+     function _checkNoSuppliers(address asset) internal view {
+         DataTypes.ReserveDataLegacy memory reserveData = _pool.getReserveData(
+             asset
+         );
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/protocol/libraries/types/DataTypes.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol
+@@ -144,8 +144,9 @@
+         uint16 liquidationBonus;
+         uint128 collateralBitmap;
+         string label;
+         uint128 borrowableBitmap;
++        uint128 ltvzeroBitmap; // if true, the asset will be treated as ltv0 and ltv0 rules apply
+     }
+ 
+     enum InterestRateMode {
+         NONE,
+@@ -188,8 +189,9 @@
+         address interestRateStrategyAddress;
+         uint256 amount;
+         address onBehalfOf;
+         uint16 referralCode;
++        uint8 supplierEModeCategory;
+     }
+ 
+     struct ExecuteBorrowParams {
+         address asset;
+@@ -212,8 +214,10 @@
+         uint256 amount;
+         InterestRateMode interestRateMode;
+         address onBehalfOf;
+         bool useATokens;
++        address oracle;
++        uint8 userEModeCategory;
+     }
+ 
+     struct ExecuteWithdrawParams {
+         address user;
+@@ -235,11 +239,10 @@
+     struct FinalizeTransferParams {
+         address asset;
+         address from;
+         address to;
+-        uint256 amount;
+-        uint256 balanceFromBefore;
+-        uint256 balanceToBefore;
++        uint256 scaledAmount;
++        uint256 scaledBalanceFromBefore;
+         address oracle;
+         uint8 fromEModeCategory;
+     }
+ 
+@@ -292,9 +295,9 @@
+         ReserveCache reserveCache;
+         UserConfigurationMap userConfig;
+         address asset;
+         address userAddress;
+-        uint256 amount;
++        uint256 amountScaled;
+         InterestRateMode interestRateMode;
+         address oracle;
+         uint8 userEModeCategory;
+         address priceOracleSentinel;
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/protocol/libraries/helpers/Errors.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/helpers/Errors.sol
+@@ -34,9 +34,8 @@
+     error ReservePaused(); // 'Action cannot be performed because the reserve is paused'
+     error BorrowingNotEnabled(); // 'Borrowing is not enabled'
+     error NotEnoughAvailableUserBalance(); // 'User cannot withdraw more than the available balance'
+     error InvalidInterestRateModeSelected(); // 'Invalid interest rate mode selected'
+-    error CollateralBalanceIsZero(); // 'The collateral balance is 0'
+     error HealthFactorLowerThanLiquidationThreshold(); // 'Health factor is below the liquidation threshold'
+     error CollateralCannotCoverNewBorrow(); // 'There is not enough collateral to cover a new borrow'
+     error NoDebtOfSelectedType(); // 'For repayment of a specific type of debt, the user needs to have debt that type'
+     error NoExplicitAmountToRepayOnBehalf(); // 'To repay on behalf of a user an explicit amount to repay is needed'
+@@ -88,12 +87,16 @@
+     error CallerNotRiskOrPoolOrEmergencyAdmin(); // 'The caller of the function is not a risk, pool or emergency admin'
+     error LiquidationGraceSentinelCheckFailed(); // 'Liquidation grace sentinel validation failed'
+     error InvalidGracePeriod(); // Grace period above a valid range
+     error InvalidFreezeState(); // Reserve is already in the passed freeze state
++    error InvalidLtvzeroState(); // Reserve is already in the passed ltvzero state
+     error NotBorrowableInEMode(); // Asset not borrowable in eMode
+     error CallerNotUmbrella(); // The caller of the function is not the umbrella contract
+     error ReserveNotInDeficit(); // The reserve is not in deficit
+     error MustNotLeaveDust(); // Below a certain threshold liquidators need to take the full position
+     error UserCannotHaveDebt(); // Thrown when a user tries to interact with a method that requires a position without debt
+     error SelfLiquidation(); // Thrown when a user tries to liquidate themselves
+     error CallerNotPositionManager(); // Thrown when the caller has not been enabled as a position manager of the on-behalf-of user
++    error InvalidCollateralInEmode(address reserve, uint256 categoryId); /// Thrown when trying to enter an eMode with an invalid collateral asset
++    error InvalidDebtInEmode(address reserve, uint256 categoryId); /// Thrown when trying to enter an eMode with an invalid debt asset
++    error MustBeEmodeCollateral(address reserve, uint256 categoryId); /// Thrown when trying to configure an asset as eMode-ltvzero that is not an eMode collateral
+ }
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/protocol/libraries/math/PercentageMath.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/math/PercentageMath.sol
+@@ -48,8 +48,50 @@
+             )
+         }
+     }
+ 
++    function percentMulCeil(
++        uint256 value,
++        uint256 percentage
++    ) internal pure returns (uint256 result) {
++        // to avoid overflow, value <= type(uint256).max / percentage
++        assembly {
++            if iszero(
++                or(
++                    iszero(percentage),
++                    iszero(gt(value, div(not(0), percentage)))
++                )
++            ) {
++                revert(0, 0)
++            }
++
++            let product := mul(value, percentage)
++            result := add(
++                div(product, PERCENTAGE_FACTOR),
++                iszero(iszero(mod(product, PERCENTAGE_FACTOR)))
++            )
++        }
++    }
++
++    function percentMulFloor(
++        uint256 value,
++        uint256 percentage
++    ) internal pure returns (uint256 result) {
++        // to avoid overflow, value <= type(uint256).max / percentage
++        assembly {
++            if iszero(
++                or(
++                    iszero(percentage),
++                    iszero(gt(value, div(not(0), percentage)))
++                )
++            ) {
++                revert(0, 0)
++            }
++
++            result := div(mul(value, percentage), PERCENTAGE_FACTOR)
++        }
++    }
++
+     /**
+      * @notice Executes a percentage division
+      * @dev assembly optimized for improved gas savings, see https://twitter.com/transmissions11/status/1451131036377571328
+      * @param value The value of which the percentage needs to be calculated
+@@ -84,5 +126,25 @@
+                 percentage
+             )
+         }
+     }
++
++    function percentDivCeil(
++        uint256 value,
++        uint256 percentage
++    ) internal pure returns (uint256 result) {
++        // to avoid overflow, value <= type(uint256).max / PERCENTAGE_FACTOR
++        assembly {
++            if or(
++                iszero(percentage),
++                iszero(iszero(gt(value, div(not(0), PERCENTAGE_FACTOR))))
++            ) {
++                revert(0, 0)
++            }
++            let val := mul(value, PERCENTAGE_FACTOR)
++            result := add(
++                div(val, percentage),
++                iszero(iszero(mod(val, percentage)))
++            )
++        }
++    }
+ }
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/interfaces/IPoolConfigurator.sol
++++ lib/aave-v3-origin/src/contracts/interfaces/IPoolConfigurator.sol
+@@ -176,8 +176,20 @@
+         bool borrowable
+     );
+ 
+     /**
++     * @dev Emitted when the ltvzero configuration of an asset in an eMode changed.
++     * @param asset The address of the underlying asset of the reserve
++     * @param categoryId The eMode category
++     * @param ltvzero True if the asset is enabled as ltvzero in the eMode, false otherwise.
++     */
++    event AssetLtvzeroInEModeChanged(
++        address indexed asset,
++        uint8 categoryId,
++        bool ltvzero
++    );
++
++    /**
+      * @dev Emitted when a new eMode category is added or an existing category is altered.
+      * @param categoryId The new eMode category id
+      * @param ltv The ltv for the asset category in eMode
+      * @param liquidationThreshold The liquidationThreshold for the asset category in eMode
+@@ -367,14 +379,23 @@
+ 
+     /**
+      * @notice Freeze or unfreeze a reserve. A frozen reserve doesn't allow any new supply, borrow
+      * or rate swap but allows repayments, liquidations, rate rebalances and withdrawals.
++     * Also sets ltvzero on affected eModes and reserve ltv to 0.
++     * Stores the current reserve ltv in pendingLtv[asset].
+      * @param asset The address of the underlying asset of the reserve
+      * @param freeze True if the reserve needs to be frozen, false otherwise
+      */
+     function setReserveFreeze(address asset, bool freeze) external;
+ 
+     /**
++     * @notice Restores the pending ltv for a reserve in non-emode (emode 0), if it is non-zero.
++     * @param asset The address of the underlying asset of the reserve
++     * @param ltvzero True if the reserve should be flagged as ltvzero, false otherwise
++     */
++    function setReserveLtvzero(address asset, bool ltvzero) external;
++
++    /**
+      * @notice Sets the borrowable in isolation flag for the reserve.
+      * @dev When this flag is set to true, the asset will be borrowable against isolated collaterals and the
+      * borrowed amount will be accumulated in the isolated collateral's total debt exposure
+      * @dev Only assets of the same family (e.g. USD stablecoins) should be borrowable in isolation mode to keep
+@@ -475,9 +496,8 @@
+     function setLiquidationProtocolFee(address asset, uint256 newFee) external;
+ 
+     /**
+      * @notice Enables/disables an asset to be borrowable in a selected eMode.
+-     * - eMode.borrowable always has less priority then reserve.borrowable
+      * @param asset The address of the underlying asset of the reserve
+      * @param categoryId The eMode categoryId
+      * @param borrowable True if the asset should be borrowable in the given eMode category, false otherwise.
+      */
+@@ -499,8 +519,20 @@
+         bool collateral
+     ) external;
+ 
+     /**
++     * @notice Enables/disables an asset to be collateral in a selected eMode.
++     * @param asset The address of the underlying asset of the reserve
++     * @param categoryId The eMode categoryId
++     * @param ltvzero True if the asset should be ltvzero in the given eMode category, false otherwise.
++     */
++    function setAssetLtvzeroInEMode(
++        address asset,
++        uint8 categoryId,
++        bool ltvzero
++    ) external;
++
++    /**
+      * @notice Adds a new efficiency mode (eMode) category or alters a existing one.
+      * @param categoryId The id of the category to be configured
+      * @param ltv The ltv associated with the category
+      * @param liquidationThreshold The liquidation threshold associated with the category

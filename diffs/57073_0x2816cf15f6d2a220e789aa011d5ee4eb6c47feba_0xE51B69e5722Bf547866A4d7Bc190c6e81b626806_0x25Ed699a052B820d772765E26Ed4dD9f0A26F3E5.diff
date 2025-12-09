@@ -52,7 +52,7 @@ Index: settings
      "solidity-utils/=lib/solidity-utils/src/",
      "forge-std/=lib/forge-std/src/",
      "ds-test/=lib/forge-std/lib/ds-test/src/",
-@@ -53,6 +9,31 @@
+@@ -53,6 +9,43 @@
      "@openzeppelin/contracts/=lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
      "erc4626-tests/=lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
      "halmos-cheatcodes/=lib/solidity-utils/lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/"
@@ -82,6 +82,18 @@ Index: settings
 +    },
 +    "src/contracts/protocol/libraries/logic/ConfiguratorLogic.sol": {
 +      "ConfiguratorLogic": "0x6E2aFD57a161d12f34f416c29619BFeAcAC8AA18"
++    },
++    "src/contracts/protocol/libraries/logic/FlashLoanLogic.sol": {
++      "FlashLoanLogic": "0xE66AdcF153d0bD67a74e5d23e23F90b4011024EC"
++    },
++    "src/contracts/protocol/libraries/logic/LiquidationLogic.sol": {
++      "LiquidationLogic": "0x8dc095F287dBEBD9e15f75BB3DfBF18389BB8104"
++    },
++    "src/contracts/protocol/libraries/logic/PoolLogic.sol": {
++      "PoolLogic": "0x25Ed699a052B820d772765E26Ed4dD9f0A26F3E5"
++    },
++    "src/contracts/protocol/libraries/logic/SupplyLogic.sol": {
++      "SupplyLogic": "0x33654b16A4De97bCE05d7dD06803Bf1066f3123C"
 +    }
 +  }
  }

@@ -24,7 +24,7 @@
       "aToken": "0xd80A5e16DBDC52Bd1C947CEDfA22c562Be9129C8",
       "aTokenName": "Aave Scroll weETH",
       "aTokenSymbol": "aScrweETH",
-      "aTokenUnderlyingBalance": "1508185146402761429942",
+      "aTokenUnderlyingBalance": "1150271527456227723387",
       "borrowCap": 1,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -44,7 +44,7 @@
       "oracle": "0x32f924C0e0F1Abf5D1ff35B05eBc5E844dEdD2A9",
       "oracleDecimals": 8,
       "oracleDescription": "Capped weETH / eETH(ETH) / USD",
-      "oracleLatestAnswer": "323074912407",
+      "oracleLatestAnswer": "336193147486",
       "reserveFactor": 5000,
       "supplyCap": 5000,
       "symbol": "weETH",
@@ -53,13 +53,13 @@
       "variableDebtToken": "0x009D88C6a6B4CaA240b71C98BA93732e26F2A55A",
       "variableDebtTokenName": "Aave Scroll Variable Debt weETH",
       "variableDebtTokenSymbol": "variableDebtScrweETH",
-      "virtualBalance": "1508185146402761429942"
+      "virtualBalance": "1150271527456227723387"
     },
     "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4": {
       "aToken": "0x1D738a3436A8C49CefFbaB7fbF04B660fb528CbD",
       "aTokenName": "Aave Scroll USDC",
       "aTokenSymbol": "aScrUSDC",
-      "aTokenUnderlyingBalance": "408961745146",
+      "aTokenUnderlyingBalance": "350479154017",
       "borrowCap": 1900000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -79,7 +79,7 @@
       "oracle": "0x1685D81212580DD4cDA287616C2f6F4794927e18",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDC/USD",
-      "oracleLatestAnswer": "99980461",
+      "oracleLatestAnswer": "99980999",
       "reserveFactor": 5000,
       "supplyCap": 2000000,
       "symbol": "USDC",
@@ -88,13 +88,13 @@
       "variableDebtToken": "0x3d2E209af5BFa79297C88D6b57F89d792F6E28EE",
       "variableDebtTokenName": "Aave Scroll Variable Debt USDC",
       "variableDebtTokenSymbol": "variableDebtScrUSDC",
-      "virtualBalance": "408961622278"
+      "virtualBalance": "350479031149"
     },
     "0x5300000000000000000000000000000000000004": {
       "aToken": "0xf301805bE1Df81102C957f6d4Ce29d2B8c056B2a",
       "aTokenName": "Aave Scroll WETH",
       "aTokenSymbol": "aScrWETH",
-      "aTokenUnderlyingBalance": "2321077173106695056147",
+      "aTokenUnderlyingBalance": "2324293531126030107622",
       "borrowCap": 4500,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -114,7 +114,7 @@
       "oracle": "0x6bF14CB0A831078629D993FDeBcB182b21A8774C",
       "oracleDecimals": 8,
       "oracleDescription": "ETH / USD",
-      "oracleLatestAnswer": "298616749810",
+      "oracleLatestAnswer": "310331388913",
       "reserveFactor": 5000,
       "supplyCap": 5000,
       "symbol": "WETH",
@@ -123,13 +123,13 @@
       "variableDebtToken": "0xfD7344CeB1Df9Cf238EcD667f4A6F99c6Ef44a56",
       "variableDebtTokenName": "Aave Scroll Variable Debt WETH",
       "variableDebtTokenSymbol": "variableDebtScrWETH",
-      "virtualBalance": "2321077172455948963354"
+      "virtualBalance": "2324293530475284014829"
     },
     "0xd29687c813D741E2F938F4aC377128810E217b1b": {
       "aToken": "0x25718130C2a8eb94e2e1FAFB5f1cDd4b459aCf64",
       "aTokenName": "Aave Scroll SCR",
       "aTokenSymbol": "aScrSCR",
-      "aTokenUnderlyingBalance": "617071827340031728482990",
+      "aTokenUnderlyingBalance": "613929505661659445704004",
       "borrowCap": 1,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -149,7 +149,7 @@
       "oracle": "0x26f6F7C468EE309115d19Aa2055db5A74F8cE7A5",
       "oracleDecimals": 8,
       "oracleDescription": "SCR / USD",
-      "oracleLatestAnswer": "11412831",
+      "oracleLatestAnswer": "8721980",
       "reserveFactor": 5000,
       "supplyCap": 1500000,
       "symbol": "SCR",
@@ -158,13 +158,13 @@
       "variableDebtToken": "0xFFbA405BBF25B2e6C454d18165F2fd8786858c6B",
       "variableDebtTokenName": "Aave Scroll Variable Debt SCR",
       "variableDebtTokenSymbol": "variableDebtScrSCR",
-      "virtualBalance": "617071827340031728482990"
+      "virtualBalance": "613929505661659445704004"
     },
     "0xf610A9dfB7C89644979b4A0f27063E9e7d7Cda32": {
       "aToken": "0x5B1322eeb46240b02e20062b8F0F9908d525B09c",
       "aTokenName": "Aave Scroll wstETH",
       "aTokenSymbol": "aScrwstETH",
-      "aTokenUnderlyingBalance": "443275005960968392769",
+      "aTokenUnderlyingBalance": "120214824445458999573",
       "borrowCap": 500,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -184,7 +184,7 @@
       "oracle": "0x4EdAbf45e78363b8Dcd763bBbd05665c6e24975C",
       "oracleDecimals": 8,
       "oracleDescription": "Capped wstETH / stETH(ETH) / USD",
-      "oracleLatestAnswer": "364198396671",
+      "oracleLatestAnswer": "379005627690",
       "reserveFactor": 5000,
       "supplyCap": 1000,
       "symbol": "wstETH",
@@ -193,7 +193,7 @@
       "variableDebtToken": "0x8a035644322129800C3f747f54Db0F4d3c0A2877",
       "variableDebtTokenName": "Aave Scroll Variable Debt wstETH",
       "variableDebtTokenSymbol": "variableDebtScrwstETH",
-      "virtualBalance": "443275004626299882145"
+      "virtualBalance": "120214823110790488949"
     }
   },
   "strategies": {
@@ -208,17 +208,17 @@
     "0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4": {
       "address": "0xC37353E5766164D8654D3CB395acfDcA4c2E7Ddc",
       "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "460000000000000000000000000",
+      "maxVariableBorrowRate": "455000000000000000000000000",
       "optimalUsageRatio": "900000000000000000000000000",
-      "variableRateSlope1": "60000000000000000000000000",
+      "variableRateSlope1": "55000000000000000000000000",
       "variableRateSlope2": "400000000000000000000000000"
     },
     "0x5300000000000000000000000000000000000004": {
       "address": "0xC37353E5766164D8654D3CB395acfDcA4c2E7Ddc",
       "baseVariableBorrowRate": "0",
-      "maxVariableBorrowRate": "107000000000000000000000000",
+      "maxVariableBorrowRate": "105000000000000000000000000",
       "optimalUsageRatio": "900000000000000000000000000",
-      "variableRateSlope1": "27000000000000000000000000",
+      "variableRateSlope1": "25000000000000000000000000",
       "variableRateSlope2": "80000000000000000000000000"
     },
     "0xd29687c813D741E2F938F4aC377128810E217b1b": {
