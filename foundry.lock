@@ -2,13 +2,13 @@
   "lib/aave-helpers": {
     "branch": {
       "name": "main",
-      "rev": "3d0ea8ba8144a920a229ad9d354c45ba22e36dfc"
+      "rev": "227c7d5245256da1cee28ece0f00cd19cf36fee3"
     }
   },
   "lib/aave-v3-origin": {
     "branch": {
       "name": "v3.6.0",
-      "rev": "ce5d9ef3b8ad30eb7dbbd3e16a998a1b4de8e954"
+      "rev": "28bb181c6f3bd2920978bbee6b27e5483f40bddf"
     }
   },
   "lib/forge-std": {
