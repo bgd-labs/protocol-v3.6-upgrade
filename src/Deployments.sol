@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.10;
 
-// TODO update addresses for v3.5 payloads
 library Deployments {
   address public constant BASE = address(0x3D7a80B4c666FB285ca49f145F8467FaA80dB301); // cancun
   address public constant GNOSIS = address(0x073264F6F30f8a50189E144967B7f22a6D22003f); // cancun
@@ -15,7 +14,7 @@ library Deployments {
   address public constant CELO = address(0x0A2b39388E7B716da882DcDAB6080F57f9a8B9a1); // cancun
   address public constant SCROLL = address(0x0a4C8f5740c9e21d64484Ccfcd85a2FeaDC004d5); // cancun
   address public constant LINEA = address(0xef45332E99700297e813F0E236E14a48A4CfAC99); // cancun
-  address public constant ZKSYNC = address(0); // cancun
+  address public constant ZKSYNC = address(0xA485DE0D7D43B2b47731ae436daa1de32033fC12); // cancun
   address public constant SONEIUM = address(0x7ada3b2963342ce5417f31f82e0eFfa8E1494350); // cancun
   address public constant INK = address(0x386547279911303Cb6Dc9443477C46bDa96c280C); // cancun
   address public constant PLASMA = address(0x23cEfa65515274C5832F1D4F789E1d27b301e1E6); // cancun
