@@ -14,13 +14,14 @@ import {UpgradePayload} from "./UpgradePayload.sol";
 
 /**
  * @title UpgradePayloadMainnetCore
- * @notice Upgrade payload for the ETH Mainnet network for the Core Pool to upgrade the Aave v3.4 to v3.5
+ * @notice Upgrade payload for the ETH Mainnet network for the Core Pool to upgrade the Aave v3.5 to v3.6
  * @author BGD Labs
  */
 contract UpgradePayloadMainnetCore is UpgradePayload {
   struct ConstructorMainnetParams {
     IPoolAddressesProvider poolAddressesProvider;
     address poolImpl;
+    address poolConfiguratorImpl;
     address aTokenImpl;
     address vTokenImpl;
     address vTokenGhoImpl;
@@ -32,14 +33,13 @@ contract UpgradePayloadMainnetCore is UpgradePayload {
   address public immutable A_TOKEN_WITH_DELEGATION_IMPL;
 
   constructor(ConstructorMainnetParams memory params)
-    UpgradePayload(
-      ConstructorParams({
+    UpgradePayload(ConstructorParams({
         poolAddressesProvider: params.poolAddressesProvider,
         poolImpl: params.poolImpl,
+        poolConfiguratorImpl: params.poolConfiguratorImpl,
         aTokenImpl: params.aTokenImpl,
         vTokenImpl: params.vTokenImpl
-      })
-    )
+      }))
   {
     IPool pool = IPool(params.poolAddressesProvider.getPool());
 

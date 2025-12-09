@@ -4,8 +4,8 @@
 [submodule "lib/aave-helpers"]
 	path = lib/aave-helpers
 	url = https://github.com/bgd-labs/aave-helpers
-	branch = feat/changes-for-3_5-version
+	branch = main
 [submodule "lib/aave-v3-origin"]
 	path = lib/aave-v3-origin
-	url = https://github.com/aave-dao/aave-v3-origin
-	branch = v3.5.0
+	url = https://github.com/bgd-labs/aave-v3-origin-private.git
+	branch = v3.6.0
