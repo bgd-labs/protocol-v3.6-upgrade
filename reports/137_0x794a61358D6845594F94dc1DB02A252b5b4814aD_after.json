@@ -341,12 +341,12 @@
       "nonceDiff": null,
       "stateDiff": {
         "0x291b3f5beaf27de1fcd805bfa0533ac930d6820e7b252f1f7582c712b496fdf3": {
-          "previousValue": "0x00691f21f2000000000002000000000000000000000000000000000000000000",
-          "newValue": "0x00691f21f2000000000003000000000000000000000000000000000000000000"
+          "previousValue": "0x00693816c2000000000002000000000000000000000000000000000000000000",
+          "newValue": "0x00693816c2000000000003000000000000000000000000000000000000000000"
         },
         "0x291b3f5beaf27de1fcd805bfa0533ac930d6820e7b252f1f7582c712b496fdf4": {
-          "previousValue": "0x000000000000000000093a80000000000000694d467300000000000000000000",
-          "newValue": "0x000000000000000000093a80000000000000694d4673000000000000691f21f3"
+          "previousValue": "0x000000000000000000093a8000000000000069663b4300000000000000000000",
+          "newValue": "0x000000000000000000093a8000000000000069663b43000000000000693816c3"
         }
       }
     },
@@ -946,7 +946,7 @@
         },
         "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc": {
           "previousValue": "0x0000000000000000000000005793fe4de34532f162b4e207af872729880ec2b6",
-          "newValue": "0x00000000000000000000000095de1c8192f424bbe2f238181d3a8d4853ea4c60"
+          "newValue": "0x0000000000000000000000006fddde45f777a4e461b0721a578b169b44579623"
         }
       }
     },
@@ -1848,7 +1848,7 @@
       "aToken": "0xf59036CAEBeA7dC4b86638DFA2E3C97dA9FcCd40",
       "aTokenName": "Aave Polygon wstETH",
       "aTokenSymbol": "aPolwstETH",
-      "aTokenUnderlyingBalance": "4596341068196823284753",
+      "aTokenUnderlyingBalance": "4631090090698284637382",
       "borrowCap": 210,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -1868,7 +1868,7 @@
       "oracle": "0xBD96b5ABBC6048c28184b462167E487533F2e35E",
       "oracleDecimals": 8,
       "oracleDescription": "Capped wstETH / stETH(ETH) / USD",
-      "oracleLatestAnswer": "362309008562",
+      "oracleLatestAnswer": "382215949728",
       "reserveFactor": 500,
       "supplyCap": 11500,
       "symbol": "wstETH",
@@ -1877,13 +1877,13 @@
       "variableDebtToken": "0x77fA66882a8854d883101Fb8501BD3CaD347Fc32",
       "variableDebtTokenName": "Aave Polygon Variable Debt wstETH",
       "variableDebtTokenSymbol": "variableDebtPolwstETH",
-      "virtualBalance": "4596341065463213210922"
+      "virtualBalance": "4631090087964674563551"
     },
     "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a": {
       "aToken": "0xc45A479877e1e9Dfe9FcD4056c699575a1045dAA",
       "aTokenName": "Aave Polygon SUSHI",
       "aTokenSymbol": "aPolSUSHI",
-      "aTokenUnderlyingBalance": "58076665704827618510973",
+      "aTokenUnderlyingBalance": "57986797565317566513091",
       "borrowCap": 180000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -1903,7 +1903,7 @@
       "oracle": "0x49B0c695039243BBfEb8EcD054EB70061fd54aa0",
       "oracleDecimals": 8,
       "oracleDescription": "SUSHI / USD",
-      "oracleLatestAnswer": "46280851",
+      "oracleLatestAnswer": "33169000",
       "reserveFactor": 2000,
       "supplyCap": 299320,
       "symbol": "SUSHI",
@@ -1912,13 +1912,13 @@
       "variableDebtToken": "0x34e2eD44EF7466D5f9E0b782B5c08b57475e7907",
       "variableDebtTokenName": "Aave Polygon Variable Debt SUSHI",
       "variableDebtTokenSymbol": "variableDebtPolSUSHI",
-      "virtualBalance": "58071979310947209900769"
+      "virtualBalance": "57982111171437157902887"
     },
     "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270": {
       "aToken": "0x6d80113e533a2C0fe82EaBD35f1875DcEA89Ea97",
       "aTokenName": "Aave Polygon WMATIC",
       "aTokenSymbol": "aPolWMATIC",
-      "aTokenUnderlyingBalance": "37824249086396416300541483",
+      "aTokenUnderlyingBalance": "37201175307292689828586914",
       "borrowCap": 30430000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -1938,7 +1938,7 @@
       "oracle": "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",
       "oracleDecimals": 8,
       "oracleDescription": "MATIC / USD",
-      "oracleLatestAnswer": "14932366",
+      "oracleLatestAnswer": "12346968",
       "reserveFactor": 2000,
       "supplyCap": 105000000,
       "symbol": "WPOL",
@@ -1947,13 +1947,13 @@
       "variableDebtToken": "0x4a1c3aD6Ed28a636ee1751C69071f6be75DEb8B8",
       "variableDebtTokenName": "Aave Polygon Variable Debt WMATIC",
       "variableDebtTokenSymbol": "variableDebtPolWMATIC",
-      "virtualBalance": "37824219085919385863074264"
+      "virtualBalance": "37201145306815659391119695"
     },
     "0x172370d5Cd63279eFa6d502DAB29171933a610AF": {
       "aToken": "0x513c7E3a9c69cA3e22550eF58AC1C0088e918FFf",
       "aTokenName": "Aave Polygon CRV",
       "aTokenSymbol": "aPolCRV",
-      "aTokenUnderlyingBalance": "47565596234122111473120",
+      "aTokenUnderlyingBalance": "46994133895966230505433",
       "borrowCap": 300000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -1973,7 +1973,7 @@
       "oracle": "0x336584C8E6Dc19637A5b36206B1c79923111b405",
       "oracleDecimals": 8,
       "oracleDescription": "CRV / USD",
-      "oracleLatestAnswer": "44017908",
+      "oracleLatestAnswer": "39302181",
       "reserveFactor": 3500,
       "supplyCap": 1400000,
       "symbol": "CRV",
@@ -1982,13 +1982,13 @@
       "variableDebtToken": "0x77CA01483f379E58174739308945f044e1a764dc",
       "variableDebtTokenName": "Aave Polygon Variable Debt CRV",
       "variableDebtTokenSymbol": "variableDebtPolCRV",
-      "virtualBalance": "47565188649982742357820"
+      "virtualBalance": "46993726311826861390133"
     },
     "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6": {
       "aToken": "0x078f358208685046a11C85e8ad32895DED33A249",
       "aTokenName": "Aave Polygon WBTC",
       "aTokenSymbol": "aPolWBTC",
-      "aTokenUnderlyingBalance": "97242614668",
+      "aTokenUnderlyingBalance": "98029175270",
       "borrowCap": 59,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2008,7 +2008,7 @@
       "oracle": "0xc907E116054Ad103354f2D350FD2514433D57F6f",
       "oracleDecimals": 8,
       "oracleDescription": "BTC / USD",
-      "oracleLatestAnswer": "9070480000000",
+      "oracleLatestAnswer": "9052004907700",
       "reserveFactor": 5000,
       "supplyCap": 2500,
       "symbol": "WBTC",
@@ -2017,14 +2017,14 @@
       "variableDebtToken": "0x92b42c66840C7AD907b4BF74879FF3eF7c529473",
       "variableDebtTokenName": "Aave Polygon Variable Debt WBTC",
       "variableDebtTokenSymbol": "variableDebtPolWBTC",
-      "virtualBalance": "97242575046"
+      "virtualBalance": "98029135648"
     },
     "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {
       "aToken": "0x625E7708f30cA75bfd92586e17077590C60eb4cD",
       "aTokenName": "Aave Polygon USDC",
       "aTokenSymbol": "aPolUSDC",
-      "aTokenUnderlyingBalance": "1063159121819",
-      "borrowCap": 10190000,
+      "aTokenUnderlyingBalance": "1396718437601",
+      "borrowCap": 9246000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
       "decimals": 6,
@@ -2043,7 +2043,7 @@
       "oracle": "0x31Ebeb03223AaC82C8EB24C77624Ea40F4D849Fb",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDC/USD",
-      "oracleLatestAnswer": "99985926",
+      "oracleLatestAnswer": "99988000",
       "reserveFactor": 6000,
       "supplyCap": 12000000,
       "symbol": "USDC",
@@ -2052,13 +2052,13 @@
       "variableDebtToken": "0xFCCf3cAbbe80101232d343252614b6A3eE81C989",
       "variableDebtTokenName": "Aave Polygon Variable Debt USDC",
       "variableDebtTokenSymbol": "variableDebtPolUSDC",
-      "virtualBalance": "1062980893293"
+      "virtualBalance": "1396540209075"
     },
     "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7": {
       "aToken": "0x8Eb270e296023E9D92081fdF967dDd7878724424",
       "aTokenName": "Aave Polygon GHST",
       "aTokenSymbol": "aPolGHST",
-      "aTokenUnderlyingBalance": "889304683697372953949060",
+      "aTokenUnderlyingBalance": "875772868439119440541422",
       "borrowCap": 220000,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -2078,7 +2078,7 @@
       "oracle": "0xDD229Ce42f11D8Ee7fFf29bDB71C7b81352e11be",
       "oracleDecimals": 8,
       "oracleDescription": "GHST / USD",
-      "oracleLatestAnswer": "27504879",
+      "oracleLatestAnswer": "20251642",
       "reserveFactor": 3500,
       "supplyCap": 4650000,
       "symbol": "GHST",
@@ -2087,13 +2087,13 @@
       "variableDebtToken": "0xCE186F6Cccb0c955445bb9d10C59caE488Fea559",
       "variableDebtTokenName": "Aave Polygon Variable Debt GHST",
       "variableDebtTokenSymbol": "variableDebtPolGHST",
-      "virtualBalance": "889304683697372953949060"
+      "virtualBalance": "875772868439119440541422"
     },
     "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4": {
       "aToken": "0xEA1132120ddcDDA2F119e99Fa7A27a0d036F7Ac9",
       "aTokenName": "Aave Polygon STMATIC",
       "aTokenSymbol": "aPolSTMATIC",
-      "aTokenUnderlyingBalance": "561198196197365637921242",
+      "aTokenUnderlyingBalance": "374173800669823971821967",
       "borrowCap": 0,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -2113,7 +2113,7 @@
       "oracle": "0x6D02E35031C4D99ee3A6A2BA47FaD0cFE355cA8f",
       "oracleDecimals": 8,
       "oracleDescription": "Capped stMATIC / MATIC / USD",
-      "oracleLatestAnswer": "17191380",
+      "oracleLatestAnswer": "14214855",
       "reserveFactor": 2000,
       "supplyCap": 61000000,
       "symbol": "stMATIC",
@@ -2122,13 +2122,13 @@
       "variableDebtToken": "0x6b030Ff3FB9956B1B69f475B77aE0d3Cf2CC5aFa",
       "variableDebtTokenName": "Aave Polygon Variable Debt STMATIC",
       "variableDebtTokenSymbol": "variableDebtPolSTMATIC",
-      "virtualBalance": "561198196197365637921242"
+      "virtualBalance": "374173800669823971821967"
     },
     "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359": {
       "aToken": "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD",
       "aTokenName": "Aave Polygon USDCn",
       "aTokenSymbol": "aPolUSDCn",
-      "aTokenUnderlyingBalance": "16095077701210",
+      "aTokenUnderlyingBalance": "17632228870533",
       "borrowCap": 71860000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2148,7 +2148,7 @@
       "oracle": "0x31Ebeb03223AaC82C8EB24C77624Ea40F4D849Fb",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDC/USD",
-      "oracleLatestAnswer": "99985926",
+      "oracleLatestAnswer": "99988000",
       "reserveFactor": 2000,
       "supplyCap": 100000000,
       "symbol": "USDC",
@@ -2157,7 +2157,7 @@
       "variableDebtToken": "0xE701126012EC0290822eEA17B794454d1AF8b030",
       "variableDebtTokenName": "Aave Polygon Variable Debt USDCn",
       "variableDebtTokenSymbol": "variableDebtPolUSDCn",
-      "virtualBalance": "16094846423043"
+      "virtualBalance": "17631997592366"
     },
     "0x4e3Decbb3645551B8A19f0eA1678079FCB33fB4c": {
       "aToken": "0x6533afac2E7BCCB20dca161449A13A32D391fb00",
@@ -2183,7 +2183,7 @@
       "oracle": "0x73366Fe0AA0Ded304479862808e02506FE556a98",
       "oracleDecimals": 8,
       "oracleDescription": "EUR / USD",
-      "oracleLatestAnswer": "115240000",
+      "oracleLatestAnswer": "116358500",
       "reserveFactor": 2000,
       "supplyCap": 120000,
       "symbol": "jEUR",
@@ -2198,7 +2198,7 @@
       "aToken": "0x191c10Aa4AF7C30e871E70C95dB0E4eb77237530",
       "aTokenName": "Aave Polygon LINK",
       "aTokenSymbol": "aPolLINK",
-      "aTokenUnderlyingBalance": "331932306741432951054617",
+      "aTokenUnderlyingBalance": "321354190271945608137656",
       "borrowCap": 1,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2218,7 +2218,7 @@
       "oracle": "0xd9FFdb71EbE7496cC440152d43986Aae0AB76665",
       "oracleDecimals": 8,
       "oracleDescription": "LINK / USD",
-      "oracleLatestAnswer": "1350288700",
+      "oracleLatestAnswer": "1378485954",
       "reserveFactor": 2000,
       "supplyCap": 829000,
       "symbol": "LINK",
@@ -2227,13 +2227,13 @@
       "variableDebtToken": "0x953A573793604aF8d41F306FEb8274190dB4aE0e",
       "variableDebtTokenName": "Aave Polygon Variable Debt LINK",
       "variableDebtTokenSymbol": "variableDebtPolLINK",
-      "virtualBalance": "331932300219589302119498"
+      "virtualBalance": "321354183750101959202537"
     },
     "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619": {
       "aToken": "0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8",
       "aTokenName": "Aave Polygon WETH",
       "aTokenSymbol": "aPolWETH",
-      "aTokenUnderlyingBalance": "10517874258048840885547",
+      "aTokenUnderlyingBalance": "10187243798939534368465",
       "borrowCap": 13000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2253,22 +2253,22 @@
       "oracle": "0xF9680D99D6C9589e2a93a78A04A279e509205945",
       "oracleDecimals": 8,
       "oracleDescription": "ETH / USD",
-      "oracleLatestAnswer": "297043280000",
+      "oracleLatestAnswer": "312938336949",
       "reserveFactor": 1500,
-      "supplyCap": 40000,
+      "supplyCap": 36000,
       "symbol": "WETH",
       "underlying": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
       "usageAsCollateralEnabled": true,
       "variableDebtToken": "0x0c84331e39d6658Cd6e6b9ba04736cC4c4734351",
       "variableDebtTokenName": "Aave Polygon Variable Debt WETH",
       "variableDebtTokenSymbol": "variableDebtPolWETH",
-      "virtualBalance": "10517874258048840885547"
+      "virtualBalance": "10187243798939534368465"
     },
     "0x85955046DF4668e1DD369D2DE9f3AEB98DD2A369": {
       "aToken": "0x724dc807b04555b71ed48a6896b6F41593b8C637",
       "aTokenName": "Aave Polygon DPI",
       "aTokenSymbol": "aPolDPI",
-      "aTokenUnderlyingBalance": "318373405448098946419",
+      "aTokenUnderlyingBalance": "319940372496629999945",
       "borrowCap": 779,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2297,14 +2297,14 @@
       "variableDebtToken": "0xf611aEb5013fD2c0511c9CD55c7dc5C1140741A6",
       "variableDebtTokenName": "Aave Polygon Variable Debt DPI",
       "variableDebtTokenSymbol": "variableDebtPolDPI",
-      "virtualBalance": "318373405448098946419"
+      "virtualBalance": "319940372496629999945"
     },
     "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063": {
       "aToken": "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
       "aTokenName": "Aave Polygon DAI",
       "aTokenSymbol": "aPolDAI",
-      "aTokenUnderlyingBalance": "1777814421177112936763453",
-      "borrowCap": 10910000,
+      "aTokenUnderlyingBalance": "1841385304776055223242112",
+      "borrowCap": 8911000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
       "decimals": 18,
@@ -2323,7 +2323,7 @@
       "oracle": "0xa1913Df228db08F02F3F3Dc0f397Af3A2d2f96A1",
       "oracleDecimals": 8,
       "oracleDescription": "Capped DAI/USD",
-      "oracleLatestAnswer": "99980539",
+      "oracleLatestAnswer": "99968600",
       "reserveFactor": 2500,
       "supplyCap": 14290000,
       "symbol": "DAI",
@@ -2332,13 +2332,13 @@
       "variableDebtToken": "0x8619d80FB0141ba7F184CbF22fd724116D9f7ffC",
       "variableDebtTokenName": "Aave Polygon Variable Debt DAI",
       "variableDebtTokenSymbol": "variableDebtPolDAI",
-      "virtualBalance": "1777653525199322192046995"
+      "virtualBalance": "1841224408798264478525654"
     },
     "0x9a71012B13CA4d3D0Cdc72A177DF3ef03b0E76A3": {
       "aToken": "0x8ffDf2DE812095b1D19CB146E4c004587C0A0692",
       "aTokenName": "Aave Polygon BAL",
       "aTokenSymbol": "aPolBAL",
-      "aTokenUnderlyingBalance": "8002763582822820200240",
+      "aTokenUnderlyingBalance": "7825122082837487776567",
       "borrowCap": 290000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2358,7 +2358,7 @@
       "oracle": "0xD106B538F2A868c28Ca1Ec7E298C3325E0251d66",
       "oracleDecimals": 8,
       "oracleDescription": "BAL / USD",
-      "oracleLatestAnswer": "70389000",
+      "oracleLatestAnswer": "67478260",
       "reserveFactor": 2000,
       "supplyCap": 361000,
       "symbol": "BAL",
@@ -2367,13 +2367,13 @@
       "variableDebtToken": "0xA8669021776Bc142DfcA87c21b4A52595bCbB40a",
       "variableDebtTokenName": "Aave Polygon Variable Debt BAL",
       "variableDebtTokenSymbol": "variableDebtPolBAL",
-      "virtualBalance": "8002129648315824936089"
+      "virtualBalance": "7824488148330492512416"
     },
     "0xD6DF932A45C0f255f85145f286eA0b292B21C90B": {
       "aToken": "0xf329e36C7bF6E5E86ce2150875a84Ce77f477375",
       "aTokenName": "Aave Polygon AAVE",
       "aTokenSymbol": "aPolAAVE",
-      "aTokenUnderlyingBalance": "34521445005042613129264",
+      "aTokenUnderlyingBalance": "33237066519686338340936",
       "borrowCap": 0,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -2393,7 +2393,7 @@
       "oracle": "0x72484B12719E23115761D5DA1646945632979bB6",
       "oracleDecimals": 8,
       "oracleDescription": "AAVE / USD",
-      "oracleLatestAnswer": "17475642354",
+      "oracleLatestAnswer": "18955729000",
       "reserveFactor": 0,
       "supplyCap": 81000,
       "symbol": "AAVE",
@@ -2402,13 +2402,13 @@
       "variableDebtToken": "0xE80761Ea617F66F96274eA5e8c37f03960ecC679",
       "variableDebtTokenName": "Aave Polygon Variable Debt AAVE",
       "variableDebtTokenSymbol": "variableDebtPolAAVE",
-      "virtualBalance": "34521445002042613129264"
+      "virtualBalance": "33237066516686338340936"
     },
     "0xE0B52e49357Fd4DAf2c15e02058DCE6BC0057db4": {
       "aToken": "0x8437d7C167dFB82ED4Cb79CD44B7a32A1dd95c77",
       "aTokenName": "Aave Polygon AGEUR",
       "aTokenSymbol": "aPolAGEUR",
-      "aTokenUnderlyingBalance": "4348113406105047481334",
+      "aTokenUnderlyingBalance": "4347808176190140776051",
       "borrowCap": 250000,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -2428,7 +2428,7 @@
       "oracle": "0x73366Fe0AA0Ded304479862808e02506FE556a98",
       "oracleDecimals": 8,
       "oracleDescription": "EUR / USD",
-      "oracleLatestAnswer": "115240000",
+      "oracleLatestAnswer": "116358500",
       "reserveFactor": 2000,
       "supplyCap": 300000,
       "symbol": "EURA",
@@ -2437,13 +2437,13 @@
       "variableDebtToken": "0x3ca5FA07689F266e907439aFd1fBB59c44fe12f6",
       "variableDebtTokenName": "Aave Polygon Variable Debt AGEUR",
       "variableDebtTokenSymbol": "variableDebtPolAGEUR",
-      "virtualBalance": "4345319435966531810331"
+      "virtualBalance": "4345014206051625105048"
     },
     "0xE111178A87A3BFf0c8d18DECBa5798827539Ae99": {
       "aToken": "0x38d693cE1dF5AaDF7bC62595A37D667aD57922e5",
       "aTokenName": "Aave Polygon EURS",
       "aTokenSymbol": "aPolEURS",
-      "aTokenUnderlyingBalance": "74729970",
+      "aTokenUnderlyingBalance": "77206175",
       "borrowCap": 1,
       "borrowingEnabled": true,
       "debtCeiling": 100,
@@ -2463,7 +2463,7 @@
       "oracle": "0x73366Fe0AA0Ded304479862808e02506FE556a98",
       "oracleDecimals": 8,
       "oracleDescription": "EUR / USD",
-      "oracleLatestAnswer": "115240000",
+      "oracleLatestAnswer": "116358500",
       "reserveFactor": 5000,
       "supplyCap": 1,
       "symbol": "EURS",
@@ -2472,13 +2472,13 @@
       "variableDebtToken": "0x5D557B07776D12967914379C71a1310e917C7555",
       "variableDebtTokenName": "Aave Polygon Variable Debt EURS",
       "variableDebtTokenSymbol": "variableDebtPolEURS",
-      "virtualBalance": "74728379"
+      "virtualBalance": "77204584"
     },
     "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1": {
       "aToken": "0xeBe517846d0F36eCEd99C735cbF6131e1fEB775D",
       "aTokenName": "Aave Polygon MIMATIC",
       "aTokenSymbol": "aPolMIMATIC",
-      "aTokenUnderlyingBalance": "10636583354035112972802",
+      "aTokenUnderlyingBalance": "10636613354035112972802",
       "borrowCap": 700000,
       "borrowingEnabled": true,
       "debtCeiling": 18000000,
@@ -2498,7 +2498,7 @@
       "oracle": "0x1e2Ba4725c6847dC8304466c4eA25A872A7D43a8",
       "oracleDecimals": 8,
       "oracleDescription": "Capped MAI/USD",
-      "oracleLatestAnswer": "100278842",
+      "oracleLatestAnswer": "100764500",
       "reserveFactor": 9500,
       "supplyCap": 900000,
       "symbol": "miMATIC",
@@ -2507,13 +2507,13 @@
       "variableDebtToken": "0x18248226C16BF76c032817854E7C83a2113B4f06",
       "variableDebtTokenName": "Aave Polygon Variable Debt MIMATIC",
       "variableDebtTokenSymbol": "variableDebtPolMIMATIC",
-      "virtualBalance": "10636583354035112972802"
+      "virtualBalance": "10636613354035112972802"
     },
     "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": {
       "aToken": "0x6ab707Aca953eDAeFBc4fD23bA73294241490620",
       "aTokenName": "Aave Polygon USDT",
       "aTokenSymbol": "aPolUSDT",
-      "aTokenUnderlyingBalance": "16291401337376",
+      "aTokenUnderlyingBalance": "18820982908874",
       "borrowCap": 85000000,
       "borrowingEnabled": true,
       "debtCeiling": 0,
@@ -2533,7 +2533,7 @@
       "oracle": "0x01Aba1Fe7D72a3490bEef7CD0C09e1Ba2dD88D83",
       "oracleDecimals": 8,
       "oracleDescription": "Capped USDT/USD",
-      "oracleLatestAnswer": "99901000",
+      "oracleLatestAnswer": "99996000",
       "reserveFactor": 2500,
       "supplyCap": 90000000,
       "symbol": "USDT0",
@@ -2542,13 +2542,13 @@
       "variableDebtToken": "0xfb00AC187a8Eb5AFAE4eACE434F493Eb62672df7",
       "variableDebtTokenName": "Aave Polygon Variable Debt USDT",
       "variableDebtTokenSymbol": "variableDebtPolUSDT",
-      "virtualBalance": "16291205642584"
+      "virtualBalance": "18820787214082"
     },
     "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6": {
       "aToken": "0x80cA0d8C38d2e2BcbaB66aA1648Bd1C7160500FE",
       "aTokenName": "Aave Polygon MATICX",
       "aTokenSymbol": "aPolMATICX",
-      "aTokenUnderlyingBalance": "12065404096684707972552848",
+      "aTokenUnderlyingBalance": "10102485687215158476560323",
       "borrowCap": 1,
       "borrowingEnabled": false,
       "debtCeiling": 0,
@@ -2568,7 +2568,7 @@
       "oracle": "0xB0A72A5e454890e9715e059e8df8582a6B383DE3",
       "oracleDecimals": 8,
       "oracleDescription": "Capped MaticX / MATIC / USD",
-      "oracleLatestAnswer": "17514683",
+      "oracleLatestAnswer": "14504090",
       "reserveFactor": 2000,
       "supplyCap": 120000000,
       "symbol": "MaticX",
@@ -2577,7 +2577,7 @@
       "variableDebtToken": "0xB5b46F918C2923fC7f26DB76e8a6A6e9C4347Cf9",
       "variableDebtTokenName": "Aave Polygon Variable Debt MATICX",
       "variableDebtTokenSymbol": "variableDebtPolMATICX",
-      "virtualBalance": "12065404096451611637491899"
+      "virtualBalance": "10102485686982062141499374"
     }
   },
   "strategies": {

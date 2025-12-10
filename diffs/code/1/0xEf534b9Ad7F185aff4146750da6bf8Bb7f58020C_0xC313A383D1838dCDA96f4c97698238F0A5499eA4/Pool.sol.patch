@@ -1,0 +1,159 @@
+Index: lib/aave-v3-origin/src/contracts/protocol/pool/Pool.sol
+===================================================================
+--- lib/aave-v3-origin/src/contracts/protocol/pool/Pool.sol
++++ lib/aave-v3-origin/src/contracts/protocol/pool/Pool.sol
+@@ -6,9 +6,8 @@
+ import {Errors} from "../libraries/helpers/Errors.sol";
+ import {ReserveConfiguration} from "../libraries/configuration/ReserveConfiguration.sol";
+ import {PoolLogic} from "../libraries/logic/PoolLogic.sol";
+ import {ReserveLogic} from "../libraries/logic/ReserveLogic.sol";
+-import {EModeLogic} from "../libraries/logic/EModeLogic.sol";
+ import {SupplyLogic} from "../libraries/logic/SupplyLogic.sol";
+ import {FlashLoanLogic} from "../libraries/logic/FlashLoanLogic.sol";
+ import {BorrowLogic} from "../libraries/logic/BorrowLogic.sol";
+ import {LiquidationLogic} from "../libraries/logic/LiquidationLogic.sol";
+@@ -143,16 +142,18 @@
+     ) public virtual override {
+         SupplyLogic.executeSupply(
+             _reserves,
+             _reservesList,
++            _eModeCategories,
+             _usersConfig[onBehalfOf],
+             DataTypes.ExecuteSupplyParams({
+                 user: _msgSender(),
+                 asset: asset,
+                 interestRateStrategyAddress: RESERVE_INTEREST_RATE_STRATEGY,
+                 amount: amount,
+                 onBehalfOf: onBehalfOf,
+-                referralCode: referralCode
++                referralCode: referralCode,
++                supplierEModeCategory: _usersEModeCategory[onBehalfOf]
+             })
+         );
+     }
+ 
+@@ -180,16 +181,18 @@
+         {} catch {}
+         SupplyLogic.executeSupply(
+             _reserves,
+             _reservesList,
++            _eModeCategories,
+             _usersConfig[onBehalfOf],
+             DataTypes.ExecuteSupplyParams({
+                 user: _msgSender(),
+                 asset: asset,
+                 interestRateStrategyAddress: RESERVE_INTEREST_RATE_STRATEGY,
+                 amount: amount,
+                 onBehalfOf: onBehalfOf,
+-                referralCode: referralCode
++                referralCode: referralCode,
++                supplierEModeCategory: _usersEModeCategory[onBehalfOf]
+             })
+         );
+     }
+ 
+@@ -658,10 +661,9 @@
+         address asset,
+         address from,
+         address to,
+         uint256 scaledAmount,
+-        uint256 scaledBalanceFromBefore,
+-        uint256 scaledBalanceToBefore
++        uint256 scaledBalanceFromBefore
+     ) external virtual override {
+         require(
+             _msgSender() == _reserves[asset].aTokenAddress,
+             Errors.CallerNotAToken()
+@@ -676,9 +678,8 @@
+                 from: from,
+                 to: to,
+                 scaledAmount: scaledAmount,
+                 scaledBalanceFromBefore: scaledBalanceFromBefore,
+-                scaledBalanceToBefore: scaledBalanceToBefore,
+                 oracle: ADDRESSES_PROVIDER.getPriceOracle(),
+                 fromEModeCategory: _usersEModeCategory[from]
+             })
+         );
+@@ -786,8 +787,18 @@
+         _eModeCategories[id].borrowableBitmap = borrowableBitmap;
+     }
+ 
+     /// @inheritdoc IPool
++    function configureEModeCategoryLtvzeroBitmap(
++        uint8 id,
++        uint128 ltvzeroBitmap
++    ) external virtual override onlyPoolConfigurator {
++        // category 0 is reserved for volatile heterogeneous assets and it's always disabled
++        require(id != 0, Errors.EModeCategoryReserved());
++        _eModeCategories[id].ltvzeroBitmap = ltvzeroBitmap;
++    }
++
++    /// @inheritdoc IPool
+     function getEModeCategoryData(
+         uint8 id
+     )
+         external
+@@ -837,10 +848,17 @@
+         return _eModeCategories[id].borrowableBitmap;
+     }
+ 
+     /// @inheritdoc IPool
++    function getEModeCategoryLtvzeroBitmap(
++        uint8 id
++    ) external view returns (uint128) {
++        return _eModeCategories[id].ltvzeroBitmap;
++    }
++
++    /// @inheritdoc IPool
+     function setUserEMode(uint8 categoryId) external virtual override {
+-        EModeLogic.executeSetUserEMode(
++        SupplyLogic.executeSetUserEMode(
+             _reserves,
+             _reservesList,
+             _eModeCategories,
+             _usersEModeCategory,
+@@ -903,16 +921,18 @@
+     ) external virtual override {
+         SupplyLogic.executeSupply(
+             _reserves,
+             _reservesList,
++            _eModeCategories,
+             _usersConfig[onBehalfOf],
+             DataTypes.ExecuteSupplyParams({
+                 user: _msgSender(),
+                 asset: asset,
+                 interestRateStrategyAddress: RESERVE_INTEREST_RATE_STRATEGY,
+                 amount: amount,
+                 onBehalfOf: onBehalfOf,
+-                referralCode: referralCode
++                referralCode: referralCode,
++                supplierEModeCategory: _usersEModeCategory[onBehalfOf]
+             })
+         );
+     }
+ 
+@@ -988,9 +1008,9 @@
+     function setUserEModeOnBehalfOf(
+         uint8 categoryId,
+         address onBehalfOf
+     ) external override onlyPositionManager(onBehalfOf) {
+-        EModeLogic.executeSetUserEMode(
++        SupplyLogic.executeSetUserEMode(
+             _reserves,
+             _reservesList,
+             _eModeCategories,
+             _usersEModeCategory,
+@@ -1040,13 +1060,8 @@
+         return address(BorrowLogic);
+     }
+ 
+     /// @inheritdoc IPool
+-    function getEModeLogic() external pure returns (address) {
+-        return address(EModeLogic);
+-    }
+-
+-    /// @inheritdoc IPool
+     function getLiquidationLogic() external pure returns (address) {
+         return address(LiquidationLogic);
+     }
+ 

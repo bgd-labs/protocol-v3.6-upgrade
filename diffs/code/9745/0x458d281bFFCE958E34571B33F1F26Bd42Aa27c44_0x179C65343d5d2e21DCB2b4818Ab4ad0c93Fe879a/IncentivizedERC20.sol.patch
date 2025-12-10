@@ -1,0 +1,165 @@
+===================================================================
+--- src/contracts/protocol/tokenization/base/IncentivizedERC20.sol
++++ lib/aave-v3-origin/src/contracts/protocol/tokenization/base/IncentivizedERC20.sol
+@@ -171,9 +171,14 @@
+     function approve(
+         address spender,
+         uint256 amount
+     ) external virtual override returns (bool) {
+-        _approve(_msgSender(), spender, amount);
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: amount,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /// @inheritdoc IERC20
+@@ -182,58 +187,82 @@
+         address recipient,
+         uint256 amount
+     ) external virtual override returns (bool) {
+         uint120 castAmount = amount.toUint120();
+-        _approve(
+-            sender,
+-            _msgSender(),
+-            _allowances[sender][_msgSender()] - castAmount
+-        );
++        _spendAllowance({
++            owner: sender,
++            spender: _msgSender(),
++            amount: castAmount,
++            correctedAmount: castAmount
++        });
+         _transfer(sender, recipient, castAmount);
+         return true;
+     }
+ 
+     /**
++     * @notice Sets the allowance of the caller to spend `owner`'s tokens to 0.
++     * @param owner The address whose tokens are being renounced.
++     */
++    function renounceAllowance(address owner) external virtual {
++        _approve({
++            owner: owner,
++            spender: _msgSender(),
++            amount: 0,
++            emitEvent: true
++        });
++    }
++
++    /**
+      * @notice Increases the allowance of spender to spend _msgSender() tokens
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param spender The user allowed to spend on behalf of _msgSender()
+      * @param addedValue The amount being added to the allowance
+      * @return `true`
+      */
+     function increaseAllowance(
+         address spender,
+         uint256 addedValue
+     ) external virtual returns (bool) {
+-        _approve(
+-            _msgSender(),
+-            spender,
+-            _allowances[_msgSender()][spender] + addedValue
+-        );
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: _allowances[_msgSender()][spender] + addedValue,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /**
+      * @notice Decreases the allowance of spender to spend _msgSender() tokens
++     * @dev This function is deprecated and will be removed in a future version.
++     * @custom:deprecated
+      * @param spender The user allowed to spend on behalf of _msgSender()
+      * @param subtractedValue The amount being subtracted to the allowance
+      * @return `true`
+      */
+     function decreaseAllowance(
+         address spender,
+         uint256 subtractedValue
+     ) external virtual returns (bool) {
+-        _approve(
+-            _msgSender(),
+-            spender,
+-            _allowances[_msgSender()][spender] - subtractedValue
+-        );
++        uint256 currentAllowance = _allowances[_msgSender()][spender];
++
++        _approve({
++            owner: _msgSender(),
++            spender: spender,
++            amount: currentAllowance - subtractedValue,
++            emitEvent: true
++        });
+         return true;
+     }
+ 
+     /**
+      * @dev Updates `owner`'s allowance for `spender` based on spent `value`.
+      *
+      * Revert if not enough allowance is available.
+      *
++     * Doesn't emit the Approval event.
++     *
+      * @param owner The owner of the tokens
+      * @param spender The user allowed to spend on behalf of owner
+      * @param amount The minimum amount being consumed from the allowance
+      * @param correctedAmount The maximum amount being consumed from the allowance
+@@ -252,12 +281,22 @@
+                 amount
+             );
+         }
+ 
++        if (currentAllowance == type(uint256).max) {
++            return;
++        }
++
+         uint256 consumption = currentAllowance >= correctedAmount
+             ? correctedAmount
+             : currentAllowance;
+-        _approve(owner, spender, currentAllowance - consumption);
++
++        _approve({
++            owner: owner,
++            spender: spender,
++            amount: currentAllowance - consumption,
++            emitEvent: false
++        });
+     }
+ 
+     /**
+      * @notice Transfers tokens between two users and apply incentives if defined.
+@@ -296,16 +335,21 @@
+      * @notice Approve `spender` to use `amount` of `owner`s balance
+      * @param owner The address owning the tokens
+      * @param spender The address approved for spending
+      * @param amount The amount of tokens to approve spending of
++     * @param emitEvent Whether to emit the Approval event
+      */
+     function _approve(
+         address owner,
+         address spender,
+-        uint256 amount
++        uint256 amount,
++        bool emitEvent
+     ) internal virtual {
+         _allowances[owner][spender] = amount;
+-        emit Approval(owner, spender, amount);
++
++        if (emitEvent) {
++            emit Approval(owner, spender, amount);
++        }
+     }
+ 
+     /**
+      * @notice Update the name of the token

@@ -1,0 +1,39 @@
+===================================================================
+--- src/contracts/protocol/libraries/math/WadRayMath.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/math/WadRayMath.sol
+@@ -77,17 +77,8 @@
+             c := div(add(mul(a, b), HALF_RAY), RAY)
+         }
+     }
+ 
+-    function rayMul(
+-        uint256 a,
+-        uint256 b,
+-        Rounding rounding
+-    ) internal pure returns (uint256 c) {
+-        if (rounding == Rounding.Floor) return rayMulFloor(a, b);
+-        return rayMulCeil(a, b);
+-    }
+-
+     function rayMulFloor(
+         uint256 a,
+         uint256 b
+     ) internal pure returns (uint256 c) {
+@@ -135,17 +126,8 @@
+             c := div(add(mul(a, RAY), div(b, 2)), b)
+         }
+     }
+ 
+-    function rayDiv(
+-        uint256 a,
+-        uint256 b,
+-        Rounding rounding
+-    ) internal pure returns (uint256 c) {
+-        if (rounding == Rounding.Floor) return rayDivFloor(a, b);
+-        return rayDivCeil(a, b);
+-    }
+-
+     function rayDivCeil(
+         uint256 a,
+         uint256 b
+     ) internal pure returns (uint256 c) {

@@ -1,0 +1,34 @@
+Index: lib/aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol
+===================================================================
+--- lib/aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol
+@@ -144,8 +144,9 @@
+         uint16 liquidationBonus;
+         uint128 collateralBitmap;
+         string label;
+         uint128 borrowableBitmap;
++        uint128 ltvzeroBitmap; // if true, the asset will be treated as ltv0 and ltv0 rules apply
+     }
+ 
+     enum InterestRateMode {
+         NONE,
+@@ -188,8 +189,9 @@
+         address interestRateStrategyAddress;
+         uint256 amount;
+         address onBehalfOf;
+         uint16 referralCode;
++        uint8 supplierEModeCategory;
+     }
+ 
+     struct ExecuteBorrowParams {
+         address asset;
+@@ -239,9 +241,8 @@
+         address from;
+         address to;
+         uint256 scaledAmount;
+         uint256 scaledBalanceFromBefore;
+-        uint256 scaledBalanceToBefore;
+         address oracle;
+         uint8 fromEModeCategory;
+     }
+ 

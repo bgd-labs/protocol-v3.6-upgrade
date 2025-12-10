@@ -1,5 +1,19 @@
-import { execSync } from "child_process";
-import { readdirSync, readFileSync, statSync, unlinkSync } from "fs";
+import {
+  BlockscoutStyleSourceCode,
+  diffCode,
+  getSourceCode,
+  parseBlockscoutStyleSourceCode,
+  parseEtherscanStyleSourceCode,
+  StandardJsonInput,
+} from "@bgd-labs/toolbox";
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from "fs";
 import path from "path";
 import { Hex, getAddress, slice } from "viem";
 
@@ -8,7 +22,7 @@ function bytes32ToAddress(bytes32: Hex) {
 }
 
 // Set the target directory
-const directoryPath = path.join(__dirname, "reports"); // Change 'your-folder' to your target folder
+const directoryPath = path.join(__dirname, "reports");
 const erc1967ImplSlot =
   "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc";
 
@@ -18,34 +32,94 @@ const files = readdirSync(directoryPath);
 // Filter files ending with '_after'
 const filteredFiles = files.filter((file) => file.endsWith("_after.json"));
 
-for (const file of filteredFiles) {
-  const contentBefore = JSON.parse(
-    readFileSync(`${directoryPath}/${file.replace("_after", "_before")}`, {
-      encoding: "utf8",
+async function diff({
+  address1,
+  address2,
+  chainId1,
+  chainId2,
+  flatten,
+  output,
+  path = "./diffs/code",
+}) {
+  const sources = await Promise.all([
+    getSourceCode({
+      chainId: Number(chainId1),
+      address: address1 as any,
+      apiKey: process.env.ETHERSCAN_API_KEY,
+      apiUrl: process.env.EXPLORER_PROXY,
     }),
-  );
-  const contentAfter = JSON.parse(
-    readFileSync(`${directoryPath}/${file}`, { encoding: "utf8" }),
-  );
-
-  // diff slots that are not pure implementation slots (e.g. things on addresses provider)
-  execSync(
-    `npx @bgd-labs/cli@0.0.31 codeDiff --address1 ${contentBefore.poolConfig.protocolDataProvider} --chainId1 ${contentBefore.chainId} --address2 ${contentAfter.poolConfig.protocolDataProvider} --chainId2 ${contentAfter.chainId} -o file`,
-  );
-
-  for (const contract of Object.keys(contentAfter.raw)) {
-    const implSlot = contentAfter.raw[contract].stateDiff[erc1967ImplSlot];
-    if (implSlot) {
-      execSync(
-        `npx @bgd-labs/cli@0.0.31 codeDiff --address1 ${bytes32ToAddress(
-          implSlot.previousValue,
-        )} --chainId1 ${contentBefore.chainId} --address2 ${bytes32ToAddress(
-          implSlot.newValue,
-        )} --chainId2 ${contentAfter.chainId} -o file`,
-      );
+    getSourceCode({
+      chainId: Number(chainId2),
+      address: address2 as any,
+      apiKey: process.env.ETHERSCAN_API_KEY,
+      apiUrl: process.env.EXPLORER_PROXY,
+    }),
+  ]);
+  const source1: StandardJsonInput = (sources[0] as BlockscoutStyleSourceCode)
+    .AdditionalSources
+    ? parseBlockscoutStyleSourceCode(sources[0] as BlockscoutStyleSourceCode)
+    : parseEtherscanStyleSourceCode(sources[0].SourceCode);
+  const source2: StandardJsonInput = (sources[0] as BlockscoutStyleSourceCode)
+    .AdditionalSources
+    ? parseBlockscoutStyleSourceCode(sources[1] as BlockscoutStyleSourceCode)
+    : parseEtherscanStyleSourceCode(sources[1].SourceCode);
+  const diff = await diffCode(source1, source2);
+  if (flatten || output === "stdout") {
+    const flat = Object.keys(diff).reduce((acc, key) => {
+      acc += diff[key];
+      return acc;
+    }, "");
+    if (output === "stdout") {
+      console.log(flat);
+    } else {
+      const filePath = `${path}/${chainId1}`;
+      mkdirSync(filePath, { recursive: true });
+      writeFileSync(`${filePath}/${address1}_${address2}.patch`, flat);
     }
+  } else {
+    const filePath = `${path}/${chainId1}/${address1}_${address2}`;
+    mkdirSync(filePath, { recursive: true });
+    Object.keys(diff).map((file) => {
+      writeFileSync(`${filePath}/${file}.patch`, diff[file]);
+    });
   }
 }
+
+await Promise.all(
+  filteredFiles.map(async (file) => {
+    const contentBefore = JSON.parse(
+      readFileSync(`${directoryPath}/${file.replace("_after", "_before")}`, {
+        encoding: "utf8",
+      }),
+    );
+    const contentAfter = JSON.parse(
+      readFileSync(`${directoryPath}/${file}`, { encoding: "utf8" }),
+    );
+    console.log("starting ", contentBefore.chainId);
+
+    // diff slots that are not pure implementation slots (e.g. things on addresses provider)
+    await diff({
+      address1: contentBefore.poolConfig.protocolDataProvider,
+      chainId1: contentBefore.chainId,
+      address2: contentAfter.poolConfig.protocolDataProvider,
+      chainId2: contentAfter.chainId,
+      output: "file",
+    });
+
+    for (const contract in contentAfter.raw) {
+      const implSlot = contentAfter.raw[contract].stateDiff[erc1967ImplSlot];
+      if (implSlot) {
+        await diff({
+          address1: bytes32ToAddress(implSlot.previousValue),
+          chainId1: contentBefore.chainId,
+          address2: bytes32ToAddress(implSlot.newValue),
+          chainId2: contentAfter.chainId,
+          output: "file",
+        });
+      }
+    }
+  }),
+);
 
 // now as the diffing is done, let's remove duplicates and generate a report
 // Function to read files recursively

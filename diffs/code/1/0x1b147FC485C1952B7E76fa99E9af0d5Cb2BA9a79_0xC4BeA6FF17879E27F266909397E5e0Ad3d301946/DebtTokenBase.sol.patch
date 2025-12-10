@@ -1,0 +1,32 @@
+Index: lib/aave-v3-origin/src/contracts/protocol/tokenization/base/DebtTokenBase.sol
+===================================================================
+--- lib/aave-v3-origin/src/contracts/protocol/tokenization/base/DebtTokenBase.sol
++++ lib/aave-v3-origin/src/contracts/protocol/tokenization/base/DebtTokenBase.sol
+@@ -46,8 +46,13 @@
+         _approveDelegation(_msgSender(), delegatee, amount);
+     }
+ 
+     /// @inheritdoc ICreditDelegationToken
++    function renounceDelegation(address delegator) external override {
++        _approveDelegation(delegator, _msgSender(), 0);
++    }
++
++    /// @inheritdoc ICreditDelegationToken
+     function delegationWithSig(
+         address delegator,
+         address delegatee,
+         uint256 value,
+@@ -138,13 +143,6 @@
+             : oldBorrowAllowance;
+         uint256 newAllowance = oldBorrowAllowance - consumption;
+ 
+         _borrowAllowances[delegator][delegatee] = newAllowance;
+-
+-        emit BorrowAllowanceDelegated(
+-            delegator,
+-            delegatee,
+-            _underlyingAsset,
+-            newAllowance
+-        );
+     }
+ }

@@ -1,0 +1,42 @@
+Index: lib/aave-v3-origin/src/contracts/protocol/tokenization/AToken.sol
+===================================================================
+--- lib/aave-v3-origin/src/contracts/protocol/tokenization/AToken.sol
++++ lib/aave-v3-origin/src/contracts/protocol/tokenization/AToken.sol
+@@ -241,9 +241,14 @@
+             owner == ECDSA.recover(digest, v, r, s),
+             Errors.InvalidSignature()
+         );
+         _nonces[owner] = currentValidNonce + 1;
+-        _approve(owner, spender, value);
++        _approve({
++            owner: owner,
++            spender: spender,
++            amount: value,
++            emitEvent: true
++        });
+     }
+ 
+     /// @inheritdoc IERC20
+     function transferFrom(
+@@ -312,9 +317,8 @@
+ 
+         uint256 index = POOL.getReserveNormalizedIncome(underlyingAsset);
+ 
+         uint256 scaledBalanceFromBefore = super.balanceOf(from);
+-        uint256 scaledBalanceToBefore = super.balanceOf(to);
+         uint256 scaledAmount = uint256(amount).getATokenTransferScaledAmount(
+             index
+         );
+ 
+@@ -330,10 +334,9 @@
+             asset: underlyingAsset,
+             from: from,
+             to: to,
+             scaledAmount: scaledAmount,
+-            scaledBalanceFromBefore: scaledBalanceFromBefore,
+-            scaledBalanceToBefore: scaledBalanceToBefore
++            scaledBalanceFromBefore: scaledBalanceFromBefore
+         });
+     }
+ 
+     /**

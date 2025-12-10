@@ -1,0 +1,59 @@
+===================================================================
+--- lib/aave-v3-origin-private/src/contracts/protocol/libraries/types/DataTypes.sol
++++ lib/aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol
+@@ -144,8 +144,9 @@
+         uint16 liquidationBonus;
+         uint128 collateralBitmap;
+         string label;
+         uint128 borrowableBitmap;
++        uint128 ltvzeroBitmap; // if true, the asset will be treated as ltv0 and ltv0 rules apply
+     }
+ 
+     enum InterestRateMode {
+         NONE,
+@@ -188,8 +189,9 @@
+         address interestRateStrategyAddress;
+         uint256 amount;
+         address onBehalfOf;
+         uint16 referralCode;
++        uint8 supplierEModeCategory;
+     }
+ 
+     struct ExecuteBorrowParams {
+         address asset;
+@@ -212,8 +214,10 @@
+         uint256 amount;
+         InterestRateMode interestRateMode;
+         address onBehalfOf;
+         bool useATokens;
++        address oracle;
++        uint8 userEModeCategory;
+     }
+ 
+     struct ExecuteWithdrawParams {
+         address user;
+@@ -235,11 +239,10 @@
+     struct FinalizeTransferParams {
+         address asset;
+         address from;
+         address to;
+-        uint256 amount;
+-        uint256 balanceFromBefore;
+-        uint256 balanceToBefore;
++        uint256 scaledAmount;
++        uint256 scaledBalanceFromBefore;
+         address oracle;
+         uint8 fromEModeCategory;
+     }
+ 
+@@ -292,9 +295,9 @@
+         ReserveCache reserveCache;
+         UserConfigurationMap userConfig;
+         address asset;
+         address userAddress;
+-        uint256 amount;
++        uint256 amountScaled;
+         InterestRateMode interestRateMode;
+         address oracle;
+         uint8 userEModeCategory;
+         address priceOracleSentinel;

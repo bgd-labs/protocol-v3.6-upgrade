@@ -1,0 +1,51 @@
+Index: lib/aave-v3-origin/src/contracts/protocol/tokenization/VariableDebtToken.sol
+===================================================================
+--- lib/aave-v3-origin/src/contracts/protocol/tokenization/VariableDebtToken.sol
++++ lib/aave-v3-origin/src/contracts/protocol/tokenization/VariableDebtToken.sol
+@@ -86,11 +86,10 @@
+         uint256 amount,
+         uint256 scaledAmount,
+         uint256 index
+     ) external virtual override onlyPool returns (uint256) {
+-        uint256 scaledBalanceOfUser = super.balanceOf(user);
+-
+         if (user != onBehalfOf) {
++            uint256 scaledBalanceOfOnBehalfOf = super.balanceOf(onBehalfOf);
+             // This comment explains the logic behind the borrow allowance spent calculation.
+             //
+             // Problem:
+             // Simply decreasing the allowance by the input `amount` is not ideal for scaled-balance tokens.
+@@ -114,16 +113,17 @@
+             // This means if a user has a borrow allowance of 100 wei and `borrow` is called with an `amount` of 100, the call will succeed
+             // even if the calculated `debt_increase` is 101 wei. In that specific scenario, the allowance consumed will be 100 wei (since that is the `currentAllowance`),
+             // and the transaction will not revert. But if the allowance is 101 wei, then the allowance consumed will be 101 wei.
+             //
+-            // uint256 debt_increase = balanceAfter - balanceBefore = (scaledBalanceOfUser + scaledAmount).getVTokenBalance(index) - scaledBalanceOfUser.getVTokenBalance(index);
++            // uint256 debt_increase = balanceAfter - balanceBefore = (scaledBalanceOfOnBehalfOf + scaledAmount).getVTokenBalance(index) - scaledBalanceOfOnBehalfOf.getVTokenBalance(index);
+             // Due to limitations of the solidity compiler, the calculation is inlined for gas efficiency.
+             _decreaseBorrowAllowance(
+                 onBehalfOf,
+                 user,
+                 amount,
+-                (scaledBalanceOfUser + scaledAmount).getVTokenBalance(index) -
+-                    scaledBalanceOfUser.getVTokenBalance(index)
++                (scaledBalanceOfOnBehalfOf + scaledAmount).getVTokenBalance(
++                    index
++                ) - scaledBalanceOfOnBehalfOf.getVTokenBalance(index)
+             );
+         }
+         _mintScaled({
+             caller: user,
+@@ -198,8 +198,12 @@
+     ) external virtual override returns (bool) {
+         revert Errors.OperationNotSupported();
+     }
+ 
++    function renounceAllowance(address) external virtual override {
++        revert Errors.OperationNotSupported();
++    }
++
+     function increaseAllowance(
+         address,
+         uint256
+     ) external virtual override returns (bool) {
