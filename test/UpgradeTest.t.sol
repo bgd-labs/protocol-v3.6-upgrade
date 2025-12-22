@@ -132,6 +132,25 @@ abstract contract UpgradeTest is ProtocolV3TestBase {
     }
   }
 
+  function test_assumption_borrowingEnabled() external {
+    UpgradePayload _payload = UpgradePayload(_getTestPayload());
+
+    executePayload(vm, address(_payload));
+
+    IPoolAddressesProvider addressesProvider = IPoolAddressesProvider(address(_payload.POOL_ADDRESSES_PROVIDER()));
+    IPool pool = IPool(addressesProvider.getPool());
+    address[] memory reserves = pool.getReservesList();
+    for (uint256 i = 0; i < reserves.length; i++) {
+      DataTypes.ReserveDataLegacy memory reserveData = pool.getReserveData(reserves[i]);
+      if (reserveData.configuration.getBorrowingEnabled() == false) {
+        for (uint256 j = 0; j <= type(uint8).max; j++) {
+          uint128 borrowableEnabledBitmap = pool.getEModeCategoryBorrowableBitmap(uint8(j));
+          require(EModeConfiguration.isReserveEnabledOnBitmap(borrowableEnabledBitmap, reserveData.id) == false);
+        }
+      }
+    }
+  }
+
   function test_upgrade() public virtual {
     UpgradePayload _payload = UpgradePayload(_getTestPayload());
 
