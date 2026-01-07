@@ -8,7 +8,7 @@
   "lib/aave-v3-origin": {
     "branch": {
       "name": "v3.6.0",
-      "rev": "28bb181c6f3bd2920978bbee6b27e5483f40bddf"
+      "rev": "1c08d60cdcfb9242c675f96ff265ff11856411ac"
     }
   },
   "lib/forge-std": {
