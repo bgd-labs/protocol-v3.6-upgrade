@@ -11,6 +11,10 @@ import {AaveV3ZkSync, AaveV3ZkSyncAssets} from "aave-address-book/AaveV3ZkSync.s
 import {GovernanceV3ZkSync} from "aave-address-book/GovernanceV3ZkSync.sol";
 import {PoolInstance} from "aave-v3-origin/contracts/instances/PoolInstance.sol";
 
+import {AaveV3ConfigEngine, IAaveV3ConfigEngine, CapsEngine, BorrowEngine, CollateralEngine, RateEngine, PriceFeedEngine, EModeEngine, ListingEngine} from 'aave-v3-origin/contracts/extensions/v3-config-engine/AaveV3ConfigEngine.sol';
+import {IPoolConfigurator} from "aave-v3-origin/contracts/interfaces/IPoolConfigurator.sol";
+import {IAaveOracle} from "aave-v3-origin/contracts/interfaces/IAaveOracle.sol";
+
 import {UpgradePayload} from "../../src/UpgradePayload.sol";
 
 library DeploymentLibrary {
@@ -23,43 +27,58 @@ library DeploymentLibrary {
   }
 
   function _deployZKSync() internal returns (address) {
-    DeployParameters memory deployParams;
-
-    deployParams.pool = address(AaveV3ZkSync.POOL);
-    deployParams.poolAddressesProvider = address(AaveV3ZkSync.POOL_ADDRESSES_PROVIDER);
-    deployParams.interestRateStrategy = address(AaveV3ZkSyncAssets.WETH_INTEREST_RATE_STRATEGY);
-    deployParams.rewardsController = AaveV3ZkSync.DEFAULT_INCENTIVES_CONTROLLER;
-    deployParams.treasury = address(AaveV3ZkSync.COLLECTOR);
-
-    return _deployL1(deployParams);
+    _deployConfigEngine(
+      address(AaveV3ZkSync.POOL_ADDRESSES_PROVIDER),
+      address(AaveV3ZkSyncAssets.WETH_INTEREST_RATE_STRATEGY),
+      AaveV3ZkSync.DEFAULT_INCENTIVES_CONTROLLER,
+      address(AaveV3ZkSync.COLLECTOR)
+    );
   }
 
-  function _deployL1(DeployParameters memory deployParams) internal returns (address) {
-    UpgradePayload.ConstructorParams memory payloadParams;
+  function _deployConfigEngine(
+    address poolAddressesProvider,
+    address rateStrategy,
+    address rewardsController,
+    address collector
+  ) internal {
+    IAaveV3ConfigEngine.EngineLibraries memory engineLibraries = IAaveV3ConfigEngine
+      .EngineLibraries({
+        listingEngine: Create2Utils._create2Deploy('v1', type(ListingEngine).creationCode),
+        eModeEngine: Create2Utils._create2Deploy('v1', type(EModeEngine).creationCode),
+        borrowEngine: Create2Utils._create2Deploy('v1', type(BorrowEngine).creationCode),
+        collateralEngine: Create2Utils._create2Deploy('v1', type(CollateralEngine).creationCode),
+        priceFeedEngine: Create2Utils._create2Deploy('v1', type(PriceFeedEngine).creationCode),
+        rateEngine: Create2Utils._create2Deploy('v1', type(RateEngine).creationCode),
+        capsEngine: Create2Utils._create2Deploy('v1', type(CapsEngine).creationCode)
+      });
 
-    payloadParams.poolAddressesProvider = IPoolAddressesProvider(deployParams.poolAddressesProvider);
-    payloadParams.poolImpl = address(
-      new PoolInstance{salt: "v1"}(
-        IPoolAddressesProvider(deployParams.poolAddressesProvider),
-        IReserveInterestRateStrategy(deployParams.interestRateStrategy)
-      )
+    address pool = IPoolAddressesProvider(poolAddressesProvider).getPool();
+    IAaveV3ConfigEngine.EngineConstants memory engineConstants = IAaveV3ConfigEngine
+      .EngineConstants({
+        pool: IPool(pool),
+        poolConfigurator: IPoolConfigurator(IPoolAddressesProvider(poolAddressesProvider).getPoolConfigurator()),
+        defaultInterestRateStrategy: rateStrategy,
+        oracle: IAaveOracle(IPoolAddressesProvider(poolAddressesProvider).getPriceOracle()),
+        rewardsController: rewardsController,
+        collector: collector
+      });
+
+    new AaveV3ConfigEngine(
+      0x281aEbeEF96d324CdE817758Fa46E11167549B2d, // aToken
+      0xa4D99aDF4EB2A2fc15eba5859cbF9163dBFACaF8, // vTokenImpl
+      engineConstants, engineLibraries
     );
-    return _deployPayload({deployParams: deployParams, payloadParams: payloadParams});
   }
+}
 
-  function _deployPayload(DeployParameters memory deployParams, UpgradePayload.ConstructorParams memory payloadParams)
-    private
-    returns (address)
-  {
-    payloadParams.poolConfiguratorImpl = address(new PoolConfiguratorInstance{salt: "v1"}());
-
-    payloadParams.aTokenImpl = address(
-      new ATokenInstance{salt: "v1"}(IPool(deployParams.pool), deployParams.rewardsController, deployParams.treasury)
-    );
-    payloadParams.vTokenImpl =
-      address(new VariableDebtTokenInstance{salt: "v1"}(IPool(deployParams.pool), deployParams.rewardsController));
-
-    return address(new UpgradePayload{salt: "v1"}(payloadParams));
+library Create2Utils {
+  function _create2Deploy(bytes32 salt, bytes memory bytecode) internal returns (address) {
+    address deployedAt;
+    assembly {
+      deployedAt := create2(0, add(bytecode, 32), mload(bytecode), salt)
+    }
+    require(deployedAt != address(0), "Create2: Failed on deploy");
+    return deployedAt;
   }
 }
 
