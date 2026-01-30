@@ -17,25 +17,10 @@ import {
   CeloScript,
   SoneiumScript,
   InkScript,
-  PlasmaScript,
-  MantleScript,
-  MegaEthScript
+  PlasmaScript
 } from "solidity-utils/contracts/utils/ScriptUtils.sol";
 
 import {GovV3Helpers} from "aave-helpers/src/GovV3Helpers.sol";
-
-import {
-  AaveV3ConfigEngine,
-  IAaveV3ConfigEngine,
-  CapsEngine,
-  BorrowEngine,
-  CollateralEngine,
-  RateEngine,
-  PriceFeedEngine,
-  EModeEngine,
-  ListingEngine
-} from "aave-v3-origin/contracts/extensions/v3-config-engine/AaveV3ConfigEngine.sol";
-import {Create2Utils} from "aave-v3-origin/deployments/contracts/utilities/Create2Utils.sol";
 
 import {PoolConfiguratorInstance} from "aave-v3-origin/contracts/instances/PoolConfiguratorInstance.sol";
 import {PoolInstance} from "aave-v3-origin/contracts/instances/PoolInstance.sol";
@@ -49,8 +34,6 @@ import {
 
 import {IPool} from "aave-v3-origin/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "aave-v3-origin/contracts/interfaces/IPoolAddressesProvider.sol";
-import {IPoolConfigurator} from "aave-v3-origin/contracts/interfaces/IPoolConfigurator.sol";
-import {IAaveOracle} from "aave-v3-origin/contracts/interfaces/IAaveOracle.sol";
 
 import {AaveV3Polygon, AaveV3PolygonAssets} from "aave-address-book/AaveV3Polygon.sol";
 import {AaveV3Avalanche, AaveV3AvalancheAssets} from "aave-address-book/AaveV3Avalanche.sol";
@@ -70,8 +53,6 @@ import {AaveV3Celo, AaveV3CeloAssets} from "aave-address-book/AaveV3Celo.sol";
 import {AaveV3Soneium, AaveV3SoneiumAssets} from "aave-address-book/AaveV3Soneium.sol";
 import {AaveV3InkWhitelabel, AaveV3InkWhitelabelAssets} from "aave-address-book/AaveV3InkWhitelabel.sol";
 import {AaveV3Plasma, AaveV3PlasmaAssets} from "aave-address-book/AaveV3Plasma.sol";
-import {AaveV3Mantle, AaveV3MantleAssets} from "aave-address-book/AaveV3Mantle.sol";
-import {AaveV3MegaEth, AaveV3MegaEthAssets} from "aave-address-book/AaveV3MegaEth.sol";
 
 import {UpgradePayload} from "../src/UpgradePayload.sol";
 import {UpgradePayloadMainnetCore} from "../src/UpgradePayloadMainnetCore.sol";
@@ -87,184 +68,220 @@ library DeploymentLibrary {
   // rollups
 
   function _deployOptimism() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Optimism.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3OptimismAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Optimism.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Optimism.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Optimism.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Optimism.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3OptimismAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Optimism.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Optimism.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deployBase() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Base.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3BaseAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Base.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Base.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Base.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Base.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3BaseAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Base.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Base.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deployArbitrum() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Arbitrum.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3ArbitrumAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Arbitrum.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Arbitrum.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Arbitrum.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Arbitrum.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3ArbitrumAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Arbitrum.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Arbitrum.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deployInk() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3InkWhitelabel.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3InkWhitelabelAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3InkWhitelabel.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3InkWhitelabel.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3InkWhitelabel.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3InkWhitelabel.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3InkWhitelabelAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3InkWhitelabel.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3InkWhitelabel.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deployPlasma() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Plasma.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3PlasmaAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Plasma.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Plasma.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Plasma.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Plasma.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3PlasmaAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Plasma.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Plasma.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployScroll() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Scroll.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3ScrollAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Scroll.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Scroll.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Scroll.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Scroll.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3ScrollAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Scroll.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Scroll.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deployMetis() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Metis.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3MetisAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Metis.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Metis.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Metis.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Metis.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3MetisAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Metis.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Metis.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   // L1s
   function _deployMainnetCore() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Ethereum.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3EthereumAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Ethereum.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Ethereum.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Ethereum.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Ethereum.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3EthereumAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Ethereum.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Ethereum.COLLECTOR);
+
+    return _deployMainnetCore(deployParams);
   }
 
   function _deployMainnetLido() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3EthereumLido.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3EthereumLidoAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3EthereumLido.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3EthereumLido.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3EthereumLido.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3EthereumLido.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3EthereumLidoAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3EthereumLido.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3EthereumLido.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployMainnetEtherfi() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3EthereumEtherFi.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3EthereumEtherFiAssets.FRAX_INTEREST_RATE_STRATEGY),
-      AaveV3EthereumEtherFi.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3EthereumEtherFi.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3EthereumEtherFi.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3EthereumEtherFi.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3EthereumEtherFiAssets.FRAX_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3EthereumEtherFi.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3EthereumEtherFi.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployGnosis() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Gnosis.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3GnosisAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Gnosis.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Gnosis.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Gnosis.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Gnosis.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3GnosisAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Gnosis.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Gnosis.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployBNB() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3BNB.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3BNBAssets.ETH_INTEREST_RATE_STRATEGY),
-      AaveV3BNB.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3BNB.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3BNB.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3BNB.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3BNBAssets.ETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3BNB.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3BNB.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployAvalanche() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Avalanche.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3AvalancheAssets.WETHe_INTEREST_RATE_STRATEGY),
-      AaveV3Avalanche.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Avalanche.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Avalanche.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Avalanche.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3AvalancheAssets.WETHe_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Avalanche.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Avalanche.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployPolygon() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Polygon.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3PolygonAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Polygon.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Polygon.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Polygon.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Polygon.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3PolygonAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Polygon.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Polygon.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployLinea() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Linea.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3LineaAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Linea.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Linea.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Linea.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Linea.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3LineaAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Linea.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Linea.COLLECTOR);
+
+    return _deployL2(deployParams);
   }
 
   function _deploySonic() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Sonic.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3SonicAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Sonic.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Sonic.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Sonic.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Sonic.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3SonicAssets.WETH_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Sonic.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Sonic.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deployCelo() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Celo.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3CeloAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Celo.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Celo.COLLECTOR)
-    );
+    DeployParameters memory deployParams;
+
+    deployParams.pool = address(AaveV3Celo.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Celo.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3CeloAssets.CELO_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Celo.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Celo.COLLECTOR);
+
+    return _deployL1(deployParams);
   }
 
   function _deploySoneium() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Soneium.POOL_ADDRESSES_PROVIDER),
-      address(AaveV3SoneiumAssets.WETH_INTEREST_RATE_STRATEGY),
-      AaveV3Soneium.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Soneium.COLLECTOR)
-    );
-  }
+    DeployParameters memory deployParams;
 
-  function _deployMantle() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3Mantle.POOL_ADDRESSES_PROVIDER),
-      address(0x0a215D8ba66387DCA84B284D18c3B4ec3de6E54a),
-      AaveV3Mantle.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3Mantle.COLLECTOR)
-    );
-  }
+    deployParams.pool = address(AaveV3Soneium.POOL);
+    deployParams.poolAddressesProvider = address(AaveV3Soneium.POOL_ADDRESSES_PROVIDER);
+    deployParams.interestRateStrategy = address(AaveV3SoneiumAssets.USDT_INTEREST_RATE_STRATEGY);
+    deployParams.rewardsController = AaveV3Soneium.DEFAULT_INCENTIVES_CONTROLLER;
+    deployParams.treasury = address(AaveV3Soneium.COLLECTOR);
 
-  function _deployMegaEth() internal returns (address) {
-    _deployConfigEngine(
-      address(AaveV3MegaEth.POOL_ADDRESSES_PROVIDER),
-      address(0x5cC4f782cFe249286476A7eFfD9D7bd215768194),
-      AaveV3MegaEth.DEFAULT_INCENTIVES_CONTROLLER,
-      address(AaveV3MegaEth.COLLECTOR)
-    );
+    return _deployL2(deployParams);
   }
 
   function _deployL2(DeployParameters memory deployParams) internal returns (address) {
@@ -350,45 +367,6 @@ library DeploymentLibrary {
       )
     );
   }
-
-  function _deployConfigEngine(
-    address poolAddressesProvider,
-    address rateStrategy,
-    address rewardsController,
-    address collector
-  ) internal {
-    IAaveV3ConfigEngine.EngineLibraries memory engineLibraries =
-      IAaveV3ConfigEngine.EngineLibraries({
-        listingEngine: Create2Utils._create2Deploy("v1", type(ListingEngine).creationCode),
-        eModeEngine: Create2Utils._create2Deploy("v1", type(EModeEngine).creationCode),
-        borrowEngine: Create2Utils._create2Deploy("v1", type(BorrowEngine).creationCode),
-        collateralEngine: Create2Utils._create2Deploy("v1", type(CollateralEngine).creationCode),
-        priceFeedEngine: Create2Utils._create2Deploy("v1", type(PriceFeedEngine).creationCode),
-        rateEngine: Create2Utils._create2Deploy("v1", type(RateEngine).creationCode),
-        capsEngine: Create2Utils._create2Deploy("v1", type(CapsEngine).creationCode)
-      });
-
-    address pool = IPoolAddressesProvider(poolAddressesProvider).getPool();
-    IAaveV3ConfigEngine.EngineConstants memory engineConstants = IAaveV3ConfigEngine.EngineConstants({
-      pool: IPool(pool),
-      poolConfigurator: IPoolConfigurator(IPoolAddressesProvider(poolAddressesProvider).getPoolConfigurator()),
-      defaultInterestRateStrategy: rateStrategy,
-      oracle: IAaveOracle(IPoolAddressesProvider(poolAddressesProvider).getPriceOracle()),
-      rewardsController: rewardsController,
-      collector: collector
-    });
-
-    new AaveV3ConfigEngine(
-      GovV3Helpers.deployDeterministic(
-        type(ATokenInstance).creationCode, abi.encode(pool, rewardsController, collector)
-      ), // aToken
-      GovV3Helpers.deployDeterministic(
-        type(VariableDebtTokenInstance).creationCode, abi.encode(pool, rewardsController)
-      ), // vTokenImpl
-      engineConstants,
-      engineLibraries
-    );
-  }
 }
 
 contract Deploypolygon is PolygonScript {
@@ -409,7 +387,6 @@ contract Deployoptimism is OptimismScript {
   }
 }
 
-// problem
 contract Deployarbitrum is ArbitrumScript {
   function run() external broadcast {
     DeploymentLibrary._deployArbitrum();
@@ -498,17 +475,5 @@ contract Deployink is InkScript {
 contract Deployplasma is PlasmaScript {
   function run() external broadcast {
     DeploymentLibrary._deployPlasma();
-  }
-}
-
-contract Deploymantle is MantleScript {
-  function run() external broadcast {
-    DeploymentLibrary._deployMantle();
-  }
-}
-
-contract Deploymegaeth is MegaEthScript {
-  function run() external broadcast {
-    DeploymentLibrary._deployMegaEth();
   }
 }

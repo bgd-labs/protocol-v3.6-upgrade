@@ -75,6 +75,8 @@ sonic = "${RPC_SONIC}"
 soneium = "${RPC_SONEIUM}"
 ink = "${RPC_INK}"
 plasma = "${RPC_PLASMA}"
+mantle = "${RPC_MANTLE}"
+megaeth = "${RPC_MEGAETH}"
 
 [fmt]
 tab_width = 2
